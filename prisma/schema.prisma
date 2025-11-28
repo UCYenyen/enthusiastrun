@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  User              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Registration {
+  userId           String
+  bloodType        String?
+  dateOfBirth      DateTime
+  emergencyPhone   String
+  paymentProofUrl  String?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime
+  address          String
+  bibNumber        String?              @unique
+  category         RegistrationCategory
+  city             String
+  email            String
+  emergencyContact String
+  fullName         String
+  id               String               @id
+  idCardPublicId   String?
+  idCardUrl        String?
+  medicalCondition String?
+  paymentDate      DateTime?
+  paymentProofId   String?
+  paymentStatus    Boolean              @default(false)
+  phoneNumber      String
+  photoPublicId    String?
+  photoUrl         String?
+  status           RegistrationStatus   @default(pending)
+  gender           String
+  jerseySize       String
+  User             User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([phoneNumber])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id
+  sessionToken String   @unique
+  user_id      String
+  expires      DateTime
+  User         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String         @id
+  name          String?
+  email         String?        @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime
+  role          Role           @default(viewer)
+  Account       Account[]
+  Registration  Registration[]
+  Session       Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum JerseySize {
+  S
+  M
+  L
+  XL
+  XXL
+}
+
+enum ParticipantStatus {
+  MAHASISWA
+  UMUM
+}
+
+enum RegistrationCategory {
+  CATEGORY_5K
+  CATEGORY_10K
+}
+
+enum RegistrationStatus {
+  pending
+  confirmed
+  cancelled
+}
+
+enum Role {
+  viewer
+  admin
+}
