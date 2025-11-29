@@ -42,6 +42,7 @@ export async function createRegistration(
     // Create registration
     const registration = await prisma.registration.create({
       data: {
+        id: crypto.randomUUID(), // Generate unique ID
         userId: data.userId,
         fullName: data.fullName,
         email: data.email,
@@ -63,6 +64,7 @@ export async function createRegistration(
         paymentProofUrl: data.paymentProofUrl,
         paymentProofId: data.paymentProofId,
         status: "pending",
+        updatedAt: new Date(), // Add updatedAt field
       },
     });
 
@@ -90,7 +92,7 @@ export async function getUserRegistration(
     const registration = await prisma.registration.findFirst({
       where: { userId },
       include: {
-        user: {
+        User: {
           select: {
             name: true,
             email: true,
@@ -111,7 +113,7 @@ export async function getAllRegistrations(): Promise<Registration[]> {
   try {
     const registrations = await prisma.registration.findMany({
       include: {
-        user: {
+        User: {
           select: {
             name: true,
             email: true,

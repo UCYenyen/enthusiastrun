@@ -10,8 +10,5 @@ export default defineConfig({
     path: path.join("prisma", "migrations"),
     seed: "tsx prisma/seed.ts",
   },
-  migrate: {
-    url: process.env.DATABASE_URL,
-  },
 });
 

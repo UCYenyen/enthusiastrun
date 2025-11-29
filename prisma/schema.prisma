@@ -26,13 +26,15 @@ model Account {
 }
 
 model Registration {
+  id               String               @id @default(cuid())
+  
   userId           String
   bloodType        String?
   dateOfBirth      DateTime
   emergencyPhone   String
   paymentProofUrl  String?
   createdAt        DateTime             @default(now())
-  updatedAt        DateTime
+  updatedAt        DateTime             @updatedAt
   address          String
   bibNumber        String?              @unique
   category         RegistrationCategory
@@ -40,7 +42,7 @@ model Registration {
   email            String
   emergencyContact String
   fullName         String
-  id               String               @id
+  
   idCardPublicId   String?
   idCardUrl        String?
   medicalCondition String?
