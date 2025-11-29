@@ -12,6 +12,7 @@ import {
 import { Registration } from "@/types/registration.md";
 import { updateRegistrationStatus } from "@/lib/registration";
 import { toast } from "sonner";
+import RegistrationDetailModal from "./RegistrationDetailModal";
 
 interface RegistrationTableProps {
   registrations: Registration[];
@@ -23,6 +24,20 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  
+  // Modal state
+  const [selectedRegistration, setSelectedRegistration] = useState<Registration | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openDetailModal = (registration: Registration) => {
+    setSelectedRegistration(registration);
+    setIsModalOpen(true);
+  };
+
+  const closeDetailModal = () => {
+    setIsModalOpen(false);
+    setSelectedRegistration(null);
+  };
 
   const handleStatusChange = async (id: string, newStatus: "pending" | "confirmed" | "cancelled") => {
     setIsUpdating(id);
@@ -65,14 +80,6 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
     });
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
-
   const getStatusBadge = (status: string) => {
     const styles = {
       pending: "bg-yellow-100 text-yellow-800 border-yellow-300",
@@ -89,7 +96,7 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
   };
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-[90%] space-y-4">
       {/* Header & Stats */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
@@ -151,16 +158,16 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
           <Table>
             <TableHeader>
               <TableRow className="bg-gray-100">
-                <TableHead className="font-bold text-background">No</TableHead>
-                <TableHead className="font-bold text-background">Nama</TableHead>
-                <TableHead className="font-bold text-background">Email</TableHead>
-                <TableHead className="font-bold text-background">Telepon</TableHead>
-                <TableHead className="font-bold text-background">Kategori</TableHead>
-                <TableHead className="font-bold text-background">Jersey</TableHead>
-                <TableHead className="font-bold text-background">Status</TableHead>
-                <TableHead className="font-bold text-background">Pembayaran</TableHead>
-                <TableHead className="font-bold text-background">Tanggal Daftar</TableHead>
-                <TableHead className="font-bold text-background">Aksi</TableHead>
+                <TableHead className="text-background">No</TableHead>
+                <TableHead className="text-background">Nama</TableHead>
+                <TableHead className="text-background">Email</TableHead>
+                <TableHead className="text-background">Telepon</TableHead>
+                <TableHead className="text-background">Kategori</TableHead>
+                <TableHead className="text-background">Jersey</TableHead>
+                <TableHead className="text-background">Status</TableHead>
+                <TableHead className="text-background">Pembayaran</TableHead>
+                <TableHead className="text-background">Tanggal Daftar</TableHead>
+                <TableHead className="text-background">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -210,11 +217,20 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-1">
+                        {/* Detail Button */}
+                        <button
+                          onClick={() => openDetailModal(reg)}
+                          className="px-2 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600"
+                          title="Lihat Detail"
+                        >
+                          👁
+                        </button>
                         {reg.status !== "confirmed" && (
                           <button
                             onClick={() => handleStatusChange(reg.id, "confirmed")}
                             disabled={isUpdating === reg.id}
                             className="px-2 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600 disabled:opacity-50"
+                            title="Konfirmasi"
                           >
                             {isUpdating === reg.id ? "..." : "✓"}
                           </button>
@@ -224,6 +240,7 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
                             onClick={() => handleStatusChange(reg.id, "cancelled")}
                             disabled={isUpdating === reg.id}
                             className="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 disabled:opacity-50"
+                            title="Batalkan"
                           >
                             {isUpdating === reg.id ? "..." : "✗"}
                           </button>
@@ -233,6 +250,7 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
                             onClick={() => handleStatusChange(reg.id, "pending")}
                             disabled={isUpdating === reg.id}
                             className="px-2 py-1 bg-yellow-500 text-white text-xs rounded hover:bg-yellow-600 disabled:opacity-50"
+                            title="Set Pending"
                           >
                             {isUpdating === reg.id ? "..." : "↺"}
                           </button>
@@ -247,7 +265,12 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
         </div>
       </div>
 
-      {/* Detail Modal could be added here */}
+      {/* Detail Modal */}
+      <RegistrationDetailModal
+        registration={selectedRegistration}
+        isOpen={isModalOpen}
+        onClose={closeDetailModal}
+      />
     </div>
   );
 }

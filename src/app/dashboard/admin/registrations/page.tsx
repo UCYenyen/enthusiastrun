@@ -48,9 +48,7 @@ export default async function page() {
             className="absolute -top-8 md:-top-14 lg:-top-12 xl:-top-14 w-[80%] md:w-1/2 lg:w-1/3 xl:w-1/4 h-auto"
           />
           {/* tampilkan table registrasi disini */}
-          <div className="bg-background/90 border-4 border-white rounded-xl p-6">
-            <RegistrationTable registrations={registrations} />
-          </div>
+          <RegistrationTable registrations={registrations} />
         </div>
       </div>
     </div>

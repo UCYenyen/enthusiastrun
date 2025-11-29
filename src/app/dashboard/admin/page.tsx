@@ -46,13 +46,13 @@ export default function page() {
           <EarlyNotEarly
             title="MANAGE REGISTRATION"
             price="0"
-            href="/dashboard/admin/registration"
+            href="/dashboard/admin/registrations"
             isActive={true}
           />
           <EarlyNotEarly
             title="MANAGE VOUCHER"
             price="0"
-            href="/dashboard/admin/voucher"
+            href="/dashboard/admin/vouchers"
             isActive={true}
           />
         </div>
