@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
 import Image from "next/image";
+import EarlyNotEarly from "@/components/pages/registration/EarlyNotEarly";
 export default function page() {
   return (
     <div className="overflow-hidden">
@@ -39,21 +41,20 @@ export default function page() {
             className="absolute -top-8 md:-top-14 lg:-top-12 xl:-top-14 w-[80%] md:w-1/2 lg:w-1/3 xl:w-1/4 h-auto"
           />
           <div className="mt-[2.5%] flex flex-col gap-2 items-center sm:items-start text-center sm:text-start">
-            <h1 className="text-4xl w-[90%] sm:w-full">WHAT IS ENTHUSIAST RUN?</h1>
+            <h1 className="text-4xl w-[90%] sm:w-full">REGISTRATION</h1>
           </div>
-          <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
-            Enthusiast Run adalah ajang lari santai yang diselenggarakan untuk
-            mengajak masyarakat bergerak aktif dengan cara yang seru dan
-            menyenangkan. Tahun ini, Enthusiast Run hadir dengan tema unik yaitu
-            Foam Run, menghadirkan pengalaman berlari di jalur penuh busa
-            warna-warni yang menciptakan suasana ceria dan penuh tawa. Dengan
-            semangat untuk menyebarkan energi positif dan mempererat
-            kebersamaan, Enthusiast Run: Foam Run 2025 menjadi wadah bagi
-            komunitas, keluarga, dan individu untuk menikmati olahraga tanpa
-            tekanan, sambil merasakan keseruan khas event ini. Setelah sukses
-            pada tahun sebelumnya, tahun ini acara akan hadir dengan konsep yang
-            lebih meriah, interaktif, dan pastinya lebih seru!
-          </h3>
+          <EarlyNotEarly
+            title="MANAGE REGISTRATION"
+            price="0"
+            href="/dashboard/admin/registration"
+            isActive={true}
+          />
+          <EarlyNotEarly
+            title="MANAGE VOUCHER"
+            price="0"
+            href="/dashboard/admin/voucher"
+            isActive={true}
+          />
         </div>
       </div>
     </div>
