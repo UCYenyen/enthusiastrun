@@ -32,7 +32,7 @@ export default function FlagOffSection() {
         width={900}
         height={900}
         alt="enthusiast-planet"
-        className="absolute top-56 -left-30 sm:top-0 sm:left-0 w-full sm:w-[40%] h-auto opacity-100"
+        className="absolute top-56 -left-30 sm:top-34 lg:top-0 sm:left-0 w-full sm:w-[40%] h-auto opacity-100"
       ></Image>
 
       <div className="flex w-[80%] sm:w-[60%] z-5 bg-background border-y-8 border-l-8 border-white flex-col items-end relative gap-12 py-12 shadow-lg">
