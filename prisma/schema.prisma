@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Account {
-  id                String  @id
+  id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
@@ -20,14 +20,13 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-  User              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
 model Registration {
   id               String               @id @default(cuid())
-  
   userId           String
   bloodType        String?
   dateOfBirth      DateTime
@@ -42,7 +41,6 @@ model Registration {
   email            String
   emergencyContact String
   fullName         String
-  
   idCardPublicId   String?
   idCardUrl        String?
   medicalCondition String?
@@ -55,7 +53,7 @@ model Registration {
   status           RegistrationStatus   @default(pending)
   gender           String
   jerseySize       String
-  User             User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user             User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([email])
   @@index([phoneNumber])
@@ -63,25 +61,25 @@ model Registration {
 }
 
 model Session {
-  id           String   @id
+  id           String   @id @default(cuid())
   sessionToken String   @unique
-  user_id      String
+  userId       String
   expires      DateTime
-  User         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String         @id
+  id            String         @id @default(cuid())
   name          String?
   email         String?        @unique
   emailVerified DateTime?
   image         String?
   createdAt     DateTime       @default(now())
-  updatedAt     DateTime
+  updatedAt     DateTime       @updatedAt
   role          Role           @default(viewer)
-  Account       Account[]
-  Registration  Registration[]
-  Session       Session[]
+  accounts      Account[]
+  registrations Registration[]
+  sessions      Session[]
 }
 
 model VerificationToken {

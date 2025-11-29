@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Provider } from "@/components/Provider";
-import Navbar from "@/components/Navbar";
+import { Provider } from "@/components/pages/Layout/Provider";
+import Navbar from "@/components/pages/Layout/Navbar";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import Footer from "@/components/Footer";
-import FloatingActionButton from "@/components/FloatingActionButton";
+import Footer from "@/components/pages/Layout/Footer";
+import FloatingActionButton from "@/components/pages/Layout/FloatingActionButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ENTHURUN",
-  description: "ENTHURUN - Enthusiastic Running Community",
+  title: "ENTHUSIAST FUN RUN",
+  description: "ENTHUSIAST FUN RUN 2026",
 };
 
 export default async function RootLayout({

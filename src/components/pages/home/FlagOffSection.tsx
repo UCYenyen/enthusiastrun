@@ -8,6 +8,7 @@ export default function FlagOffSection() {
       <div className="absolute w-full h-full bg-linear-to-bl from-[#00CADE] to[#00CADE]/0"></div>
       <Image
           src={"/home/z-background.svg"}
+          draggable={false}
           width={900}
           height={900}
           alt="enthusiast-background-z"
@@ -15,6 +16,7 @@ export default function FlagOffSection() {
         ></Image>
       <Image
         src={"/home/rainbow-scythe.svg"}
+        draggable={false}
         width={900}
         height={900}
         alt="enthusiast-scythe"
@@ -22,6 +24,7 @@ export default function FlagOffSection() {
       ></Image>
       <Image
         src={"/home/cloud.svg"}
+        draggable={false}
         width={900}
         height={900}
         alt="enthusiast-cloud"
@@ -29,6 +32,7 @@ export default function FlagOffSection() {
       ></Image>
       <Image
         src={"/home/planet.svg"}
+        draggable={false}
         width={900}
         height={900}
         alt="enthusiast-planet"
