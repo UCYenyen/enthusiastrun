@@ -6,7 +6,7 @@ import { useParams } from "next/dist/client/components/navigation";
 import { redirect } from "next/navigation";
 export default function page() {
   const slug = useParams().slug;
-  
+
   if (slug !== "10k" && slug !== "5k") {
     return redirect("/not-found");
   }
@@ -53,13 +53,13 @@ export default function page() {
           <EarlyNotEarly
             title="Early Bird"
             price="100000"
-            href="/register/early-bird"
+            href="/register/5k/early-bird"
             isActive={true}
           />
           <EarlyNotEarly
             title="Regular"
             price="150000"
-            href="/register/regular"
+            href="/register/5k/regular"
             isActive={false}
           />
         </div>

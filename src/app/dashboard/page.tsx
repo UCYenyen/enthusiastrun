@@ -51,8 +51,8 @@ export default async function page() {
           {!isRegistered ? (
             <UserNotRegisteredToCompetition />
           ) : (
-            <div className="mt-[2.5%] flex flex-col gap-2 items-center sm:items-start text-center sm:text-start">
-              <h1 className="text-4xl w-[90%] sm:w-full">WELCOME TO YOUR DASHBOARD!</h1>
+            <div className="mt-[2.5%] flex flex-col gap-2 items-center text-center sm:text-start">
+              <h1 className="text-4xl w-[90%] text-center sm:w-full">WELCOME TO YOUR DASHBOARD!</h1>
               <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
                 Thank you for registering for Enthusiast Run 2025! We're excited to have you on board for an unforgettable experience filled with fun, fitness, and community spirit. Stay tuned for more updates and get ready to run with enthusiasm!
               </h3>
