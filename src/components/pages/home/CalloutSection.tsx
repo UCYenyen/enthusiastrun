@@ -17,7 +17,7 @@ export default function CalloutSection() {
       </h3>
       <Link
         href="/about"
-        className="bg-[#4BCFFC] border-2 border-white px-4 py-2 rounded-lg w-fit font-bold text-background"
+        className="bg-[#4BCFFC] border-2 hover:bg-[#3AA9D1] border-white px-4 py-2 rounded-lg w-fit text-white"
       >
         SEE MORE
       </Link>

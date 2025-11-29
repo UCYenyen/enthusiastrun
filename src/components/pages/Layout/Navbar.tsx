@@ -1,36 +1,173 @@
 "use client";
-import { RiArrowDropDownLine } from "react-icons/ri";
 import Link from "next/link";
 import GoogleLogin from "../../auth/GoogleLogin";
 import UserProfileButton from "../../auth/UserProfileButton";
 import { useSession } from "next-auth/react";
 import TextDropdownPanel from "./TextDropdownPanel";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { useState } from "react";
+
 export default function Navbar() {
   const { data: session, status } = useSession();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const closeSheet = () => setIsOpen(false);
 
   return (
     <nav className="fixed z-100 w-screen bg-background h-[7vh] px-[7.5%] sm:px-[1.5%] flex justify-between items-center border-b-4 border-white shadow-2xl">
       <Link href="/" className="text-white font-impact text-2xl">
         ENTHUSIAST
       </Link>
-      <div className="flex flex-col gap-1 md:hidden">
-        <div className="w-6 h-1 bg-white"></div>
-        <div className="w-6 h-1 bg-white"></div>
-        <div className="w-6 h-1 bg-white"></div>
-      </div>
+
+      {/* Mobile Hamburger Menu */}
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetTrigger asChild>
+          <button
+            className="flex flex-col gap-1 md:hidden"
+            aria-label="Open menu"
+          >
+            <div className="w-6 h-1 bg-white"></div>
+            <div className="w-6 h-1 bg-white"></div>
+            <div className="w-6 h-1 bg-white"></div>
+          </button>
+        </SheetTrigger>
+        <SheetContent
+          side="right"
+          className="bg-background border-l-4 border-white w-[80%] sm:w-[350px]"
+        >
+          <SheetHeader>
+            <SheetTitle className="text-white font-impact text-2xl">
+              ENTHUSIAST
+            </SheetTitle>
+          </SheetHeader>
+          <div className="flex flex-col ml-4 gap-6 font-impact text-xl">
+            {/* About Section */}
+            {/* Auth Section */}
+            <div className="">
+              {status === "loading" ? (
+                <div className="w-10 h-10 rounded-full bg-zinc-200 animate-pulse" />
+              ) : session ? (
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-white/60">User</h3>
+                  <Link
+                    href="/dashboard"
+                    className="text-white hover:text-[#4BCFFC]"
+                    onClick={closeSheet}
+                  >
+                    DASHBOARD
+                  </Link>
+                  {session?.user?.role === "admin" && (
+                    <Link
+                      href="/dashboard/admin"
+                      className="text-white hover:text-[#4BCFFC]"
+                      onClick={closeSheet}
+                    >
+                      ADMIN
+                    </Link>
+                  )}
+                </div>
+              ) : (
+                <GoogleLogin />
+              )}
+            </div>
+            <div className="flex flex-col gap-2">
+              <h3 className="text-white/60">ABOUT</h3>
+              <Link
+                href="/about"
+                className="text-white hover:text-[#4BCFFC]"
+                onClick={closeSheet}
+              >
+                ENTHUSIAST RUN
+              </Link>
+              <Link
+                href="/about/jersey-medal"
+                className="text-white hover:text-[#4BCFFC]"
+                onClick={closeSheet}
+              >
+                JERSEY & MEDAL
+              </Link>
+              <Link
+                href="/about/race-venue"
+                className="text-white hover:text-[#4BCFFC]"
+                onClick={closeSheet}
+              >
+                RACE PACK COLLECTION VENUE
+              </Link>
+            </div>
+
+            {/* Registration Section */}
+            <div className="flex flex-col gap-2">
+              <h3 className="text-white/60">REGISTRATION</h3>
+              <Link
+                href="/register/5k"
+                className="text-white hover:text-[#4BCFFC]"
+                onClick={closeSheet}
+              >
+                5K RUN
+              </Link>
+              <Link
+                href="/register/10k"
+                className="text-white hover:text-[#4BCFFC]"
+                onClick={closeSheet}
+              >
+                10K RUN
+              </Link>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              {/* Other Links */}
+              <Link
+                href="/partnership"
+                className="text-white hover:text-[#4BCFFC]"
+                onClick={closeSheet}
+              >
+                PARTNERSHIP
+              </Link>
+              <Link
+                href="/route"
+                className="text-white hover:text-[#4BCFFC]"
+                onClick={closeSheet}
+              >
+                ROUTE
+              </Link>
+              <Link
+                href="/contact"
+                className="text-white hover:text-[#4BCFFC]"
+                onClick={closeSheet}
+              >
+                CONTACT
+              </Link>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* Desktop Menu */}
       <div className="hidden md:flex font-impact text-xl gap-4 justify-center items-center font-regular">
         <TextDropdownPanel
           label="ABOUT"
           items={[
-            { item_label: "ENTHUSIAST RUN", item_href: "/about#our-story" },
-            { item_label: "JERSEY & MEDAL", item_href: "/about#team" },
-            { item_label: "RACE PACK COLLECTION VENUE", item_href: "/about#careers" },
+            { item_label: "ENTHUSIAST RUN", item_href: "/about" },
+            { item_label: "JERSEY & MEDAL", item_href: "/about/jersey-medal" },
+            {
+              item_label: "RACE PACK COLLECTION VENUE",
+              item_href: "/about/race-venue",
+            },
           ]}
         ></TextDropdownPanel>
-        <TextDropdownPanel label="REGISTRATION" items={[
-          { item_label: "5K RUN", item_href: "/" },
-          { item_label: "10K RUN", item_href: "/" },
-        ]}></TextDropdownPanel>
+        <TextDropdownPanel
+          label="REGISTRATION"
+          items={[
+            { item_label: "5K RUN", item_href: "/register/5k" },
+            { item_label: "10K RUN", item_href: "/register/10k" },
+          ]}
+        ></TextDropdownPanel>
         <Link href="/partnership" className="text-white hover:underline">
           PARTNERSHIP
         </Link>
@@ -42,7 +179,6 @@ export default function Navbar() {
         </Link>
         <div className="flex items-center">
           {status === "loading" ? (
-            // placeholder ukuran sama dengan avatar agar layout tidak bergeser
             <div className="w-10 h-10 rounded-full bg-zinc-200 animate-pulse" />
           ) : session ? (
             <UserProfileButton />

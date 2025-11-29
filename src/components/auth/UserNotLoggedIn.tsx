@@ -1,10 +1,9 @@
 "use client";
-
-import Link from "next/link";
+import GoogleLogin from "./GoogleLogin";
 import Image from "next/image";
-export default function NotFoundPage() {
+
+export default function UserNotLoggedIn() {
   return (
-    <>
       <div className="overflow-hidden">
         <div className="h-[7vh]"></div>
         <div className="relative min-h-[90vh] xl:min-h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4 py-8">
@@ -41,25 +40,15 @@ export default function NotFoundPage() {
               height={500}
               className="absolute -top-8 md:-top-14 lg:-top-12 xl:-top-14 w-[80%] md:w-1/2 lg:w-1/3 xl:w-1/4 h-auto"
             />
-            <div className="mt-[2.5%] flex flex-col gap-2 items-center text-center sm:text-start">
-              <h1 className="text-4xl w-[90%] sm:w-full">
-                ERROR 404 - PAGE NOT FOUND
-              </h1>
+            <div className="mt-[2.5%] flex flex-col gap-2 items-center sm:items-start text-center sm:text-start">
+              <h1 className="text-4xl w-[90%] sm:w-full">WARNING</h1>
             </div>
-            <h3 className="text-xl w-[80%] text-center font-futura max-h-[250px] overflow-y-auto">
-              Oops! Halaman yang Anda cari tidak ditemukan. Mungkin telah dihapus atau
-              alamatnya salah. Silakan periksa kembali URL atau kembali ke halaman
-              utama.
+            <h3 className="text-xl text-center font-futura">
+              You must be logged in to access this page!
             </h3>
-            <Link
-              href="/"
-              className="bg-[#4BCFFC] border-2 border-white px-4 py-2 rounded-lg w-fit hover:bg-[#3AA9D1] text-white"
-            >
-              RETURN TO HOME
-            </Link>
+            <GoogleLogin />
           </div>
         </div>
       </div>
-    </>
   );
 }

@@ -92,7 +92,7 @@ export async function getUserRegistration(
     const registration = await prisma.registration.findFirst({
       where: { userId },
       include: {
-        User: {
+        user: {
           select: {
             name: true,
             email: true,
@@ -113,7 +113,7 @@ export async function getAllRegistrations(): Promise<Registration[]> {
   try {
     const registrations = await prisma.registration.findMany({
       include: {
-        User: {
+        user: {
           select: {
             name: true,
             email: true,

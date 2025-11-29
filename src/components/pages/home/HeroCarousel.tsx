@@ -62,7 +62,7 @@ export function HeroCarousel() {
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
     >
-      <CarouselContent className="p-0">
+      <CarouselContent className="">
         {images.map((imageUrl, index) => (
           <CarouselItem key={index} className="p-0">
            

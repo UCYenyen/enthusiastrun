@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 export default function FloatingActionButton() {
   return (
-    <Link href="/" className='bg-[#4BCFFC] text-background fixed bottom-8 gap-2 right-8 px-4 py-2 font-impact shadow-2xl border-3 border-white rounded-full flex justify-center items-center z-50'>
+    <Link href="https://wa.me/+6281259990845" target="_blank" className='bg-[#4BCFFC] text-background fixed bottom-8 gap-2 right-8 px-4 py-2 font-impact shadow-2xl border-3 border-white rounded-full flex justify-center items-center z-50'>
         <div className='bg-white rounded-full'>
             <h1 className='font-impact py-2 px-4'>?</h1>
         </div>
