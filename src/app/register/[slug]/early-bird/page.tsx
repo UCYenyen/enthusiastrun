@@ -43,8 +43,8 @@ export default function NormalRegistrationPage() {
         />
 
         {/* Header */}
-        <div className="relative z-10 w-full max-w-4xl mb-8">
-          <div className="bg-background border-4 border-white rounded-xl p-6 text-center">
+        <div className="relative z-10 w-full max-w-4xl">
+          <div className="bg-background border-4 border-white rounded-tl-xl rounded-tr-xl p-6 text-center">
             <Image
               src="/home/enthusiast-text-logo.svg"
               draggable={false}

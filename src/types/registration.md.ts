@@ -54,11 +54,13 @@ export interface RegistrationData {
 
 export interface Registration extends RegistrationData {
   id: string;
-  bibNumber?: string | null;
   status: RegistrationStatus;
   paymentStatus: boolean;
   paymentDate?: Date | null;
   createdAt: Date;
+  qrCodeUrl?: string | null;
+  qrCodeClaimed?: boolean | null;
+  qrCodeClaimedAt?: Date | null;
   updatedAt: Date;
   user?: {
     name: string | null;

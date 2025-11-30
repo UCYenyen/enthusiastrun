@@ -99,7 +99,6 @@ export default function RegistrationDetailModal({
               />
               <DetailRow label="Ukuran Jersey" value={registration.jerseySize} />
               <DetailRow label="Kondisi Medis" value={registration.medicalCondition || "-"} />
-              <DetailRow label="BIB Number" value={registration.bibNumber || "Belum ditetapkan"} />
             </div>
           </div>
 

@@ -41,17 +41,20 @@ export default function page() {
             className="absolute -top-8 md:-top-14 lg:-top-12 xl:-top-14 w-[80%] md:w-1/2 lg:w-1/3 xl:w-1/4 h-auto"
           />
           <div className="mt-[2.5%] flex flex-col gap-2 items-center sm:items-start text-center sm:text-start">
-            <h1 className="text-4xl w-[90%] sm:w-full">REGISTRATION</h1>
+            <h1 className="text-4xl w-[90%] sm:w-full">ADMIN DASHBOARD</h1>
           </div>
           <EarlyNotEarly
+            title="QR CODE VALIDATOR"
+            href="/dashboard/admin/qr-code-validator"
+            isActive={true}
+          />
+          <EarlyNotEarly
             title="MANAGE REGISTRATION"
-            price="0"
             href="/dashboard/admin/registrations"
             isActive={true}
           />
           <EarlyNotEarly
             title="MANAGE VOUCHER"
-            price="0"
             href="/dashboard/admin/vouchers"
             isActive={true}
           />

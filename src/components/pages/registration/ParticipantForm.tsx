@@ -39,12 +39,12 @@ export default function ParticipantForm({
   const labelClasses = "block text-sm font-medium text-gray-700 mb-1";
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div className="bg-white border-b-2 border-white shadow-lg overflow-hidden">
       {/* Header */}
       <button
         type="button"
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full px-6 py-4 bg-gradient-to-r from-[#4BCFFC] to-[#00476d] flex items-center justify-between"
+        className="w-full px-6 py-4 bg-[#00476d] flex items-center justify-between"
       >
         <div className="flex items-center gap-3">
           <span className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white font-bold">

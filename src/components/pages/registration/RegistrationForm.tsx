@@ -215,9 +215,9 @@ export default function RegistrationForm({ category }: RegistrationFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto space-y-8">
+    <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto">
       {/* Package Selection */}
-      <div className="bg-white rounded-xl p-6 shadow-lg">
+      <div className="bg-white p-6 shadow-lg">
         <h2 className="text-2xl font-impact text-background mb-4">Pilih Paket</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <button
@@ -263,7 +263,7 @@ export default function RegistrationForm({ category }: RegistrationFormProps) {
             <select
               value={participantCount}
               onChange={(e) => setParticipantCount(Number(e.target.value))}
-              className="w-full md:w-48 px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-[#4BCFFC] focus:outline-none text-background"
+              className="w-full md:w-48 px-4 py-2 border-2 rounded-lg border-gray-200 focus:border-[#4BCFFC] focus:outline-none text-background"
             >
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
                 <option key={num} value={num}>
@@ -275,16 +275,8 @@ export default function RegistrationForm({ category }: RegistrationFormProps) {
         )}
       </div>
 
-      {/* Category Info */}
-      <div className="bg-gradient-to-r from-[#4BCFFC] to-[#00476d] rounded-xl p-6 shadow-lg">
-        <h2 className="text-2xl font-impact text-white">Kategori Lomba</h2>
-        <p className="text-4xl font-impact text-white mt-2">
-          {category.toUpperCase()} RUN
-        </p>
-      </div>
-
       {/* Participant Forms */}
-      <div className="space-y-6">
+      <div className="">
         {participants.map((participant, index) => (
           <ParticipantForm
             key={index}
@@ -297,7 +289,7 @@ export default function RegistrationForm({ category }: RegistrationFormProps) {
       </div>
 
       {/* Price Summary */}
-      <div className="bg-white rounded-xl p-6 shadow-lg">
+      <div className="bg-white p-6 shadow-lg">
         <h2 className="text-2xl font-impact text-background mb-4">Ringkasan Pembayaran</h2>
         <div className="space-y-3">
           <div className="flex justify-between text-gray-600">
@@ -337,16 +329,16 @@ export default function RegistrationForm({ category }: RegistrationFormProps) {
       </div>
 
       {/* Payment Info */}
-      <div className="bg-amber-50 border-4 border-amber-400 rounded-xl p-6">
+      <div className="bg-amber-50 border-4 border-amber-400 p-6">
         <h2 className="text-2xl font-impact text-background mb-4">Informasi Pembayaran</h2>
         <div className="space-y-3 text-gray-700">
           <p className="font-bold text-lg">Transfer ke:</p>
-          <div className="bg-white rounded-lg p-4 space-y-2">
+          <div className="bg-white p-4 space-y-2">
             <p><span className="font-medium">Bank:</span> BCA</p>
             <p><span className="font-medium">No. Rekening:</span> 1234567890</p>
             <p><span className="font-medium">Atas Nama:</span> ENTHUSIAST RUN 2025</p>
           </div>
-          <div className="bg-white rounded-lg p-4">
+          <div className="bg-white p-4">
             <p className="font-medium">Berita Transfer:</p>
             <p className="text-[#4BCFFC] font-mono font-bold text-lg mt-1">
               ER2025-{category.toUpperCase()}-{session?.user?.name?.split(" ")[0]?.toUpperCase() || "NAMA"}
@@ -359,10 +351,10 @@ export default function RegistrationForm({ category }: RegistrationFormProps) {
       </div>
 
       {/* Payment Proof Upload */}
-      <div className="bg-white rounded-xl p-6 shadow-lg">
+      <div className="bg-white p-6 shadow-lg">
         <h2 className="text-2xl font-impact text-background mb-4">Upload Bukti Pembayaran</h2>
         {paymentProofUrl ? (
-          <div className="flex items-center gap-4 p-4 bg-green-50 rounded-lg border-2 border-green-200">
+          <div className="flex items-center gap-4 p-4 bg-green-50 border-2 border-green-200">
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
               <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -396,7 +388,7 @@ export default function RegistrationForm({ category }: RegistrationFormProps) {
       </div>
 
       {/* Terms and Submit */}
-      <div className="bg-white rounded-xl p-6 shadow-lg">
+      <div className="bg-white p-6 shadow-lg rounded-b-xl">
         <label className="flex items-start gap-3 cursor-pointer">
           <input
             type="checkbox"
@@ -419,7 +411,7 @@ export default function RegistrationForm({ category }: RegistrationFormProps) {
           className={`w-full mt-6 py-4 rounded-xl font-impact text-xl text-white transition-all ${
             isSubmitting
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-gradient-to-r from-[#4BCFFC] to-[#00476d] hover:from-[#3AA9D1] hover:to-[#003a57]"
+              : "bg-[#4BCFFC] hover:bg-[#3AA9D1]"
           }`}
         >
           {isSubmitting ? (

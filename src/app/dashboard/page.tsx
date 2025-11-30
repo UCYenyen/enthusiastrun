@@ -56,6 +56,8 @@ export default async function page() {
               <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
                 Thank you for registering for Enthusiast Run 2025! We're excited to have you on board for an unforgettable experience filled with fun, fitness, and community spirit. Stay tuned for more updates and get ready to run with enthusiasm!
               </h3>
+              <h1 className="text-4xl w-[90%] text-center sm:w-full">RACEPACK QR-CODE!</h1>
+              <Image src={isRegistered.qrCodeUrl || "/home/enthusiast-text-logo.svg"} unoptimized alt={`Racepack ${isRegistered.fullName} QR Code`} width={200} height={200} />
             </div>
           )}
         </div>
