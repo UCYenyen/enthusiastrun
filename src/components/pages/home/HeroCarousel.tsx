@@ -19,7 +19,7 @@ export function HeroCarousel() {
   );
 
   const images = [
-    "/home/hero-image.svg",
+    "/home/hero-image.webp",
   ];
 
   const [api, setApi] = React.useState<CarouselApi>();

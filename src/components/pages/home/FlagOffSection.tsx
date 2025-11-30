@@ -23,7 +23,7 @@ export default function FlagOffSection() {
         className="absolute top-0 left-1/4 w-full sm:w-[40%] h-auto opacity-100"
       ></Image>
       <Image
-        src={"/home/cloud.svg"}
+        src={"/home/cloud.webp"}
         draggable={false}
         width={900}
         height={900}
@@ -31,7 +31,7 @@ export default function FlagOffSection() {
         className="absolute -bottom-4 left-0 w-full h-auto opacity-100"
       ></Image>
       <Image
-        src={"/home/planet.svg"}
+        src={"/home/panet.webp"}
         draggable={false}
         width={900}
         height={900}

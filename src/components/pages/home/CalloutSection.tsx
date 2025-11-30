@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function CalloutSection() {
   return (
     <div className="sm:p-8 shadow-lg relative z-2 w-screen bg-background border-y-4 border-white flex flex-col py-[10%] items-center sm:items-start gap-8 font-impact">
-      <Image src={"/home/rainbow-bolt.svg"} draggable={false} width={900} height={900} alt="enthusiast-bolt" className="absolute hidden sm:inline-block right-0 top-[15%] w-[15%] h-auto"></Image>
+      <Image src={"/home/rainbow-bolt.webp"} draggable={false} width={900} height={900} alt="enthusiast-bolt" className="absolute hidden sm:inline-block right-0 top-[15%] w-[15%] h-auto"></Image>
       <div className="flex flex-col gap-2 text-center sm:text-start">
         <h1 className="text-4xl">ARE YOU READY FOR ENTHUSIAST RUN?</h1>
         <h3 className="text-xl text-[#9ED486]">21 - 23 NOVEMBER</h3>

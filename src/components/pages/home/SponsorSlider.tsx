@@ -4,10 +4,10 @@ import LogoLoop from "@/components/LogoLoop";
 import Image from "next/image";
 export default function SponsorSlider({src="main-sponsors.svg"} : {src?: string}) {
   const techLogos = [
-  { src: "/home/enthusiast-text-logo.svg", title: "Enthusiast Logo", href: "https://react.dev" },
-  { src: "/home/enthusiast-text-logo.svg", title: "Enthusiast Logo", href: "https://react.dev" },
-  { src: "/home/enthusiast-text-logo.svg", title: "Enthusiast Logo", href: "https://react.dev" },
-  { src: "/home/enthusiast-text-logo.svg", title: "Enthusiast Logo", href: "https://react.dev" },
+  { src: "/home/enthusiast-text-logo.webp", title: "Enthusiast Logo", href: "https://react.dev" },
+  { src: "/home/enthusiast-text-logo.webp", title: "Enthusiast Logo", href: "https://react.dev" },
+  { src: "/home/enthusiast-text-logo.webp", title: "Enthusiast Logo", href: "https://react.dev" },
+  { src: "/home/enthusiast-text-logo.webp", title: "Enthusiast Logo", href: "https://react.dev" },
 ];
   return (
     <div className="shadow-lg relative z-20 w-screen bg-background border-y-4 border-white flex flex-col items-center justify-center gap-8 font-futura min-h-64">

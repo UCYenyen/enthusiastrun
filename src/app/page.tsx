@@ -15,7 +15,7 @@ export default function Home() {
       </section>
       <SponsorSlider />
       <RecapVideo />
-      <SponsorSlider src="co-sponsors.svg"/>
+      <SponsorSlider src="co-sponsors.webp"/>
       <div className="min-h-screen w-screen"></div>
     </div>
   );
