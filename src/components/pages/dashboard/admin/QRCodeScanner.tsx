@@ -6,7 +6,7 @@ import { Scanner, IDetectedBarcode } from "@yudiel/react-qr-scanner";
 import { UserData } from "@/types/user.md";
 
 // Ganti dengan path API yang sesuai
-const VALIDATE_API_URL = `${process.env.NEXTAUTH_URL}/api/validate-qr-code`;
+const VALIDATE_API_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/api/validate-qr-code`;
 
 interface ValidationResponse {
   message?: string;
@@ -65,7 +65,7 @@ export default function QrCodeScanner() {
           setUserData(data.user);
         }
       } else {
-        setValidationStatus(`❌ Validation Failed: ${data.message || "Invalid code."}`);
+        setValidationStatus(`Validation Failed: ${data.message || "Invalid code."}`);
         setBgColor("bg-red-500/50");
       }
     } catch (error) {
@@ -99,7 +99,7 @@ export default function QrCodeScanner() {
       </div>
 
       <div
-        className={`text-white text-lg font-bold p-4 rounded w-full text-center break-words transition-colors duration-300 ${bgColor}`}
+        className={`text-white text-lg p-4 rounded w-full text-center break-words transition-colors duration-300 ${bgColor}`}
       >
         {validationStatus ||
           (isScanning ? "Arahkan kamera ke QR Code..." : "Processing result...")}
@@ -109,10 +109,10 @@ export default function QrCodeScanner() {
         <div className="w-full p-4 bg-white text-gray-800 rounded-lg shadow-xl">
           <h3 className="text-xl font-bold mb-2 border-b pb-1">User Details</h3>
           <p>
-            <strong>Name:</strong> {userData.name}
+            Name: {userData.name}
           </p>
           <p>
-            <strong>Email:</strong> {userData.email}
+            Email: {userData.email}
           </p>
         </div>
       )}
