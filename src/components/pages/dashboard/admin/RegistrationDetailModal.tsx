@@ -50,10 +50,10 @@ export default function RegistrationDetailModal({
         <div className="space-y-6">
           {/* Personal Info */}
           <div>
-            <h3 className="font-bold text-background mb-2 flex items-center gap-2">
-              <span className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">1</span>
+            <div className="font-bold text-background mb-2 flex items-center gap-2">
+              <h3 className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">1</h3>
               <h1 className="text-white">DATA PRIBADI</h1>
-            </h3>
+            </div>
             <div className="bg-gray-50 rounded-lg p-4">
               <DetailRow label="Nama Lengkap" value={registration.fullName} />
               <DetailRow label="Email" value={registration.email} />

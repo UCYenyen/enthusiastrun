@@ -52,6 +52,12 @@ export interface RegistrationData {
   paymentProofId?: string;
 }
 
+export interface Voucher {
+  id: string;
+  category: RegistrationCategory;
+  isUsed: boolean;
+}
+
 export interface Registration extends RegistrationData {
   id: string;
   status: RegistrationStatus;

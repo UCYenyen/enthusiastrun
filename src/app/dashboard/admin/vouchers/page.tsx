@@ -1,15 +1,16 @@
 import React from "react";
 import Image from "next/image";
-import { getAllRegistrations } from "@/lib/registration";
 import { getServerSession } from "next-auth/next";
 import UserNotLoggedIn from "@/components/auth/UserNotLoggedIn";
-import RegistrationTable from "@/components/pages/dashboard/admin/RegistrationTable";
+import { makeVoucher } from "@/lib/registration";
+import VoucherManager from "@/components/pages/dashboard/admin/VoucherManager";
+import { getAllVouchers } from "@/lib/registration";
 export default async function page() {
   const session = await getServerSession();
   if (!session) {
     return <UserNotLoggedIn />;
   }
-  const registrations = await getAllRegistrations();
+  const vouchers = await getAllVouchers();
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
@@ -48,7 +49,10 @@ export default async function page() {
             className="absolute -top-8 md:-top-14 lg:-top-12 xl:-top-14 w-[80%] md:w-1/2 lg:w-1/3 xl:w-1/4 h-auto"
           />
           {/* tampilkan table registrasi disini */}
-          <RegistrationTable registrations={registrations} />
+          <div className="mt-[2.5%] w-full flex flex-col gap-2 items-center sm:items-start text-center text-4xl">
+            <h1 className="w-[90%] sm:w-full">Make Voucher</h1>
+            <VoucherManager initialVouchers={vouchers} />
+          </div>
         </div>
       </div>
     </div>

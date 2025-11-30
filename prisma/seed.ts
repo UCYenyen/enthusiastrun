@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 
 async function main() {
   console.log("Seeding database...");
-  // Add your seed data here
 }
 
 main()

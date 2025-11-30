@@ -56,13 +56,20 @@ model Registration {
   qrCodeUrl        String?
   qrCodeClaimed   Boolean              @default(false)
   qrCodeClaimedAt DateTime?
+  voucherId     String?
   user             User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  voucher          Voucher?              @relation(fields: [voucherId], references: [id], onDelete: Cascade)
   @@index([email])
   @@index([phoneNumber])
   @@index([userId])
 }
 
+model Voucher{
+   id               String               @id @default(cuid())
+   category         RegistrationCategory
+   isUsed           Boolean @default(false)
+   registrations Registration[]
+}
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
