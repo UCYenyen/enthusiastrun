@@ -80,7 +80,7 @@ export default function page() {
                   Surabaya
                 </p>
                 <p>
-                  <span className="font-bold">Tanggal</span> : 21-22 November
+                  <span className="font-bold">Tanggal</span> : 3 MEI 2026
                   2025
                 </p>
                 <p>
