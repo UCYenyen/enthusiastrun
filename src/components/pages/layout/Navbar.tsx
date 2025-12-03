@@ -12,6 +12,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -22,7 +23,7 @@ export default function Navbar() {
   return (
     <nav className="fixed z-100 w-screen bg-background h-[10vh] px-[7.5%] sm:px-[1.5%] py-[1.5%] flex justify-between items-center border-b-4 border-white shadow-2xl">
       <Link href="/" className="text-white font-impact text-2xl">
-        ENTHUSIAST
+        <Image src="/vercel.svg" alt="Enthusiast Logo" width={100} height={100} className="w-12 h-auto" />
       </Link>
 
       {/* Mobile Hamburger Menu */}
