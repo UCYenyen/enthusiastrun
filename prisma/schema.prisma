@@ -51,6 +51,7 @@ model Registration {
   photoPublicId    String?
   photoUrl         String?
   status           RegistrationStatus   @default(pending)
+  type             RegistrationType
   gender           String
   jerseySize       String
   qrCodeUrl        String?
@@ -127,6 +128,12 @@ enum RegistrationStatus {
   pending
   confirmed
   cancelled
+}
+
+enum RegistrationType {
+  super_early_bird
+  early_bird
+  regular
 }
 
 enum Role {

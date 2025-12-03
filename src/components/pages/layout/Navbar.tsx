@@ -20,7 +20,7 @@ export default function Navbar() {
   const closeSheet = () => setIsOpen(false);
 
   return (
-    <nav className="fixed z-100 w-screen bg-background h-[7vh] px-[7.5%] sm:px-[1.5%] flex justify-between items-center border-b-4 border-white shadow-2xl">
+    <nav className="fixed z-100 w-screen bg-background h-[10vh] px-[7.5%] sm:px-[1.5%] py-[1.5%] flex justify-between items-center border-b-4 border-white shadow-2xl">
       <Link href="/" className="text-white font-impact text-2xl">
         ENTHUSIAST
       </Link>

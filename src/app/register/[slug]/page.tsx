@@ -11,6 +11,8 @@ export default function page() {
   if (slug !== "10k" && slug !== "5k") {
     return redirect("/not-found");
   }
+
+  const is5K = slug === "5k";
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
@@ -52,15 +54,21 @@ export default function page() {
             <h1 className="text-4xl w-[90%] sm:w-full">REGISTRATION</h1>
           </div>
           <EarlyNotEarly
-            title="Early Bird"
-            price="100000"
-            href="/register/5k/early-bird"
+            title="Super Early Bird"
+            price={is5K ? "150000" : "200000"}
+            href={`/register/${slug}/super-early-bird`}
             isActive={true}
           />
           <EarlyNotEarly
+            title="Early Bird"
+            price={is5K ? "180000" : "230000"}
+            href={`/register/${slug}/early-bird`}
+            isActive={false}
+          />
+          <EarlyNotEarly
             title="Regular"
-            price="150000"
-            href="/register/5k/regular"
+            price={is5K ? "250000" : "300000"}
+            href={`/register/${slug}/regular`}
             isActive={false}
           />
           <div className="flex flex-col font-futura w-full justify-center items-center gap-1">

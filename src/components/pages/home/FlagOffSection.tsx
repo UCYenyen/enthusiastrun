@@ -104,7 +104,7 @@ export default function FlagOffSection() {
   return (
     <div
       ref={sectionRef}
-      className="relative items-end min-h-[40rem] justify-center z-1 w-screen bg-linear-to-b from-0% from-[#00C1C0] to-40% to-[#FFF8E1] border-y-4 border-white flex flex-col gap-8 font-bold"
+      className="relative items-center min-h-[40rem] justify-center z-1 w-screen bg-linear-to-b from-0% from-[#00C1C0] to-40% to-[#FFF8E1] border-y-4 border-white flex flex-col gap-8 font-bold"
     >
       <div className="absolute w-full h-full bg-linear-to-bl from-[#00CADE] to-[#00CADE]/0"></div>
       <Image
@@ -152,9 +152,9 @@ export default function FlagOffSection() {
 
       <div
         ref={containerRef}
-        className="flex w-[80%] sm:w-[60%] z-5 bg-background border-y-8 border-l-8 border-white flex-col items-end relative gap-12 py-12 shadow-lg"
+        className="flex w-[80%] sm:w-[60%] z-5 bg-background border-8 border-white flex-col items-end relative gap-12 py-12 shadow-lg"
       >
-        <div ref={flagOffItemsRef} className="w-full flex flex-col items-end gap-12">
+        <div ref={flagOffItemsRef} className="w-full flex flex-col items-center p-4 sm:p-0 gap-12">
           <FlagOffItem />
           <FlagOffItem />
         </div>
