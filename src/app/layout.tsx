@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import { Provider } from "@/components/pages/layout/Provider";
 import Navbar from "@/components/pages/layout/Navbar";
 import { getServerSession } from "next-auth/next";
