@@ -2,11 +2,12 @@ import React from "react";
 import Image from "next/image";
 import UserNotRegisteredToCompetition from "@/components/pages/dashboard/UserNotRegisteredToCompetition";
 import { getUserRegistration } from "@/lib/registration";
-import { getServerSession } from 'next-auth/next';
+import { getServerSession } from "next-auth/next";
 import UserNotLoggedIn from "@/components/auth/UserNotLoggedIn";
+import Link from "next/link";
 export default async function page() {
   const session = await getServerSession();
-  if(!session) {
+  if (!session) {
     return <UserNotLoggedIn />;
   }
 
@@ -51,13 +52,40 @@ export default async function page() {
           {!isRegistered ? (
             <UserNotRegisteredToCompetition />
           ) : (
-            <div className="mt-[2.5%] flex flex-col gap-2 items-center text-center sm:text-start">
-              <h1 className="text-4xl w-[90%] text-center sm:w-full">WELCOME TO YOUR DASHBOARD!</h1>
+            <div className="mt-[2.5%] flex flex-col gap-4 items-center text-center sm:text-start">
+              <h1 className="text-4xl w-[90%] text-center sm:w-full">
+                WELCOME TO YOUR DASHBOARD!
+              </h1>
               <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
-                Thank you for registering for Enthusiast Run 2025! We're excited to have you on board for an unforgettable experience filled with fun, fitness, and community spirit. Stay tuned for more updates and get ready to run with enthusiasm!
+                Thank you for registering for Enthusiast Run 2025! We're excited
+                to have you on board for an unforgettable experience filled with
+                fun, fitness, and community spirit. Stay tuned for more updates
+                and get ready to run with enthusiasm!
               </h3>
-              <h1 className="text-4xl w-[90%] text-center sm:w-full">RACEPACK QR-CODE!</h1>
-              <Image src={isRegistered.qrCodeUrl || "/home/enthusiast-text-logo.webp"} unoptimized alt={`Racepack ${isRegistered.fullName} QR Code`} width={200} height={200} />
+              <h1 className="text-4xl w-[90%] text-center sm:w-full">
+                RACEPACK QR-CODE!
+              </h1>
+              <Image
+                src={
+                  isRegistered.qrCodeUrl || "/home/enthusiast-text-logo.webp"
+                }
+                unoptimized
+                alt={`Racepack ${isRegistered.fullName} QR Code`}
+                width={200}
+                height={200}
+              />
+              {isRegistered.qrCodeUrl ? (
+                <Link
+                  href="/about"
+                  className="bg-[#4BCFFC] border-2 hover:bg-[#3AA9D1] border-white px-6 py-2 rounded-lg w-fit text-white"
+                >
+                  JOIN GROUP WA
+                </Link>
+              ) : (
+                <div className="bg-red-500 border-2 border-white px-6 py-2 rounded-lg w-fit text-white">
+                  QR Code not available yet. Please check back later.
+                </div>
+              )}
             </div>
           )}
         </div>
