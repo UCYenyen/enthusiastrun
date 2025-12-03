@@ -60,7 +60,7 @@ export default function NormalRegistrationPage() {
 
         {/* Registration Form */}
         <div className="relative z-10 w-full pb-32">
-          <RegistrationForm category={slug as "CATEGORY_5K" | "CATEGORY_10K"} type="early_bird"/>
+          <RegistrationForm category={slug as "CATEGORY_5K" | "CATEGORY_10K"} type="super_early_bird" />
         </div>
       </div>
     </div>

@@ -10,6 +10,22 @@ import {
   Voucher,
 } from "@/types/registration.md";
 
+export async function checkRegistrationCount(category: "CATEGORY_5K" | "CATEGORY_10K", type: "super_early_bird" | "early_bird" | "regular"): Promise<number> {
+  try{
+    const count = await prisma.registration.count({
+    where: {
+      category: category,
+      type: type,
+    },
+  });
+  
+  return count;
+} catch (error) {
+  console.error("Failed to check registration count:", error);
+  return 100;
+}
+}
+
 export async function createRegistration(
   data: RegistrationData
 ): Promise<ActionResult<Registration>> {
@@ -65,6 +81,7 @@ export async function createRegistration(
         paymentProofUrl: data.paymentProofUrl,
         paymentProofId: data.paymentProofId,
         status: "pending",
+        type: data.type,
         updatedAt: new Date(), // Add updatedAt field
       },
     });

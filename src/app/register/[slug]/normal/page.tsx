@@ -9,7 +9,7 @@ export default function NormalRegistrationPage() {
   const params = useParams();
   const slug = params.slug as string;
 
-  if (slug !== "10k" && slug !== "5k") {
+  if (slug !== "CATEGORY_10K" && slug !== "CATEGORY_5K") {
     return redirect("/not-found");
   }
 
@@ -60,7 +60,7 @@ export default function NormalRegistrationPage() {
 
         {/* Registration Form */}
         <div className="relative z-10 w-full pb-32">
-          <RegistrationForm category={slug as "5k" | "10k"} />
+          <RegistrationForm category={slug as "CATEGORY_5K" | "CATEGORY_10K"} type="regular"/>
         </div>
       </div>
     </div>

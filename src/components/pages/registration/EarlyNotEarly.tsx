@@ -4,6 +4,8 @@ export interface EarlyNotEarlyProps {
     title: string;
     price?: string;
     href: string;
+    count?: number;
+    maxCount?: number;
     isActive?: boolean;
 }
 export default function EarlyNotEarly(props: EarlyNotEarlyProps) {

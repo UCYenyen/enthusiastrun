@@ -105,14 +105,14 @@ export default function Navbar() {
             <div className="flex flex-col gap-2">
               <h3 className="text-white/60">REGISTRATION</h3>
               <Link
-                href="/register/5k"
+                href="/register/CATEGORY_5K"
                 className="text-white hover:text-[#4BCFFC]"
                 onClick={closeSheet}
               >
                 5K RUN
               </Link>
               <Link
-                href="/register/10k"
+                href="/register/CATEGORY_10K"
                 className="text-white hover:text-[#4BCFFC]"
                 onClick={closeSheet}
               >
@@ -164,8 +164,8 @@ export default function Navbar() {
         <TextDropdownPanel
           label="REGISTRATION"
           items={[
-            { item_label: "5K RUN", item_href: "/register/5k" },
-            { item_label: "10K RUN", item_href: "/register/10k" },
+            { item_label: "5K RUN", item_href: "/register/CATEGORY_5K" },
+            { item_label: "10K RUN", item_href: "/register/CATEGORY_10K" },
           ]}
         ></TextDropdownPanel>
         <Link href="/partnership" className="text-white hover:underline">

@@ -1,18 +1,54 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import EarlyNotEarly from "@/components/pages/registration/EarlyNotEarly";
 import { useParams } from "next/dist/client/components/navigation";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-export default function page() {
-  const slug = useParams().slug;
+import { checkRegistrationCount } from "@/lib/registration";
 
-  if (slug !== "10k" && slug !== "5k") {
+export default function RegistrationPage() {
+  const slug = useParams().slug as string;
+  
+  const [superEarlyCount, setSuperEarlyCount] = useState<number>(0);
+  const [earlyBirdCount, setEarlyBirdCount] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      if (!slug || (slug !== "CATEGORY_5K" && slug !== "CATEGORY_10K")) return;
+      
+      setIsLoading(true);
+      try {
+        const category = slug === "CATEGORY_5K" ? "CATEGORY_5K" : "CATEGORY_10K";
+        
+        // Fetch counts
+        const superCount = await checkRegistrationCount(category, "super_early_bird");
+        const earlyCount = await checkRegistrationCount(category, "early_bird");
+        
+        setSuperEarlyCount(superCount);
+        setEarlyBirdCount(earlyCount);
+      } catch (error) {
+        console.error("Failed to fetch registration counts:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCounts();
+  }, [slug]);
+
+  if (slug !== "CATEGORY_5K" && slug !== "CATEGORY_10K") {
     return redirect("/not-found");
   }
 
-  const is5K = slug === "5k";
+  const is5K = slug === "CATEGORY_5K";
+  
+  // Determine if each phase is active
+  const isSuperEarlyActive = superEarlyCount < 1;
+  const isEarlyBirdActive = !isSuperEarlyActive && earlyBirdCount < 1;
+  const isRegularActive = !isSuperEarlyActive && !isEarlyBirdActive;
+
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
@@ -52,25 +88,34 @@ export default function page() {
           />
           <div className="mt-[2.5%] flex flex-col gap-2 items-center sm:items-start text-center sm:text-start">
             <h1 className="text-4xl w-[90%] sm:w-full">REGISTRATION</h1>
+            {isLoading && (
+              <p className="text-sm text-white/70">Loading availability...</p>
+            )}
           </div>
+          
           <EarlyNotEarly
             title="Super Early Bird"
             price={is5K ? "150000" : "200000"}
             href={`/register/${slug}/super-early-bird`}
-            isActive={true}
+            isActive={isSuperEarlyActive}
+            count={superEarlyCount}
+            maxCount={1}
           />
           <EarlyNotEarly
             title="Early Bird"
             price={is5K ? "180000" : "230000"}
             href={`/register/${slug}/early-bird`}
-            isActive={false}
+            isActive={isEarlyBirdActive}
+            count={earlyBirdCount}
+            maxCount={50}
           />
           <EarlyNotEarly
             title="Regular"
             price={is5K ? "250000" : "300000"}
-            href={`/register/${slug}/regular`}
-            isActive={false}
+            href={`/register/${slug}/normal`}
+            isActive={isRegularActive}
           />
+          
           <div className="flex flex-col font-futura w-full justify-center items-center gap-1">
             <h3 className="text-xl">Punya voucher?</h3>
             <Link

@@ -50,10 +50,11 @@ const JERSEY_XL_EXTRA = 10000;
 const JERSEY_XXL_EXTRA = 15000;
 
 interface RegistrationFormProps {
-  category: "5k" | "10k";
+  category: "CATEGORY_5K" | "CATEGORY_10K";
+  type: "super_early_bird" | "early_bird" | "regular";
 }
 
-export default function RegistrationForm({ category }: RegistrationFormProps) {
+export default function RegistrationForm({ category, type }: RegistrationFormProps) {
   const { data: session } = useSession();
   const router = useRouter();
   const [packageType, setPackageType] = useState<"personal" | "bundling">("personal");
@@ -178,7 +179,8 @@ export default function RegistrationForm({ category }: RegistrationFormProps) {
           address: participant.address,
           emergencyContact: participant.emergencyContact,
           emergencyPhone: participant.emergencyPhone,
-          category: (category === "5k" ? "CATEGORY_5K" : "CATEGORY_10K") as RegistrationCategory,
+          category: (category === "CATEGORY_5K" ? "CATEGORY_5K" : "CATEGORY_10K") as RegistrationCategory,
+          type: type,
           jerseySize: participant.jerseySize,
           medicalCondition: participant.medicalCondition || undefined,
           idCardUrl: participant.idCardUrl,
