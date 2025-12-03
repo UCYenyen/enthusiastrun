@@ -81,7 +81,6 @@ export default function page() {
                 </p>
                 <p>
                   <span className="font-bold">Tanggal</span> : 3 MEI 2026
-                  2025
                 </p>
                 <p>
                   <span className="font-bold">Waktu Flag Off</span> :
