@@ -45,13 +45,13 @@ export default function Footer() {
               href="/pricing"
               className="font-normal text-white mb-0 text-center lg:text-start"
             >
-              5k run
+              5K RUN
             </a>
             <a
               href="/pricing"
               className="font-normal text-white mb-0 text-center lg:text-start"
             >
-              10k run
+              10K RUN 
             </a>
           </div>
           <div className="flex text-lg flex-col gap-4 items-center lg:items-start max-w-[400px]">
@@ -63,11 +63,10 @@ export default function Footer() {
               href="mailto:enthusiast@gmail.com"
               className="font-normal mb-0 text-center text-white lg:text-start"
             >
-              enthusiast@gmail.com
+              enthusiastibm@gmail.com
             </a>
             <p className="font-normal mb-0 text-center lg:text-start">
-              Jl. Raja H. Fisabililah 28, Sei Jang, Bukit Bestari, Kota Tanjung
-              Pinang Kepulauan Riau 29123
+              CitraLand CBD Boulevard, Jl. Waterpark Boulevard, Made, Kec. Sambikerep, Surabaya, Jawa Timur 60219
             </p>
           </div>
         </div>

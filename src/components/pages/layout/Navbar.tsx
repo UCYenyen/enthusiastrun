@@ -22,8 +22,9 @@ export default function Navbar() {
 
   return (
     <nav className="fixed z-100 w-screen bg-background h-[10vh] px-[7.5%] sm:px-[1.5%] py-[1.5%] flex justify-between items-center border-b-4 border-white shadow-2xl">
-      <Link href="/" className="text-white font-impact text-2xl">
-        <Image src="/vercel.svg" alt="Enthusiast Logo" width={100} height={100} className="w-12 h-auto" />
+      <Link href="/" className="text-white font-impact text-2xl flex items-center justify-center gap-1 hover:cursor-pointer">
+        <Image src="/vercel.svg" alt="Enthusiast Logo" width={80} height={80} className="w-10 h-auto" />
+        <h1>ENTHUSIAST</h1>
       </Link>
 
       {/* Mobile Hamburger Menu */}

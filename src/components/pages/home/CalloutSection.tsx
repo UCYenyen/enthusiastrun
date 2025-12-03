@@ -99,18 +99,18 @@ export default function CalloutSection() {
         alt="enthusiast-bolt"
         className="absolute hidden sm:inline-block right-0 top-[15%] w-[15%] h-auto"
       />
-      <div ref={titleRef} className="flex flex-col gap-2 text-center sm:text-start">
-        <h1 className="text-4xl">ARE YOU READY FOR ENTHUSIAST RUN?</h1>
-        <h3 className="text-xl text-[#9ED486]">21 - 23 NOVEMBER</h3>
-      </div>
-      <h3
-        ref={descRef}
-        className="text-xl w-[80%] font-futura text-justify"
+      <div
+        ref={titleRef}
+        className="flex flex-col gap-2 text-center sm:text-start"
       >
-        Bersiaplah ambil bagian dan sebarkan semangat hidup sehat di event lari
-        terbesar persembahan JETE Indonesia di UC Citraland - Surabaya dengan
-        penampilan spesial dari RAN di panggung utama. Catat rangkaian acara
-        JETE RUN 2025 dan klik tombol di bawah untuk informasi selengkapnya!
+        <h1 className="text-4xl">ARE YOU READY FOR FOAM RUN ENTHUSIAST RUN?</h1>
+        <h3 className="text-xl text-[#9ED486]">3 MEI 2026</h3>
+      </div>
+      <h3 ref={descRef} className="text-xl w-[80%] font-futura text-justify">
+        Bersiap dan bergabunglah untuk menebarkan semangat untuk menempuh
+        langkah anda untuk terus maju kedepan bersama Enthusiast Foam Run Vol 2
+        di Universitas Ciputra Surabaya, Citraland Surabaya. Apakah anda siap
+        Break the limits bersama dengan Enthusiast Vol 2 ?? klik tomboh dibawah ini untuk info selengkapnya
       </h3>
       <Link
         ref={buttonRef}
