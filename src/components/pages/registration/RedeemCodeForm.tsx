@@ -187,6 +187,7 @@ export default function RedeemCodeForm() {
           medicalCondition: participant.medicalCondition || undefined,
           idCardUrl: participant.idCardUrl,
           idCardPublicId: participant.idCardPublicId,
+          type: "regular" as "super_early_bird" | "early_bird" | "regular",
           voucherCode: redeemCode,
         };
 
