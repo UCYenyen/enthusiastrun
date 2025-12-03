@@ -19,6 +19,7 @@ export default function RegistrationPage() {
       if (!slug || (slug !== "CATEGORY_5K" && slug !== "CATEGORY_10K")) return;
       
       setIsLoading(true);
+      
       try {
         const category = slug === "CATEGORY_5K" ? "CATEGORY_5K" : "CATEGORY_10K";
         
@@ -45,8 +46,9 @@ export default function RegistrationPage() {
   const is5K = slug === "CATEGORY_5K";
   
   // Determine if each phase is active
-  const isSuperEarlyActive = superEarlyCount < 1;
-  const isEarlyBirdActive = !isSuperEarlyActive && earlyBirdCount < 1;
+
+  const isSuperEarlyActive = superEarlyCount < (is5K ? 10 : 10);
+  const isEarlyBirdActive = !isSuperEarlyActive && earlyBirdCount < (is5K ? 290 : 140);
   const isRegularActive = !isSuperEarlyActive && !isEarlyBirdActive;
 
   return (
