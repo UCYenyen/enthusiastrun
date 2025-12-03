@@ -106,12 +106,29 @@ export default function CalloutSection() {
         <h1 className="text-4xl">ARE YOU READY FOR FOAM RUN ENTHUSIAST RUN?</h1>
         <h3 className="text-xl text-[#9ED486]">3 MEI 2026</h3>
       </div>
-      <h3 ref={descRef} className="text-xl w-[80%] font-futura text-justify">
-        Bersiap dan bergabunglah untuk menebarkan semangat untuk menempuh
-        langkah anda untuk terus maju kedepan bersama Enthusiast Foam Run Vol 2
-        di Universitas Ciputra Surabaya, Citraland Surabaya. Apakah anda siap
-        Break the limits bersama dengan Enthusiast Vol 2 ?? klik tomboh dibawah ini untuk info selengkapnya
-      </h3>
+      <div className="flex flex-col gap-1">
+        <h3
+          ref={descRef}
+          className="text-xl w-[80%] font-bold font-futura text-justify"
+        >
+          Bersiaplah! Saatnya bergabung dalam gelombang energi dan keseruan di
+          Enthusiast Foam Run Vol. 2!
+        </h3>
+        <h3 ref={descRef} className="text-xl w-[80%] font-futura text-justify">
+          {" "}
+          Ayo raih langkah baru, tembus batas diri, dan rasakan pengalaman lari
+          penuh busa yang paling seru di Universitas Ciputra Surabaya, Citraland
+          Surabaya! Sudah siap Break the Limits bersama Enthusiast Vol. 2?
+        </h3>
+      </div>
+      <div className="flex gap-1 flex-col w-[80%">
+        <h3 ref={descRef} className="text-xl ] font-futura text-justify">
+          Klik tombol di bawah ini dan temukan semua informasi lengkapnya{" "}
+        </h3>
+        <h3 ref={descRef} className="text-xl font-futura font-bold text-justify">
+          {"Let's"} run, splash, and have fun!
+        </h3>
+      </div>
       <Link
         ref={buttonRef}
         href="/about"

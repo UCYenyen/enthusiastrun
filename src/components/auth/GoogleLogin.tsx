@@ -6,7 +6,7 @@ export default function GoogleLogin() {
     <button
       type="button"
       aria-label="Sign in"
-      className="w-full flex justify-end rounded-lg bg-[#4BCFFC] border-white border-3 items-center whitespace-nowrap px-2 py-1"
+      className="w-fit sm:w-full flex justify-end rounded-lg bg-[#4BCFFC] border-white border-3 items-center whitespace-nowrap px-2 py-1"
       onClick={() => signIn("google", { callbackUrl: "/" })}
     >
       Sign in

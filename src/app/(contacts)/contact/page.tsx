@@ -63,6 +63,10 @@ export default function page() {
               <FaInstagram className="mt-1" />
               <h1>enthusiast.run</h1>
             </Link>
+            <Link href={"https://www.instagram.com/enthusiast.ibm?igsh=MXYwcDJrc3ZuOTZzMg=="} target="_blank" className="w-fit hover:underline text-justify max-h-[250px] overflow-y-auto flex gap-2 items-start">
+              <FaInstagram className="mt-1" />
+              <h1>enthusiast.ibm</h1>
+            </Link>
           </div>
         </div>
       </div>
