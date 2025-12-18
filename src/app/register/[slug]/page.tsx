@@ -97,7 +97,7 @@ export default function RegistrationPage() {
           
           <EarlyNotEarly
             title="Super Early Bird"
-            price={is5K ? "150000" : "200000"}
+            price={is5K ? "149000" : "179000"}
             href={`/register/${slug}/super-early-bird`}
             isActive={isSuperEarlyActive}
             count={superEarlyCount}
@@ -105,7 +105,7 @@ export default function RegistrationPage() {
           />
           <EarlyNotEarly
             title="Early Bird"
-            price={is5K ? "180000" : "230000"}
+            price={is5K ? "229000 (External), 169000 (Mahasiswa UC)" : "239000 (External), 199000 (Mahasiswa UC)"}
             href={`/register/${slug}/early-bird`}
             isActive={isEarlyBirdActive}
             count={earlyBirdCount}
@@ -113,7 +113,7 @@ export default function RegistrationPage() {
           />
           <EarlyNotEarly
             title="Regular"
-            price={is5K ? "250000" : "300000"}
+            price={is5K ? "249000" : "299000"}
             href={`/register/${slug}/normal`}
             isActive={isRegularActive}
           />
