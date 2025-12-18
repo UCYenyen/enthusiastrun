@@ -104,21 +104,21 @@ export default function RegistrationPage() {
             maxCount={1}
           />
           <EarlyNotEarly
-            title="Early Bird (External)"
+            title="Early Bird"
             price={is5K ? "229000" : "239000"}
             href={`/register/${slug}/early-bird`}
             isActive={isEarlyBirdActive}
             count={earlyBirdCount}
             maxCount={50}
           />
-          <EarlyNotEarly
+          {/* <EarlyNotEarly
             title="Early Bird (Mahasiswa UC)"
             price={is5K ? "169000" : "199000"}
             href={`/register/${slug}/early-bird`}
             isActive={isEarlyBirdActive}
             count={earlyBirdCount}
             maxCount={50}
-          />
+          /> */}
           <EarlyNotEarly
             title="Regular"
             price={is5K ? "249000" : "299000"}
