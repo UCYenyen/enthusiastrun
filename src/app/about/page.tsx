@@ -46,7 +46,7 @@ export default function page() {
           <div className="flex flex-col gap-1 justify-center items-center w-full">
             <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
               <span className="font-bold">Enthusiast Run</span> is an event that invites you to push your limits and share the fun with friends.
-              <span className="font-bold">Enthusiast Vol. 2 presents</span> with <span className="font-bold">Foam Run theme</span> and offers a unique experience to running through foam.
+              <span className="font-bold"> Enthusiast Vol. 2 presents</span> with <span className="font-bold">Foam Run theme</span> and offers a unique experience to running through foam.
             </h3>
             <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
               <span className="font-bold">Enthusiast Foam Run</span> creates a space to enjoy exercise without pressure.
