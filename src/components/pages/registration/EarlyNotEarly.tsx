@@ -17,7 +17,7 @@ export default function EarlyNotEarly(props: EarlyNotEarlyProps) {
       {props.isActive ? null : <div className='absolute top-2.5 opacity-75'><HiLockClosed color='black' size={75} width={300} height={300} /><br /></div>}
       <div className={`w-[80%] sm:w-full transition-colors duration-300 border-4 border-white shadow-lg flex flex-col items-center py-6 px-4 'opacity-100 cursor-pointer  bg-gradient-to-r from-[#FF7E5F] to-[#FEB47B] hover:from-[#FEB47B] hover:to-[#FF7E5F]`}>
 
-        <h2 className="text-3xl font-impact text-white mb-2">{props.title}</h2>
+        <h2 className="text-4xl font-impact text-white mb-2">{props.title}</h2>
         {/* {props.price && (
           <p className="text-xl font-futura text-white">
             {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(
