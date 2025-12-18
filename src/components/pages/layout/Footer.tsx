@@ -8,15 +8,31 @@ export default function Footer() {
     <footer className="shadow-lg font-futura relative z-2 w-screen bg-background border-t-4 border-white flex flex-col">
       <div className="flex flex-col lg:flex-row w-full justify-between items-center lg:items-start p-8 gap-8 w-[80%]">
         <div className="flex flex-col justify-center items-center lg:items-start gap-4">
-          <Image
-              src="/home/enthusiast-text-logo.webp"
-              alt="Enthusiast Logo"
+          <div className="flex gap-4">
+            <Image
+              src="/home/logo-uc.png"
+              alt="UC Logo"
               width={80}
               height={80}
-              className="w-48 rotate-z-6 h-auto"
+              className="w-auto h-12"
             />
-            <h2 className="text-2xl font-impact">Supported By</h2>
-            <Image src={"https://cloudraya.com/wp-content/uploads/2025/05/cloudraya-logo.svg"} unoptimized alt="cloud raya logo" width={200} height={200} className="border-white border-2 p-4 bg-[#ffffff]/90 rounded-lg"/>
+            <Image
+              src="/home/su-ibm-logo.png"
+              alt="SU IBM Logo"
+              width={80}
+              height={80}
+              className="w-auto h-12"
+            />
+          </div>
+          <Image
+            src="/home/enthusiast-text-logo.webp"
+            alt="Enthusiast Logo"
+            width={80}
+            height={80}
+            className="w-48 rotate-z-6 h-auto"
+          />
+          <h2 className="text-2xl font-impact">Supported By</h2>
+          <Image src={"https://cloudraya.com/wp-content/uploads/2025/05/cloudraya-logo.svg"} unoptimized alt="cloud raya logo" width={200} height={200} className="border-white border-2 p-4 bg-[#ffffff]/90 rounded-lg" />
         </div>
         <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
           <div className="flex text-lg flex-col gap-4 items-center lg:items-start">
@@ -64,7 +80,7 @@ export default function Footer() {
                 @enthusiast.run
               </p>
             </Link>
-             <Link
+            <Link
               href={"https://www.instagram.com/enthusiast.ibm?igsh=MXYwcDJrc3ZuOTZzMg=="}
               target="_blank"
               className="flex hover:underline justify-center items-center gap-2"

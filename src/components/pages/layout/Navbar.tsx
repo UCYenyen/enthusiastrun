@@ -22,20 +22,35 @@ export default function Navbar() {
 
   return (
     <nav className="fixed z-100 w-screen bg-background h-[10vh] px-[7.5%] sm:px-[1.5%] py-[1.5%] flex justify-between items-center border-b-4 border-white shadow-2xl">
-      <Link
-        href="/"
-        className="text-white font-impact text-2xl flex items-center justify-center gap-1 hover:cursor-pointer"
-      >
+      <div className="flex gap-4 justify-center items-center">
         <Image
-          src="/home/enthusiast-text-logo.webp"
-          alt="Enthusiast Logo"
+          src="/home/logo-uc.png"
+          alt="UC Logo"
           width={80}
           height={80}
-          className="w-48 rotate-z-6 h-auto"
+          className="w-auto h-14"
         />
-        {/* <h1>ENTHUSIAST</h1> */}
-      </Link>
-
+        <Image
+          src="/home/su-ibm-logo.png"
+          alt="SU IBM Logo"
+          width={80}
+          height={80}
+          className="w-auto h-14"
+        />
+        <Link
+          href="/"
+          className="text-white font-impact text-2xl flex items-center justify-center gap-1 hover:cursor-pointer"
+        >
+          <Image
+            src="/home/enthusiast-text-logo.webp"
+            alt="Enthusiast Logo"
+            width={80}
+            height={80}
+            className="w-48 rotate-z-6 h-auto"
+          />
+          {/* <h1>ENTHUSIAST</h1> */}
+        </Link>
+      </div>
       {/* Mobile Hamburger Menu */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
