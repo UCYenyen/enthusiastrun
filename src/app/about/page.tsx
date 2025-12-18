@@ -45,21 +45,12 @@ export default function page() {
           </div>
           <div className="flex flex-col gap-1 justify-center items-center w-full">
             <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
-              <span className="font-bold">Enthusiast Run</span> adalah ajang
-              lari santai yang mengajak masyarakat bergerak aktif dengan cara
-              yang seru dan penuh tawa. Tahun ini, kami hadir dengan tema unik{" "}
-              <span className="font-bold">Foam Run</span> pengalaman berlari
-              melalui jalur penuh busa warna-warni yang menciptakan suasana
-              ceria dan energik.
+              <span className="font-bold">Enthusiast Run</span> is an event that invites you to push your limits and share the fun with friends.
+              Enthusiast Vol. 2 presents with Foam Run theme and offers a unique experience to running through foam.
             </h3>
             <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
-              Dengan tujuan menyebarkan energi positif dan mempererat
-              kebersamaan,{" "}
-              <span className="font-bold">Enthusiast Run: Foam Run 2026</span>{" "}
-              menjadi ruang bagi komunitas, keluarga, dan individu untuk
-              menikmati olahraga tanpa tekanan. Setelah sukses tahun sebelumnya,
-              acara kali ini hadir dengan konsep yang lebih meriah, lebih
-              interaktif, dan pastinya jauh lebih seru!
+              Enthusiast Foam Run creates a space to enjoy exercise without pressure.
+              A bigger concept and more excitement awaits, Join us and break your limits.
             </h3>
           </div>
         </div>

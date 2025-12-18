@@ -44,11 +44,10 @@ export default function page() {
             </h1>
           </div>
           <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
-            Peserta Enthusiast Run akan mendapatkan Medali, Jersey, dan Racepack.
-            Medali sebagai tanda pencapaian bagi peserta yang telah menuntaskan lari penuh warna dan keseruan. 
-            Jersey telah dirancang dengan bahan ringan, nyaman, dan cocok untuk berlari namun tetap
-            fashionable.
+            Participants of Enthusiast Run will receive a medal, jersey, and race pack.
+            The medal serves as a symbol of achievement for participants who successfully complete the colorful and exciting run.
           </h3>
+          <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">The jersey is designed with lightweight and comfortable material, making it perfect for running while still looking fashionable.</h3>
         </div>
       </div>
     </div>

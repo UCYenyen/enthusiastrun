@@ -43,11 +43,11 @@ export default function page() {
             className="absolute -top-8 md:-top-14 lg:-top-12 xl:-top-14 w-[80%] md:w-1/2 lg:w-1/3 xl:w-1/4 h-auto"
           />
           <div className="mt-[2.5%] flex flex-col gap-2 items-center sm:items-start text-center sm:text-start">
-            <h1 className="text-4xl w-[90%] sm:w-full">HUBUNGI KAMI</h1>
+            <h1 className="text-4xl w-[90%] sm:w-full">CONTACT US</h1>
           </div>
           <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
-            Ada pertanyaan atau ingin tahu lebih banyak tentang Enthusiast Run?
-            Tim kami siap membantu! Jangan ragu untuk menghubungi kami!
+            Have questions or want to know more about Enthusiast Run?
+            Our team is ready to help! {"Dont't"} hesitate to contact us.
           </h3>
           <div className="w-[80%] h-1 bg-white/80"></div>
           <div className="flex justify-between flex-col md:flex-row items-start w-[80%] font-impact text-xl sm:text-lg lg:text-xl">
