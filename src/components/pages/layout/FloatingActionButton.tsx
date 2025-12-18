@@ -7,8 +7,8 @@ export default function FloatingActionButton() {
             <h1 className='font-impact py-2 px-4'>?</h1>
         </div>
         <div className='flex flex-col text-white font-futura font-bold justify-center items-start'>
-            <h1 className='text-sm'>Butuh bantuan?</h1>
-            <h1 className='text-sm'>Hubungi kami sekarang</h1>
+            <h1 className='text-sm'>Need help?</h1>
+            <h1 className='text-sm'>Contact us now</h1>
         </div>
     </Link>
   )

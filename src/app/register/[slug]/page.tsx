@@ -127,7 +127,7 @@ export default function RegistrationPage() {
           />
           
           <div className="flex flex-col font-futura w-full justify-center items-center gap-1">
-            <h3 className="text-xl">Punya voucher?</h3>
+            <h3 className="text-xl">Have a voucher?</h3>
             <Link
               href={"/register/redeem-code"}
               className="bg-[#4BCFFC] text-background gap-2 px-4 py-2 font-impact shadow-2xl border-3 border-white rounded-lg hover:bg-[#3AA9D1] flex justify-center items-center z-50"
