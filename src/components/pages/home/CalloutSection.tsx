@@ -103,22 +103,21 @@ export default function CalloutSection() {
         ref={titleRef}
         className="flex flex-col gap-2 text-center sm:text-start items-center sm:items-start"
       >
-        <h1 className="text-4xl w-[80%] sm:w-full">ARE YOU READY FOR FOAM RUN ENTHUSIAST RUN?</h1>
+        <h1 className="text-4xl w-[80%] sm:w-full">ARE YOU READY FOR ENTHUSIAST FOAM RUN?</h1>
         <h3 className="text-xl text-[#9ED486]">3 MEI 2026</h3>
       </div>
       <div className="flex flex-col gap-1 items-center sm:items-start">
-        <h3
+        {/* <h3
           ref={descRef}
           className="text-xl w-[80%] font-bold font-futura text-center sm:text-justify"
         >
           Bersiaplah! Saatnya bergabung dalam gelombang energi dan keseruan di
           Enthusiast Foam Run Vol. 2!
-        </h3>
-        <h3 ref={descRef} className="text-xl w-[80%] font-futura text-center sm:text-justify">
+        </h3> */}
+        <h3 ref={descRef} className="text-2xl w-[80%] font-futura text-center sm:text-justify">
           {" "}
           Ayo raih langkah baru, tembus batas diri, dan rasakan pengalaman lari
-          penuh busa yang paling seru di Universitas Ciputra Surabaya, Citraland
-          Surabaya! Sudah siap Break the Limits bersama Enthusiast Vol. 2?
+          penuh busa yang paling seru di Universitas Ciputra Surabaya! Sudah siap Break the Limits bersama Enthusiast Vol. 2?
         </h3>
       </div>
       <div className="flex gap-1 flex-col w-[80%] items-center sm:items-start">
