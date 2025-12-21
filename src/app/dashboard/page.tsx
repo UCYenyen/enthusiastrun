@@ -83,7 +83,8 @@ export default async function page() {
                 </Link>
               ) : (
                 <div className="bg-red-500 border-2 border-white px-6 py-2 rounded-lg w-fit text-white">
-                  QR Code not available yet. Please check back later.
+                  RACEPACK QR CODE NOT AVAILABLE YET, PLEASE CHECK BACK IN
+                  MAX 3x24 JAM
                 </div>
               )}
             </div>
