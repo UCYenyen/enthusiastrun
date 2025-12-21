@@ -100,8 +100,8 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
       {/* Header & Stats */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-impact text-white">Data Registrasi</h2>
-          <p className="text-white/70 text-sm">Total: {filteredData.length} peserta</p>
+          <h2 className="text-2xl font-impact text-white">Registration Data</h2>
+          <p className="text-white/70 text-sm">Total: {filteredData.length} participants</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <div className="bg-yellow-500/20 border border-yellow-500 px-3 py-1 rounded-lg">
@@ -136,7 +136,7 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
           onChange={(e) => setStatusFilter(e.target.value)}
           className="px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white focus:outline-none focus:border-[#4BCFFC]"
         >
-          <option value="all" className="bg-background">Semua Status</option>
+          <option value="all" className="bg-background">All Statuses</option>
           <option value="pending" className="bg-background">Pending</option>
           <option value="confirmed" className="bg-background">Confirmed</option>
           <option value="cancelled" className="bg-background">Cancelled</option>
@@ -146,7 +146,7 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
           onChange={(e) => setCategoryFilter(e.target.value)}
           className="px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white focus:outline-none focus:border-[#4BCFFC]"
         >
-          <option value="all" className="bg-background">Semua Kategori</option>
+          <option value="all" className="bg-background">All Categories</option>
           <option value="CATEGORY_5K" className="bg-background">5K Run</option>
           <option value="CATEGORY_10K" className="bg-background">10K Run</option>
         </select>
@@ -159,15 +159,15 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
             <TableHeader>
               <TableRow className="bg-gray-100">
                 <TableHead className="text-background">No</TableHead>
-                <TableHead className="text-background">Nama</TableHead>
+                <TableHead className="text-background">Name</TableHead>
                 <TableHead className="text-background">Email</TableHead>
-                <TableHead className="text-background">Telepon</TableHead>
-                <TableHead className="text-background">Kategori</TableHead>
+                <TableHead className="text-background">Phone</TableHead>
+                <TableHead className="text-background">Category</TableHead>
                 <TableHead className="text-background">Jersey</TableHead>
                 <TableHead className="text-background">Status</TableHead>
-                <TableHead className="text-background">Pembayaran</TableHead>
-                <TableHead className="text-background">Tanggal Daftar</TableHead>
-                <TableHead className="text-background">Aksi</TableHead>
+                <TableHead className="text-background">Payment</TableHead>
+                <TableHead className="text-background">Registration Date</TableHead>
+                <TableHead className="text-background">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -206,10 +206,10 @@ export default function RegistrationTable({ registrations }: RegistrationTablePr
                           rel="noopener noreferrer"
                           className="text-[#4BCFFC] hover:underline text-sm"
                         >
-                          Lihat Bukti
+                          View Proof
                         </a>
                       ) : (
-                        <span className="text-gray-400 text-sm">Belum upload</span>
+                        <span className="text-gray-400 text-sm">Not uploaded</span>
                       )}
                     </TableCell>
                     <TableCell className="text-background text-sm">

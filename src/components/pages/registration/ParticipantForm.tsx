@@ -77,19 +77,19 @@ export default function ParticipantForm({
           {/* Personal Info Section */}
           <div>
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
-              Data Pribadi
+              Personal Data
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Full Name */}
               <div className="md:col-span-2">
                 <label className={labelClasses}>
-                  Nama Lengkap <span className="text-red-500">*</span>
+                  Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   value={data.fullName}
                   onChange={(e) => onChange({ fullName: e.target.value })}
-                  placeholder="Masukkan nama lengkap sesuai KTP"
+                  placeholder="Enter full name as per ID card"
                   className={inputClasses}
                   required
                 />
@@ -113,7 +113,7 @@ export default function ParticipantForm({
               {/* Phone */}
               <div>
                 <label className={labelClasses}>
-                  Nomor Telepon <span className="text-red-500">*</span>
+                  Phone Number <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -128,7 +128,7 @@ export default function ParticipantForm({
               {/* Date of Birth */}
               <div>
                 <label className={labelClasses}>
-                  Tanggal Lahir <span className="text-red-500">*</span>
+                  Date of Birth <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="date"
@@ -142,7 +142,7 @@ export default function ParticipantForm({
               {/* Gender */}
               <div>
                 <label className={labelClasses}>
-                  Jenis Kelamin <span className="text-red-500">*</span>
+                  Gender <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={data.gender}
@@ -162,7 +162,7 @@ export default function ParticipantForm({
               {/* Blood Type */}
               <div>
                 <label className={labelClasses}>
-                  Golongan Darah <span className="text-red-500">*</span>
+                  Blood Type <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={data.bloodType}
@@ -170,7 +170,7 @@ export default function ParticipantForm({
                   className={inputClasses}
                   required
                 >
-                  <option value="">Pilih golongan darah</option>
+                  <option value="">Choose your blood type</option>
                   {BLOOD_TYPE_OPTIONS.map((type) => (
                     <option key={type} value={type}>
                       {type}
@@ -182,13 +182,13 @@ export default function ParticipantForm({
               {/* City */}
               <div>
                 <label className={labelClasses}>
-                  Kota <span className="text-red-500">*</span>
+                  City <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   value={data.city}
                   onChange={(e) => onChange({ city: e.target.value })}
-                  placeholder="Masukkan kota domisili"
+                  placeholder="Enter city of residence"
                   className={inputClasses}
                   required
                 />
@@ -197,12 +197,12 @@ export default function ParticipantForm({
               {/* Address */}
               <div className="md:col-span-2">
                 <label className={labelClasses}>
-                  Alamat Lengkap <span className="text-red-500">*</span>
+                  Full Address <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   value={data.address}
                   onChange={(e) => onChange({ address: e.target.value })}
-                  placeholder="Masukkan alamat lengkap"
+                  placeholder="Enter full address"
                   rows={3}
                   className={inputClasses}
                   required
@@ -220,13 +220,13 @@ export default function ParticipantForm({
               {/* Emergency Contact Name */}
               <div>
                 <label className={labelClasses}>
-                  Nama Kontak Darurat <span className="text-red-500">*</span>
+                  Emergency Contact Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   value={data.emergencyContact}
                   onChange={(e) => onChange({ emergencyContact: e.target.value })}
-                  placeholder="Nama orang yang dapat dihubungi"
+                  placeholder="Name of emergency contact"
                   className={inputClasses}
                   required
                 />
@@ -235,7 +235,7 @@ export default function ParticipantForm({
               {/* Emergency Contact Phone */}
               <div>
                 <label className={labelClasses}>
-                  Nomor Kontak Darurat <span className="text-red-500">*</span>
+                  Emergency Contact Number <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -252,13 +252,13 @@ export default function ParticipantForm({
           {/* Jersey & Medical Section */}
           <div>
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
-              Jersey & Kondisi Medis
+              Jersey & Medical Condition
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Jersey Size */}
               <div>
                 <label className={labelClasses}>
-                  Ukuran Jersey <span className="text-red-500">*</span>
+                  Jersey Size <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={data.jerseySize}
@@ -266,7 +266,7 @@ export default function ParticipantForm({
                   className={inputClasses}
                   required
                 >
-                  <option value="">Pilih ukuran jersey</option>
+                  <option value="">Select jersey size</option>
                   {JERSEY_SIZE_OPTIONS.map((size) => (
                     <option key={size.value} value={size.value}>
                       {size.label}
@@ -275,7 +275,7 @@ export default function ParticipantForm({
                 </select>
                 {(data.jerseySize === "XL" || data.jerseySize === "XXL") && (
                   <p className="text-sm text-amber-600 mt-1">
-                    * Ukuran {data.jerseySize} dikenakan biaya tambahan
+                    * There is an additional charge for size {data.jerseySize}
                   </p>
                 )}
               </div>
@@ -283,12 +283,12 @@ export default function ParticipantForm({
               {/* Medical Condition */}
               <div className="md:col-span-2">
                 <label className={labelClasses}>
-                  Kondisi Medis <span className="text-gray-400">(Opsional)</span>
+                  Medical Condition <span className="text-gray-400">(Optional)</span>
                 </label>
                 <textarea
                   value={data.medicalCondition}
                   onChange={(e) => onChange({ medicalCondition: e.target.value })}
-                  placeholder="Contoh: Alergi obat tertentu, asma, dll"
+                  placeholder="Example: Allergies to certain medications, asthma, etc."
                   rows={2}
                   className={inputClasses}
                 />
@@ -299,7 +299,7 @@ export default function ParticipantForm({
           {/* ID Card Upload Section */}
           <div>
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
-              Upload KTP/Kartu Identitas
+              Upload ID Card (KTP/SIM/Student Card) <span className="text-red-500">*</span>
             </h3>
             {data.idCardUrl ? (
               <div className="flex items-center gap-4 p-4 bg-green-50 rounded-lg border-2 border-green-200">
@@ -319,7 +319,7 @@ export default function ParticipantForm({
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <p className="font-medium text-green-700">KTP berhasil diupload</p>
+                  <p className="font-medium text-green-700">ID Card successfully uploaded</p>
                   <button
                     type="button"
                     onClick={() => {
@@ -327,7 +327,7 @@ export default function ParticipantForm({
                     }}
                     className="text-sm text-red-500 hover:underline mt-1"
                   >
-                    Hapus dan upload ulang
+                    Remove and re-upload
                   </button>
                 </div>
               </div>

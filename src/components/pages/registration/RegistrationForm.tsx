@@ -126,25 +126,25 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
         !p.jerseySize ||
         !p.idCardUrl
       ) {
-        toast.error(`Mohon lengkapi semua data untuk Peserta ${i + 1}`);
+        toast.error(`Please fill all the required data for participant ${i + 1}`);
         return false;
       }
 
       // Validate email format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(p.email)) {
-        toast.error(`Email tidak valid untuk Peserta ${i + 1}`);
+        toast.error(`Invalid email for participant ${i + 1}`);
         return false;
       }
     }
 
     if (!paymentProofUrl) {
-      toast.error("Mohon upload bukti pembayaran");
+      toast.error("Please upload payment proof");
       return false;
     }
 
     if (!agreedToTerms) {
-      toast.error("Mohon setujui syarat dan ketentuan");
+      toast.error("Please agree to the terms and conditions");
       return false;
     }
 
@@ -155,7 +155,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
     e.preventDefault();
 
     if (!session?.user?.id) {
-      toast.error("Silakan login terlebih dahulu");
+      toast.error("Please log in first");
       router.push("/api/auth/signin");
       return;
     }
@@ -192,17 +192,17 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
         const result = await createRegistration(registrationData);
 
         if (!result.success) {
-          toast.error(result.error || "Gagal mendaftarkan peserta");
+          toast.error(result.error || "Failed to register participant");
           setIsSubmitting(false);
           return;
         }
       }
 
-      toast.success("Pendaftaran berhasil! Silakan tunggu konfirmasi.");
+      toast.success("Registration successful! Please wait for confirmation.");
       router.push("/dashboard");
     } catch (error) {
       console.error("Registration error:", error);
-      toast.error("Terjadi kesalahan saat mendaftar");
+      toast.error("An error occurred during registration. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -220,7 +220,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
     <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto">
       {/* Package Selection */}
       <div className="bg-white p-6 shadow-lg">
-        <h2 className="text-2xl font-impact text-background mb-4">Pilih Paket</h2>
+        <h2 className="text-2xl font-impact text-background mb-4">Select Package</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <button
             type="button"
@@ -232,9 +232,9 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
             }`}
           >
             <h3 className="text-xl font-impact text-background">Personal</h3>
-            <p className="text-gray-600 mt-2">1-9 Peserta</p>
+            <p className="text-gray-600 mt-2">1-9 Participants</p>
             <p className="text-2xl font-bold text-background mt-2">
-              {formatCurrency(PERSONAL_PRICE)}/orang
+              {formatCurrency(PERSONAL_PRICE)}/person
             </p>
           </button>
 
@@ -248,11 +248,11 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
             }`}
           >
             <h3 className="text-xl font-impact text-background">Bundling</h3>
-            <p className="text-gray-600 mt-2">Beli 10 Gratis 1!</p>
+            <p className="text-gray-600 mt-2">Buy 10 Get 1 Free!</p>
             <p className="text-2xl font-bold text-background mt-2">
               {formatCurrency(BUNDLING_PRICE)}
             </p>
-            <p className="text-sm text-green-600 mt-1">Hemat {formatCurrency(PERSONAL_PRICE)}!</p>
+            <p className="text-sm text-green-600 mt-1">Save {formatCurrency(PERSONAL_PRICE)}!</p>
           </button>
         </div>
 
@@ -292,13 +292,13 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
 
       {/* Price Summary */}
       <div className="bg-white p-6 shadow-lg">
-        <h2 className="text-2xl font-impact text-background mb-4">Ringkasan Pembayaran</h2>
+        <h2 className="text-2xl font-impact text-background mb-4">Summary</h2>
         <div className="space-y-3">
           <div className="flex justify-between text-gray-600">
             <span>
               {packageType === "bundling"
-                ? "Paket Bundling (10+1)"
-                : `${participantCount} Peserta x ${formatCurrency(PERSONAL_PRICE)}`}
+                ? "Bundling Package (10+1)"
+                : `${participantCount} Participants x ${formatCurrency(PERSONAL_PRICE)}`}
             </span>
             <span>
               {packageType === "bundling"
@@ -332,29 +332,29 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
 
       {/* Payment Info */}
       <div className="bg-amber-50 border-4 border-amber-400 p-6">
-        <h2 className="text-2xl font-impact text-background mb-4">Informasi Pembayaran</h2>
+        <h2 className="text-2xl font-impact text-background mb-4">Payment Information</h2>
         <div className="space-y-3 text-gray-700">
-          <p className="font-bold text-lg">Transfer ke:</p>
+          <p className="font-bold text-lg">Transfer to:</p>
           <div className="bg-white p-4 space-y-2">
             <p><span className="font-medium">Bank:</span> BCA</p>
-            <p><span className="font-medium">No. Rekening:</span> 1234567890</p>
-            <p><span className="font-medium">Atas Nama:</span> ENTHUSIAST RUN 2025</p>
+            <p><span className="font-medium">Account Number:</span> 1234567890</p>
+            <p><span className="font-medium">Account Holder:</span> ENTHUSIAST RUN 2025</p>
           </div>
           <div className="bg-white p-4">
-            <p className="font-medium">Berita Transfer:</p>
+            <p className="font-medium">Transfer Message:</p>
             <p className="text-[#4BCFFC] font-mono font-bold text-lg mt-1">
               ER2025-{category.toUpperCase()}-{session?.user?.name?.split(" ")[0]?.toUpperCase() || "NAMA"}
             </p>
           </div>
           <p className="text-sm text-amber-700">
-            * Pastikan nominal transfer sesuai dengan total pembayaran
+            * Make sure the transfer amount matches the total payment
           </p>
         </div>
       </div>
 
       {/* Payment Proof Upload */}
       <div className="bg-white p-6 shadow-lg">
-        <h2 className="text-2xl font-impact text-background mb-4">Upload Bukti Pembayaran</h2>
+        <h2 className="text-2xl font-impact text-background mb-4">Upload Payment Proof</h2>
         {paymentProofUrl ? (
           <div className="flex items-center gap-4 p-4 bg-green-50 border-2 border-green-200">
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
@@ -363,7 +363,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
               </svg>
             </div>
             <div className="flex-1">
-              <p className="font-medium text-green-700">Bukti pembayaran berhasil diupload</p>
+              <p className="font-medium text-green-700">Payment proof successfully uploaded</p>
               <button
                 type="button"
                 onClick={() => {
@@ -372,7 +372,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
                 }}
                 className="text-sm text-red-500 hover:underline mt-1"
               >
-                Hapus dan upload ulang
+                Delete and re-upload
               </button>
             </div>
           </div>
@@ -399,11 +399,11 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
             className="mt-1 w-5 h-5 rounded border-gray-300 text-[#4BCFFC] focus:ring-[#4BCFFC]"
           />
           <span className="text-gray-600">
-            Saya menyetujui{" "}
+            I agree to the{" "}
             <a href="/terms" className="text-[#4BCFFC] hover:underline">
-              syarat dan ketentuan
+              terms and conditions
             </a>{" "}
-            yang berlaku untuk Enthusiast Run 2025
+            applicable to Enthusiast Run 2025
           </span>
         </label>
 
@@ -422,10 +422,10 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
-              Memproses...
+              Processing...
             </span>
           ) : (
-            `DAFTAR SEKARANG - ${formatCurrency(calculateTotal())}`
+            `REGISTER NOW - ${formatCurrency(calculateTotal())}`
           )}
         </button>
       </div>

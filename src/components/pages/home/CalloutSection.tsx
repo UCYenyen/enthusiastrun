@@ -116,13 +116,12 @@ export default function CalloutSection() {
         </h3> */}
         <h3 ref={descRef} className="text-2xl w-[80%] font-futura text-center sm:text-justify">
           {" "}
-          Ayo raih langkah baru, tembus batas diri, dan rasakan pengalaman lari
-          penuh busa yang paling seru di Universitas Ciputra Surabaya! Sudah siap Break the Limits bersama Enthusiast Vol. 2?
+          Take a new step, push your boundaries, and experience the most exciting foam run at Universitas Ciputra Surabaya! Are you ready to Break the Limits with Enthusiast Vol. 2?
         </h3>
       </div>
       <div className="flex gap-1 flex-col w-[80%] items-center sm:items-start">
         <h3 ref={descRef} className="text-xl ] font-futura text-center sm:text-justify">
-          Klik tombol di bawah ini dan temukan semua informasi lengkapnya{" "}
+          Click the button below to view more informations{" "}
         </h3>
         <h3 ref={descRef} className="text-xl font-futura font-bold text-justify">
           {"Let's"} run, splash, and have fun!

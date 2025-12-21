@@ -42,29 +42,28 @@ export default function page() {
             <div className="flex flex-col gap-4 basis-1/3 justify-center items-center md:items-start md:justify-start">
               <div className="mt-[2.5%] flex flex-col gap-2 items-center sm:items-start text-center sm:text-start">
                 <h1 className="text-4xl w-[90%] sm:w-full">
-                  SYARAT PENGAMBILAN
+                  REQUIREMENTS
                 </h1>
               </div>
               <ol className="text-xl w-[80%] font-futura text-left sm:text-justify max-h-[250px] overflow-y-auto list-decimal list-inside">
                 <li>
-                  Menunjukkan kartu identitas asli pendaftar (KTP/ Kartu
-                  Pelajar/ SIM, dll)
+                  Show your original identity card (KTP/ Student Card/ SIM, etc.)
                 </li>
-                <li>Menunjukkan QR Racepack (dapat dilihat di Dashboard)</li>
+                <li>Show QR Racepack (can be seen on the Dashboard)</li>
               </ol>
             </div>
             <div className="flex flex-col ml-0 sm:ml-[5%] gap-4 basis-1/3 justify-center items-center md:items-start md:justify-start">
               <div className="mt-[2.5%] flex flex-col gap-2 items-center sm:items-start text-center sm:text-start">
                 <h1 className="text-4xl w-[90%] sm:w-full">
-                  SYARAT PENGAMBILAN
+                  REQUIREMENTS
                 </h1>
-                <h3 className="text-2xl w-[90%] sm:w-full">(JIKA DIWAKILKAN)</h3>
+                <h3 className="text-2xl w-[90%] sm:w-full">(IF REPRESENTED)</h3>
               </div>
               <ol className="text-xl w-[80%] font-futura text-left sm:text-justify max-h-[250px] overflow-y-auto list-decimal list-inside">
-                <li>Fotokopi KTP yang diwakilkan</li>
-                <li>Fotokopi KTP pengambil</li>
-                <li>Nama pengambil</li>
-                <li>No HP pengambil</li>
+                <li>Photocopy of the represented person's ID card</li>
+                <li>Photocopy of the collector's ID card</li>
+                <li>Collector's name</li>
+                <li>Collector's phone number</li>
                 <li>QR Code Racepack</li>
               </ol>
             </div>
@@ -76,14 +75,14 @@ export default function page() {
               </div>
               <div className="text-xl w-[80%] font-futura text-left space-y-2">
                 <p>
-                  <span className="font-bold">Tempat</span> : Universitas Ciputra
+                  <span className="font-bold">Place</span> : Universitas Ciputra
                   Surabaya
                 </p>
                 <p>
-                  <span className="font-bold">Tanggal</span> : 3 MEI 2026
+                  <span className="font-bold">Date</span> : 3 MAY 2026
                 </p>
                 <p>
-                  <span className="font-bold">Waktu Flag Off</span> :
+                  <span className="font-bold">Flag Off Time</span> :
                 </p>
                 <ul className="space-y-1">
                   <li>• 05.30 (10KM)</li>

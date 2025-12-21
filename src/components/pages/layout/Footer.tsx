@@ -31,8 +31,8 @@ export default function Footer() {
             height={80}
             className="w-48 rotate-z-6 h-auto"
           />
-          <h2 className="text-2xl font-impact">Supported By</h2>
-          <Image src={"https://cloudraya.com/wp-content/uploads/2025/05/cloudraya-logo.svg"} unoptimized alt="cloud raya logo" width={200} height={200} className="border-white border-2 p-4 bg-[#ffffff]/90 rounded-lg" />
+          {/* <h2 className="text-2xl font-impact">Supported By</h2> */}
+        
         </div>
         <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
           <div className="flex text-lg flex-col gap-4 items-center lg:items-start">
