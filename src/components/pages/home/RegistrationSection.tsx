@@ -21,7 +21,7 @@ function getNextTargetDate(month: number, day: number, hour: number, minute = 0)
   return target;
 }
 
-// 19 April 05:30
+// 3 Mei 2026 05:30
 const TARGET_DATE = new Date(2026, 4, 3, 5, 30, 0, 0);
 
 function getTimeParts(ms: number): TimeParts {
@@ -57,8 +57,8 @@ export function Countdown() {
 
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="w-full ml-4 max-w-[280px] sm:max-w-2xl flex justify-center flex-col">
-        <div className="mb-12 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+      <div className="w-full max-w-[280px] sm:max-w-2xl flex justify-center flex-col">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
           {partsArray.map(({ key, label, value }) => (
             <div key={label} className="flex flex-col items-center space-y-2">
               <div

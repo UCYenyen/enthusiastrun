@@ -43,9 +43,7 @@ export default function page() {
           <div className="mt-[2.5%] flex flex-col gap-2 items-center sm:items-start text-center sm:text-start">
             <h1 className="text-4xl w-[90%] sm:w-full">PARTNERSHIP</h1>
           </div>
-          <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
-            If you are interested in establishing a partnership with Enthusiast Run, please contact us through the details provided below:
-          </h3>
+
           <div className="w-[80%] h-1 bg-white/80"></div>
           <div className="w-[80%] h-full flex flex-col justify-between md:flex-row gap-12">
             <div className="flex flex-col gap-4 justify-center items-center md:items-start md:justify-start">

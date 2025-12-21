@@ -1,5 +1,7 @@
 import React from "react";
 import Image from "next/image";
+import { Countdown } from "@/components/pages/home/RegistrationSection";
+import FlagOffItem from "@/components/pages/home/FlagOffItem";
 export default function page() {
   return (
     <div className="overflow-hidden">
@@ -29,7 +31,7 @@ export default function page() {
           height={500}
           className="absolute bottom-0 md:bottom-0 xl:-bottom-32 w-screen h-auto"
         />
-        <div className="w-[80%] sm:p-8 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col py-[10%] items-center gap-8 font-impact">
+        <div className="w-[80%] py-16 sm:p-8 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col mt-[5.5%] items-center gap-8 font-impact">
           <Image
             src="/home/enthusiast-text-logo.webp"
             draggable={false}
@@ -43,6 +45,7 @@ export default function page() {
               WHAT IS ENTHUSIAST RUN?
             </h1>
           </div>
+          <Countdown></Countdown>
           <div className="flex flex-col gap-1 justify-center items-center w-full">
             <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
               <span className="font-bold">Enthusiast Run</span> is an event that invites you to push your limits and share the fun with friends. <span className="font-bold"> Enthusiast Vol. 2 presents</span> with <span className="font-bold">Foam Run theme</span> and offers a unique experience to running through foam.
@@ -51,6 +54,15 @@ export default function page() {
               <span className="font-bold">Enthusiast Foam Run</span> creates a space to enjoy exercise without pressure.
               A bigger concept and more excitement awaits, Join us and break your limits.
             </h3>
+            {/* <Image src={"/about/recap.webp"} alt="Recap" width={500} height={500} className="w-[80%] rounded-lg h-auto" /> */}
+          </div>
+        </div>
+        <div
+          className="w-[80%] py-16 sm:p-8 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col mt-[2.5%] items-center gap-8 font-impact"
+        >
+          <div className="w-full flex flex-col items-center p-4 sm:p-0 gap-12">
+            <FlagOffItem flagType="10K" flagOffTime="05:30" cutOffTime="02:30:00" />
+            <FlagOffItem flagType="5K" flagOffTime="05:45" cutOffTime="01:30:00" />
           </div>
         </div>
       </div>

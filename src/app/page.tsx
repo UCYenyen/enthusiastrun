@@ -16,7 +16,14 @@ export default function Home() {
       <SponsorSlider />
       <RecapVideo />
       <SponsorSlider src="co-sponsors.webp" />
-      <div className="min-h-screen w-screen"></div>
+      <Image
+        src="/home/recap-foto.webp"
+        draggable={false}
+        alt="Footer Background"
+        width={1920}
+        height={1080}
+        className="w-full h-full"
+      />
     </div>
   );
 }

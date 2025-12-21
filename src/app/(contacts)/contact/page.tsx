@@ -45,10 +45,10 @@ export default function page() {
           <div className="mt-[2.5%] flex flex-col gap-2 items-center sm:items-start text-center sm:text-start">
             <h1 className="text-4xl w-[90%] sm:w-full">CONTACT US</h1>
           </div>
-          <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
+          {/* <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
             Have questions or want to know more about Enthusiast Run?
             Our team is ready to help! {"Dont't"} hesitate to contact us.
-          </h3>
+          </h3> */}
           <div className="w-[80%] h-1 bg-white/80"></div>
           <div className="flex justify-between flex-col md:flex-row items-start w-[80%] font-impact text-xl sm:text-lg lg:text-xl">
             <Link href={"https://wa.me/+6281259990845"} target="_blank" className="w-fit hover:underline text-justify max-h-[250px] overflow-y-auto flex gap-2 items-start">

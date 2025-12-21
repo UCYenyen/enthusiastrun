@@ -54,7 +54,7 @@ export default function ParticipantForm({
             {data.fullName || `Peserta ${index + 1}`}
             {isBundling && index === 10 && (
               <span className="ml-2 px-2 py-1 bg-green-400 text-green-900 text-xs rounded-full font-normal">
-                GRATIS!
+                FREE!
               </span>
             )}
           </span>
@@ -214,7 +214,7 @@ export default function ParticipantForm({
           {/* Emergency Contact Section */}
           <div>
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
-              Kontak Darurat
+              Emergency Contact
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Emergency Contact Name */}

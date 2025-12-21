@@ -43,9 +43,7 @@ const emptyParticipant: ParticipantData = {
   idCardPublicId: "",
 };
 
-const PERSONAL_PRICE = 150000;
 const BUNDLING_TOTAL_PARTICIPANTS = 11;
-const BUNDLING_PRICE = PERSONAL_PRICE * 10; // 10 tiket, 1 gratis
 const JERSEY_XL_EXTRA = 10000;
 const JERSEY_XXL_EXTRA = 15000;
 
@@ -57,7 +55,7 @@ interface RegistrationFormProps {
 export default function RegistrationForm({ category, type }: RegistrationFormProps) {
   const { data: session } = useSession();
   const router = useRouter();
-  const [packageType, setPackageType] = useState<"personal" | "bundling">("personal");
+  const [packageType, setPackageType] = useState<"personal" | "bundling" | "uc_student">("personal");
   const [participantCount, setParticipantCount] = useState(1);
   const [participants, setParticipants] = useState<ParticipantData[]>([{ ...emptyParticipant }]);
   const [paymentProofUrl, setPaymentProofUrl] = useState("");
@@ -65,13 +63,34 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
-  // Update participants array when package type or count changes
+  const is5K = category === "CATEGORY_5K";
+  const isUCStudent = session?.user?.email?.endsWith("@student.ciputra.ac.id");
+  const showUCSelection = isUCStudent && (type === "early_bird" || type === "regular");
+
+  const getPrices = () => {
+    if (type === "super_early_bird") {
+      return { personal: is5K ? 149000 : 179000, uc: 0 };
+    }
+    if (type === "early_bird") {
+      return { personal: is5K ? 229000 : 239000, uc: is5K ? 189000 : 199000 };
+    }
+    return { personal: is5K ? 249000 : 299000, uc: is5K ? 199000 : 199000 };
+  };
+
+  const prices = getPrices();
+  const PERSONAL_PRICE = prices.personal;
+  const UC_STUDENT_PRICE = prices.uc;
+  const BUNDLING_PRICE = PERSONAL_PRICE * 10;
+
   useEffect(() => {
     if (packageType === "bundling") {
       const newParticipants = Array(BUNDLING_TOTAL_PARTICIPANTS)
         .fill(null)
         .map((_, i) => participants[i] || { ...emptyParticipant });
       setParticipants(newParticipants);
+    } else if (packageType === "uc_student") {
+      setParticipantCount(1);
+      setParticipants([participants[0] || { ...emptyParticipant }]);
     } else {
       const newParticipants = Array(participantCount)
         .fill(null)
@@ -80,17 +99,16 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
     }
   }, [packageType, participantCount]);
 
-  // Calculate total price
   const calculateTotal = () => {
     let basePrice = 0;
-    
     if (packageType === "bundling") {
       basePrice = BUNDLING_PRICE;
+    } else if (packageType === "uc_student") {
+      basePrice = UC_STUDENT_PRICE;
     } else {
       basePrice = participantCount * PERSONAL_PRICE;
     }
 
-    // Add jersey size extras
     const jerseyExtras = participants.reduce((total, p) => {
       if (p.jerseySize === "XL") return total + JERSEY_XL_EXTRA;
       if (p.jerseySize === "XXL") return total + JERSEY_XXL_EXTRA;
@@ -109,66 +127,37 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
   };
 
   const validateForm = () => {
-    // Check all required fields for each participant
     for (let i = 0; i < participants.length; i++) {
       const p = participants[i];
-      if (
-        !p.fullName ||
-        !p.email ||
-        !p.phoneNumber ||
-        !p.dateOfBirth ||
-        !p.gender ||
-        !p.bloodType ||
-        !p.city ||
-        !p.address ||
-        !p.emergencyContact ||
-        !p.emergencyPhone ||
-        !p.jerseySize ||
-        !p.idCardUrl
-      ) {
+      if (!p.fullName || !p.email || !p.phoneNumber || !p.dateOfBirth || !p.gender || !p.bloodType || !p.city || !p.address || !p.emergencyContact || !p.emergencyPhone || !p.jerseySize || !p.idCardUrl) {
         toast.error(`Please fill all the required data for participant ${i + 1}`);
         return false;
       }
-
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(p.email)) {
-        toast.error(`Invalid email for participant ${i + 1}`);
-        return false;
-      }
     }
-
     if (!paymentProofUrl) {
       toast.error("Please upload payment proof");
       return false;
     }
-
     if (!agreedToTerms) {
       toast.error("Please agree to the terms and conditions");
       return false;
     }
-
     return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!session?.user?.id) {
       toast.error("Please log in first");
       router.push("/api/auth/signin");
       return;
     }
-
     if (!validateForm()) return;
-
     setIsSubmitting(true);
-
     try {
-      // Submit each participant
       for (const participant of participants) {
         const registrationData = {
-          userId: session.user.id,
+          userId: session.user.id as string,
           fullName: participant.fullName,
           email: participant.email,
           phoneNumber: participant.phoneNumber,
@@ -188,21 +177,17 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
           paymentProofUrl: paymentProofUrl,
           paymentProofId: paymentProofId,
         };
-
         const result = await createRegistration(registrationData);
-
         if (!result.success) {
-          toast.error(result.error || "Failed to register participant");
+          toast.error(result.error || "Failed to register");
           setIsSubmitting(false);
           return;
         }
       }
-
-      toast.success("Registration successful! Please wait for confirmation.");
+      toast.success("Registration successful!");
       router.push("/dashboard");
     } catch (error) {
-      console.error("Registration error:", error);
-      toast.error("An error occurred during registration. Please try again.");
+      toast.error("An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -218,67 +203,58 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto">
-      {/* Package Selection */}
       <div className="bg-white p-6 shadow-lg">
         <h2 className="text-2xl font-impact text-background mb-4">Select Package</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button
             type="button"
             onClick={() => setPackageType("personal")}
-            className={`p-6 rounded-xl border-4 transition-all ${
-              packageType === "personal"
-                ? "border-[#4BCFFC] bg-[#4BCFFC]/10"
-                : "border-gray-200 hover:border-gray-300"
-            }`}
+            className={`p-6 rounded-xl border-4 transition-all ${packageType === "personal" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
           >
             <h3 className="text-xl font-impact text-background">Personal</h3>
-            <p className="text-gray-600 mt-2">1-9 Participants</p>
-            <p className="text-2xl font-bold text-background mt-2">
-              {formatCurrency(PERSONAL_PRICE)}/person
-            </p>
+            <p className="text-xl font-bold text-background mt-2">{formatCurrency(PERSONAL_PRICE)}/person</p>
           </button>
 
           <button
             type="button"
             onClick={() => setPackageType("bundling")}
-            className={`p-6 rounded-xl border-4 transition-all ${
-              packageType === "bundling"
-                ? "border-[#4BCFFC] bg-[#4BCFFC]/10"
-                : "border-gray-200 hover:border-gray-300"
-            }`}
+            className={`p-6 rounded-xl border-4 transition-all ${packageType === "bundling" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
           >
             <h3 className="text-xl font-impact text-background">Bundling</h3>
-            <p className="text-gray-600 mt-2">Buy 10 Get 1 Free!</p>
-            <p className="text-2xl font-bold text-background mt-2">
-              {formatCurrency(BUNDLING_PRICE)}
-            </p>
-            <p className="text-sm text-green-600 mt-1">Save {formatCurrency(PERSONAL_PRICE)}!</p>
+            <p className="text-gray-600 mt-2 text-sm">Buy 10 Get 1 Free!</p>
+            <p className="text-xl font-bold text-background mt-2">{formatCurrency(BUNDLING_PRICE)}</p>
           </button>
+
+          {showUCSelection && (
+            <button
+              type="button"
+              onClick={() => setPackageType("uc_student")}
+              className={`p-6 rounded-xl border-4 transition-all ${packageType === "uc_student" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
+            >
+              <h3 className="text-xl font-impact text-background">Mahasiswa UC</h3>
+              <p className="text-gray-600 mt-2 text-sm">Special UC Rate</p>
+              <p className="text-xl font-bold text-background mt-2">{formatCurrency(UC_STUDENT_PRICE)}</p>
+            </button>
+          )}
         </div>
 
-        {/* Participant Count for Personal */}
         {packageType === "personal" && (
           <div className="mt-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Jumlah Peserta
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Participant Count</label>
             <select
               value={participantCount}
               onChange={(e) => setParticipantCount(Number(e.target.value))}
-              className="w-full md:w-48 px-4 py-2 border-2 rounded-lg border-gray-200 focus:border-[#4BCFFC] focus:outline-none text-background"
+              className="w-full md:w-48 px-4 py-2 border-2 rounded-lg border-gray-200 text-background"
             >
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-                <option key={num} value={num}>
-                  {num} Peserta
-                </option>
+                <option key={num} value={num}>{num} Peserta</option>
               ))}
             </select>
           </div>
         )}
       </div>
 
-      {/* Participant Forms */}
-      <div className="">
+      <div>
         {participants.map((participant, index) => (
           <ParticipantForm
             key={index}
@@ -290,37 +266,13 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
         ))}
       </div>
 
-      {/* Price Summary */}
       <div className="bg-white p-6 shadow-lg">
         <h2 className="text-2xl font-impact text-background mb-4">Summary</h2>
         <div className="space-y-3">
           <div className="flex justify-between text-gray-600">
-            <span>
-              {packageType === "bundling"
-                ? "Bundling Package (10+1)"
-                : `${participantCount} Participants x ${formatCurrency(PERSONAL_PRICE)}`}
-            </span>
-            <span>
-              {packageType === "bundling"
-                ? formatCurrency(BUNDLING_PRICE)
-                : formatCurrency(participantCount * PERSONAL_PRICE)}
-            </span>
+            <span>{packageType === "bundling" ? "Bundling Package (10+1)" : packageType === "uc_student" ? "Mahasiswa UC Rate" : `${participantCount} Participants`}</span>
+            <span>{formatCurrency(packageType === "bundling" ? BUNDLING_PRICE : packageType === "uc_student" ? UC_STUDENT_PRICE : participantCount * PERSONAL_PRICE)}</span>
           </div>
-
-          {/* Jersey Extras */}
-          {participants.map((p, i) => {
-            if (p.jerseySize === "XL" || p.jerseySize === "XXL") {
-              const extra = p.jerseySize === "XL" ? JERSEY_XL_EXTRA : JERSEY_XXL_EXTRA;
-              return (
-                <div key={i} className="flex justify-between text-gray-600">
-                  <span>Peserta {i + 1} - Jersey {p.jerseySize}</span>
-                  <span>+{formatCurrency(extra)}</span>
-                </div>
-              );
-            }
-            return null;
-          })}
-
           <div className="border-t-2 border-gray-200 pt-3 mt-3">
             <div className="flex justify-between text-xl font-bold text-background">
               <span>Total</span>
@@ -330,53 +282,18 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
         </div>
       </div>
 
-      {/* Payment Info */}
       <div className="bg-amber-50 border-4 border-amber-400 p-6">
         <h2 className="text-2xl font-impact text-background mb-4">Payment Information</h2>
-        <div className="space-y-3 text-gray-700">
-          <p className="font-bold text-lg">Transfer to:</p>
-          <div className="bg-white p-4 space-y-2">
-            <p><span className="font-medium">Bank:</span> BCA</p>
-            <p><span className="font-medium">Account Number:</span> 1234567890</p>
-            <p><span className="font-medium">Account Holder:</span> ENTHUSIAST RUN 2025</p>
-          </div>
-          <div className="bg-white p-4">
-            <p className="font-medium">Transfer Message:</p>
-            <p className="text-[#4BCFFC] font-mono font-bold text-lg mt-1">
-              ER2025-{category.toUpperCase()}-{session?.user?.name?.split(" ")[0]?.toUpperCase() || "NAMA"}
-            </p>
-          </div>
-          <p className="text-sm text-amber-700">
-            * Make sure the transfer amount matches the total payment
-          </p>
+        <div className="bg-white p-4 space-y-2 text-gray-700">
+          <p><span className="font-medium">Bank:</span> BCA</p>
+          <p><span className="font-medium">Account:</span> 1234567890</p>
+          <p><span className="font-medium">Name:</span> ENTHUSIAST RUN 2025</p>
         </div>
       </div>
 
-      {/* Payment Proof Upload */}
       <div className="bg-white p-6 shadow-lg">
         <h2 className="text-2xl font-impact text-background mb-4">Upload Payment Proof</h2>
-        {paymentProofUrl ? (
-          <div className="flex items-center gap-4 p-4 bg-green-50 border-2 border-green-200">
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <div className="flex-1">
-              <p className="font-medium text-green-700">Payment proof successfully uploaded</p>
-              <button
-                type="button"
-                onClick={() => {
-                  setPaymentProofUrl("");
-                  setPaymentProofId("");
-                }}
-                className="text-sm text-red-500 hover:underline mt-1"
-              >
-                Delete and re-upload
-              </button>
-            </div>
-          </div>
-        ) : (
+        {!paymentProofUrl ? (
           <UploadWidget
             folder="enthusiast-run/payment-proofs"
             allowedFormats={["jpg", "jpeg", "png", "pdf"]}
@@ -386,47 +303,24 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
               setPaymentProofId(publicId || "");
             }}
           />
+        ) : (
+          <div className="p-4 bg-green-50 border-2 border-green-200 text-green-700">
+            Payment proof uploaded. <button type="button" onClick={() => setPaymentProofUrl("")} className="text-red-500 underline">Change</button>
+          </div>
         )}
       </div>
 
-      {/* Terms and Submit */}
       <div className="bg-white p-6 shadow-lg rounded-b-xl">
         <label className="flex items-start gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={agreedToTerms}
-            onChange={(e) => setAgreedToTerms(e.target.checked)}
-            className="mt-1 w-5 h-5 rounded border-gray-300 text-[#4BCFFC] focus:ring-[#4BCFFC]"
-          />
-          <span className="text-gray-600">
-            I agree to the{" "}
-            <a href="/terms" className="text-[#4BCFFC] hover:underline">
-              terms and conditions
-            </a>{" "}
-            applicable to Enthusiast Run 2025
-          </span>
+          <input type="checkbox" checked={agreedToTerms} onChange={(e) => setAgreedToTerms(e.target.checked)} className="mt-1 w-5 h-5" />
+          <span className="text-gray-600">I agree to the terms and conditions.</span>
         </label>
-
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full mt-6 py-4 rounded-xl font-impact text-xl text-white transition-all ${
-            isSubmitting
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#4BCFFC] hover:bg-[#3AA9D1]"
-          }`}
+          className={`w-full mt-6 py-4 rounded-xl font-impact text-xl text-white ${isSubmitting ? "bg-gray-400" : "bg-[#4BCFFC] hover:bg-[#3AA9D1]"}`}
         >
-          {isSubmitting ? (
-            <span className="flex items-center justify-center gap-2">
-              <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              Processing...
-            </span>
-          ) : (
-            `REGISTER NOW - ${formatCurrency(calculateTotal())}`
-          )}
+          {isSubmitting ? "Processing..." : `REGISTER NOW - ${formatCurrency(calculateTotal())}`}
         </button>
       </div>
     </form>

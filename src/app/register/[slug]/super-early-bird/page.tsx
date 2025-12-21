@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { redirect } from "next/navigation";
 import RegistrationForm from "@/components/pages/registration/RegistrationForm";
 
-export default function NormalRegistrationPage() {
+export default function SuperEarlyRegistrationPage() {
   const params = useParams();
   const slug = params.slug as string;
 
@@ -16,7 +16,7 @@ export default function NormalRegistrationPage() {
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
-      <div className="relative min-h-screen py-[10%] w-screen flex flex-col items-center bg-gradient-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4 py-8">
+      <div className="relative min-h-screen py-[10%] w-screen flex flex-col items-center bg-gradient-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4">
         <Image
           src="/about/city-light.webp"
           draggable={false}

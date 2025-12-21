@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { redirect } from "next/navigation";
 import RegistrationForm from "@/components/pages/registration/RegistrationForm";
 
-export default function NormalRegistrationPage() {
+export default function EarlyRegistrationPage() {
   const params = useParams();
   const slug = params.slug as string;
 
@@ -42,7 +42,6 @@ export default function NormalRegistrationPage() {
           className="absolute bottom-0 md:bottom-0 xl:-bottom-32 w-screen h-auto"
         />
 
-        {/* Header */}
         <div className="relative z-10 w-full max-w-4xl">
           <div className="bg-background border-4 border-white rounded-tl-xl rounded-tr-xl p-6 text-center">
             <Image
@@ -58,9 +57,11 @@ export default function NormalRegistrationPage() {
           </div>
         </div>
 
-        {/* Registration Form */}
         <div className="relative z-10 w-full pb-32">
-          <RegistrationForm category={slug as "CATEGORY_5K" | "CATEGORY_10K"} type="early_bird"/>
+          <RegistrationForm 
+            category={slug as "CATEGORY_5K" | "CATEGORY_10K"} 
+            type="early_bird" 
+          />
         </div>
       </div>
     </div>
