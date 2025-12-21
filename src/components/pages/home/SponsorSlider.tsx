@@ -13,10 +13,10 @@ export default function SponsorSlider({ src = "main-sponsors.svg" }: { src?: str
   const logoLoopRef = useRef<HTMLDivElement>(null);
 
   const techLogos = [
-    { src: "/home/enthusiast-text-logo.webp", title: "Enthusiast Logo", href: "https://react.dev" },
-    { src: "/home/enthusiast-text-logo.webp", title: "Enthusiast Logo", href: "https://react.dev" },
-    { src: "/home/enthusiast-text-logo.webp", title: "Enthusiast Logo", href: "https://react.dev" },
-    { src: "/home/enthusiast-text-logo.webp", title: "Enthusiast Logo", href: "https://react.dev" },
+    { src: "/home/calling-out.svg", title: "Enthusiast Logo", href: "#" },
+    { src: "/home/calling-out.svg", title: "Enthusiast Logo", href: "#" },
+    { src: "/home/calling-out.svg", title: "Enthusiast Logo", href: "#" },
+    { src: "/home/calling-out.svg", title: "Enthusiast Logo", href: "#" },
   ];
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export default function SponsorSlider({ src = "main-sponsors.svg" }: { src?: str
         className="absolute -top-6 lg:-top-8 xl:-top-12 w-[80%] sm:w-1/4"
       />
       <div ref={logoLoopRef} className="w-full">
-        <LogoLoop logos={techLogos} logoHeight={120} />
+        <LogoLoop logos={techLogos} logoHeight={80} />
       </div>
     </div>
   );
