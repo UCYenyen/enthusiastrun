@@ -53,8 +53,8 @@ export default function NormalRegistrationPage() {
               height={100}
               className="mx-auto mb-4"
             />
-            <h1 className="text-4xl font-impact">FORM PENDAFTARAN</h1>
-            <p className="text-xl font-futura mt-2">Kategori {slug.toUpperCase()} Run</p>
+            <h1 className="text-4xl font-impact">REGISTRATION FORM</h1>
+            <p className="text-xl font-futura mt-2">{slug.toUpperCase()} Run</p>
           </div>
         </div>
 
