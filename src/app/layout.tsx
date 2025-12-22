@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "ENTHUSIAST RUN",
-  description: "ENTHUSIAST RUN 2026",
+  description: "Enthusiast Run is a premier fun run event by IBM Student Union, Universitas Ciputra. Discover our routes, partnership opportunities, and 5K/10K categories.",
 };
 
 export default async function RootLayout({
