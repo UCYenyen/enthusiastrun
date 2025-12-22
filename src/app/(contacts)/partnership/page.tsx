@@ -2,6 +2,12 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Partnership Enthusiast Run - enthusiastrun.com",
+  description: "Learn about partnership opportunities with Enthusiast Run Vol. 2. Discover how your organization can collaborate as a sponsor or media partner to support this exciting running event and gain valuable exposure.",
+};
+
 export default function page() {
   return (
     <div className="overflow-hidden">

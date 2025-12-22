@@ -4,6 +4,12 @@ import { FaWhatsapp } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import Link from "next/link";
 
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Contact Us Enthusiast Run - enthusiastrun.com",
+  description: "Get in touch with the Enthusiast Run team. Find contact details including WhatsApp and Instagram to ask questions or learn more about Enthusiast Run Vol. 2.",
+};
+
 export default function page() {
   return (
     <div className="overflow-hidden">

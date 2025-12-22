@@ -1,5 +1,11 @@
 import React from "react";
 import Image from "next/image";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Race Venue Enthusiast Run - enthusiastrun.com",
+  description: "Find out the racepack collection venue for Enthusiast Run Vol. 2. Get all the details you need to know about where and when to collect your racepack for an unforgettable running experience.",
+};
 export default function page() {
   return (
     <div className="overflow-hidden">

@@ -5,6 +5,14 @@ import { getUserRegistration } from "@/lib/registration";
 import { getServerSession } from "next-auth/next";
 import UserNotLoggedIn from "@/components/auth/UserNotLoggedIn";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard Enthusiast Run - enthusiastrun.com",
+  description: "Access your personal dashboard for Enthusiast Run Vol. 2. Manage your registration, view your racepack QR code, and stay updated with the latest event information and announcements.",
+};
+
+
 export default async function page() {
   const session = await getServerSession();
   if (!session) {
