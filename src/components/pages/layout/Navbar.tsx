@@ -39,6 +39,7 @@ export default function Navbar() {
         /> */}
         <Link
           href="/"
+          rel="home"
           className="text-white font-impact text-2xl flex items-center justify-center gap-1 hover:cursor-pointer"
         >
           <Image
@@ -82,6 +83,7 @@ export default function Navbar() {
                 <div className="flex flex-col gap-2">
                   <h3 className="text-white/60">USER</h3>
                   <Link
+                    rel="dashboard"
                     href="/dashboard"
                     className="text-white font-futura hover:text-[#4BCFFC]"
                     onClick={closeSheet}
@@ -91,6 +93,7 @@ export default function Navbar() {
                   {session?.user?.role === "admin" && (
                     <Link
                       href="/dashboard/admin"
+                      rel="admin"
                       className="text-white hover:text-[#4BCFFC]"
                       onClick={closeSheet}
                     >
@@ -107,6 +110,7 @@ export default function Navbar() {
               <h3 className="text-white/60">ABOUT</h3>
               <Link
                 href="/about"
+                rel="about"
                 className="text-white font-futura hover:text-[#4BCFFC]"
                 onClick={closeSheet}
               >
@@ -114,6 +118,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/about/jersey-medal"
+                rel="jersey and medal"
                 className="text-white font-futura hover:text-[#4BCFFC]"
                 onClick={closeSheet}
               >
@@ -121,6 +126,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/about/race-venue"
+                rel="racepack collection venue"
                 className="text-white font-futura hover:text-[#4BCFFC]"
                 onClick={closeSheet}
               >
@@ -133,6 +139,7 @@ export default function Navbar() {
               <h3 className="text-white/60">REGISTRATION</h3>
               <Link
                 href="/register/CATEGORY_5K"
+                rel="registration 5k"
                 className="text-white font-futura hover:text-[#4BCFFC]"
                 onClick={closeSheet}
               >
@@ -140,6 +147,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/register/CATEGORY_10K"
+                rel="registration10k"
                 className="text-white font-futura hover:text-[#4BCFFC]"
                 onClick={closeSheet}
               >
@@ -151,6 +159,7 @@ export default function Navbar() {
               {/* Other Links */}
               <Link
                 href="/partnership"
+                rel="partnership"
                 className="text-white font-futura hover:text-[#4BCFFC]"
                 onClick={closeSheet}
               >
@@ -158,6 +167,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/route"
+                rel="route"
                 className="text-white font-futura hover:text-[#4BCFFC]"
                 onClick={closeSheet}
               >
@@ -165,6 +175,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/contact"
+                rel="contact"
                 className="text-white font-futura hover:text-[#4BCFFC]"
                 onClick={closeSheet}
               >
@@ -195,13 +206,13 @@ export default function Navbar() {
             { item_label: "10K RUN", item_href: "/register/CATEGORY_10K" },
           ]}
         ></TextDropdownPanel>
-        <Link href="/partnership" className="text-white hover:underline">
+        <Link href="/partnership" rel="partnership" className="text-white hover:underline">
           PARTNERSHIP
         </Link>
-        <Link href="/route" className="text-white hover:underline">
+        <Link href="/route" rel="route" className="text-white hover:underline">
           ROUTE
         </Link>
-        <Link href="/contact" className="text-white hover:underline">
+        <Link href="/contact" rel="contact" className="text-white hover:underline">
           CONTACT
         </Link>
         <div className="flex items-center">
