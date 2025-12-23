@@ -51,7 +51,7 @@ export default function Footer() {
             </Link>
           </div>
           <div className="flex text-lg flex-col gap-4 items-center lg:items-start max-w-[400px]">
-            <h2 className="text-2xl font-impact">Contact us</h2>
+            <h2 className="text-2xl font-impact">Contact Us</h2>
             <Link
               href={"tel:+6281259990845"}
               className="flex justify-center hover:underline items-center gap-2"

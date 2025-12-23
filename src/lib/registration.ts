@@ -10,27 +10,25 @@ import {
   Voucher,
 } from "@/types/registration.md";
 
-export async function checkRegistrationCount(category: "CATEGORY_5K" | "CATEGORY_10K", type: "super_early_bird" | "early_bird" | "regular"): Promise<number> {
-  try{
+export async function checkRegistrationCount(category: "CATEGORY_5K" | "CATEGORY_10K", type: "super_early_bird" | "early_bird" | "regular" | "redeem_voucher"): Promise<number> {
+  try {
     const count = await prisma.registration.count({
-    where: {
-      category: category,
-      type: type,
-    },
-  });
-  
-  return count;
-} catch (error) {
-  console.error("Failed to check registration count:", error);
-  return 100;
-}
+      where: {
+        category: category,
+        type: type,
+      },
+    });
+    return count;
+  } catch (error) {
+    console.error("Failed to check registration count:", error);
+    return 100;
+  }
 }
 
 export async function createRegistration(
-  data: RegistrationData
+  data: RegistrationData & { voucherId?: string }
 ): Promise<ActionResult<Registration>> {
   try {
-    // Check if user exists
     const user = await prisma.user.findUnique({
       where: { id: data.userId },
     });
@@ -42,7 +40,6 @@ export async function createRegistration(
       };
     }
 
-    // Check if user already registered
     const existingRegistration = await prisma.registration.findFirst({
       where: {
         userId: data.userId,
@@ -56,34 +53,45 @@ export async function createRegistration(
       };
     }
 
-    // Create registration
-    const registration = await prisma.registration.create({
-      data: {
-        id: crypto.randomUUID(), // Generate unique ID
-        userId: data.userId,
-        fullName: data.fullName,
-        email: data.email,
-        phoneNumber: data.phoneNumber,
-        dateOfBirth: data.dateOfBirth,
-        gender: data.gender,
-        address: data.address,
-        city: data.city,
-        emergencyContact: data.emergencyContact,
-        emergencyPhone: data.emergencyPhone,
-        category: data.category,
-        bloodType: data.bloodType,
-        medicalCondition: data.medicalCondition,
-        photoUrl: data.photoUrl,
-        photoPublicId: data.photoPublicId,
-        idCardUrl: data.idCardUrl,
-        idCardPublicId: data.idCardPublicId,
-        jerseySize: data.jerseySize,
-        paymentProofUrl: data.paymentProofUrl,
-        paymentProofId: data.paymentProofId,
-        status: "pending",
-        type: data.type,
-        updatedAt: new Date(), // Add updatedAt field
-      },
+    const registration = await prisma.$transaction(async (tx) => {
+      const reg = await tx.registration.create({
+        data: {
+          userId: data.userId,
+          fullName: data.fullName,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          dateOfBirth: data.dateOfBirth,
+          gender: data.gender,
+          address: data.address,
+          city: data.city,
+          emergencyContact: data.emergencyContact,
+          emergencyPhone: data.emergencyPhone,
+          category: data.category,
+          bloodType: data.bloodType,
+          medicalCondition: data.medicalCondition,
+          photoUrl: data.photoUrl,
+          photoPublicId: data.photoPublicId,
+          idCardUrl: data.idCardUrl,
+          idCardPublicId: data.idCardPublicId,
+          jerseySize: data.jerseySize,
+          paymentProofUrl: data.paymentProofUrl,
+          paymentProofId: data.paymentProofId,
+          status: `${data.type === "redeem_voucher" ? "confirmed" : "pending"}` as RegistrationStatus,
+          type: data.type,
+          updatedAt: new Date(),
+          voucherId: data.voucherId || null,
+          rekeningName: data.rekeningName || "-",
+        },
+      });
+
+      if (data.voucherId) {
+        await prisma.voucher.update({
+          where: { id: data.voucherId },
+          data: { isUsed: true }
+        });
+      }
+
+      return reg;
     });
 
     revalidatePath("/register");
@@ -92,7 +100,7 @@ export async function createRegistration(
     return {
       success: true,
       data: registration as Registration,
-      message: "Registration successful! Please wait for confirmation.",
+      message: "Registration successful!",
     };
   } catch (error) {
     console.error("Registration error:", error);
@@ -108,7 +116,7 @@ export async function makeVoucher(category: "CATEGORY_10K" | "CATEGORY_5K") {
     data: {
       category: category,
     },
-  })
+  });
 }
 
 export async function deleteVoucher(id: string) {
@@ -230,7 +238,7 @@ export async function checkInRegistration(
 
     await prisma.registration.update({
       where: { id },
-      data: { qrCodeClaimed: true , qrCodeClaimedAt: new Date() },
+      data: { qrCodeClaimed: true, qrCodeClaimedAt: new Date() },
     });
 
     return { success: true };
@@ -302,7 +310,7 @@ export async function updateRegistrationStatus(
           error: "Failed to update payment status",
         };
       }
-    }else if (status == "cancelled") {
+    } else if (status == "cancelled") {
       await prisma.registration.update({
         where: { id },
         data: { paymentStatus: false },

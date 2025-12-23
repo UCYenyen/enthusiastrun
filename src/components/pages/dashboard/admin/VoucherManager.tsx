@@ -65,7 +65,7 @@ export default function VoucherManager({
 
   // Delete voucher
   const handleDeleteVoucher = async (id: string) => {
-    if (!confirm("Apakah Anda yakin ingin menghapus voucher ini?")) return;
+    if (!confirm("Are you sure you want to delete this voucher?")) return;
 
     setDeletingId(id);
     try {
@@ -77,13 +77,13 @@ export default function VoucherManager({
 
       if (data.success) {
         setVouchers((prev) => prev.filter((v) => v.id !== id));
-        toast.success("Voucher berhasil dihapus");
+        toast.success("Voucher successfully deleted");
       } else {
-        toast.error(data.message || "Gagal menghapus voucher");
+        toast.error(data.message || "Failed to delete voucher");
       }
     } catch (error) {
       console.error("Delete voucher error:", error);
-      toast.error("Terjadi kesalahan saat menghapus voucher");
+      toast.error("An error occurred while deleting the voucher");
     } finally {
       setDeletingId(null);
     }
@@ -94,10 +94,10 @@ export default function VoucherManager({
     try {
       await navigator.clipboard.writeText(id);
       setCopiedId(id);
-      toast.success("Kode voucher berhasil disalin!");
+      toast.success("Voucher code copied!");
       setTimeout(() => setCopiedId(null), 2000);
     } catch (error) {
-      toast.error("Gagal menyalin kode voucher");
+      toast.error("Failed to copy voucher code");
     }
   };
 
@@ -171,7 +171,7 @@ export default function VoucherManager({
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     />
                   </svg>
-                  Membuat...
+                  Loading...
                 </span>
               ) : (
                 "BUAT VOUCHER"
@@ -189,11 +189,11 @@ export default function VoucherManager({
         </div>
         <div className="bg-green-500/20 border border-green-500 rounded-lg p-4 text-center">
           <p className="text-3xl font-impact text-green-300">{stats.unused}</p>
-          <p className="text-green-300/70 text-sm">Tersedia</p>
+          <p className="text-green-300/70 text-sm">Available</p>
         </div>
         <div className="bg-red-500/20 border border-red-500 rounded-lg p-4 text-center">
           <p className="text-3xl font-impact text-red-300">{stats.used}</p>
-          <p className="text-red-300/70 text-sm">Terpakai</p>
+          <p className="text-red-300/70 text-sm">Unavailable</p>
         </div>
         <div className="bg-blue-500/20 border border-blue-500 rounded-lg p-4 text-center">
           <p className="text-3xl font-impact text-blue-300">
@@ -259,10 +259,10 @@ export default function VoucherManager({
             <TableHeader>
               <TableRow className="bg-gray-100">
                 <TableHead className="text-background">No</TableHead>
-                <TableHead className="text-background">Kode Voucher</TableHead>
-                <TableHead className="text-background">Kategori</TableHead>
+                <TableHead className="text-background">Voucher Code</TableHead>
+                <TableHead className="text-background">Category</TableHead>
                 <TableHead className="text-background">Status</TableHead>
-                <TableHead className="text-background">Aksi</TableHead>
+                <TableHead className="text-background">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -272,7 +272,7 @@ export default function VoucherManager({
                     colSpan={5}
                     className="text-center py-8 text-gray-500"
                   >
-                    Tidak ada voucher ditemukan
+                    No vouchers found
                   </TableCell>
                 </TableRow>
               ) : (
@@ -293,7 +293,7 @@ export default function VoucherManager({
                               ? "text-green-500"
                               : "text-gray-400 hover:text-[#4BCFFC]"
                           }`}
-                          title="Salin kode"
+                          title="Copy code"
                         >
                           {copiedId === voucher.id ? (
                             <svg
@@ -348,7 +348,7 @@ export default function VoucherManager({
                             : "bg-green-100 text-green-800 border-green-300"
                         }`}
                       >
-                        {voucher.isUsed ? "Terpakai" : "Tersedia"}
+                        {voucher.isUsed ? "Unavailable" : "Available"}
                       </span>
                     </TableCell>
                     <TableCell>
@@ -361,7 +361,7 @@ export default function VoucherManager({
                             : "bg-red-500 hover:bg-red-600"
                         }`}
                       >
-                        {deletingId === voucher.id ? "..." : "Hapus"}
+                        {deletingId === voucher.id ? "..." : "Delete"}
                       </button>
                     </TableCell>
                   </TableRow>

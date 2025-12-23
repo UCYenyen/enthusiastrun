@@ -60,6 +60,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
   const [participants, setParticipants] = useState<ParticipantData[]>([{ ...emptyParticipant }]);
   const [paymentProofUrl, setPaymentProofUrl] = useState("");
   const [paymentProofId, setPaymentProofId] = useState("");
+  const [rekeningName, setRekeningName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
@@ -118,6 +119,8 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
     return basePrice + jerseyExtras;
   };
 
+  const totalPrice = calculateTotal();
+
   const updateParticipant = (index: number, data: Partial<ParticipantData>) => {
     setParticipants((prev) => {
       const updated = [...prev];
@@ -134,9 +137,15 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
         return false;
       }
     }
-    if (!paymentProofUrl) {
-      toast.error("Please upload payment proof");
-      return false;
+    if (totalPrice > 0) {
+      if (!rekeningName.trim()) {
+        toast.error("Please enter account holder name");
+        return false;
+      }
+      if (!paymentProofUrl) {
+        toast.error("Please upload payment proof");
+        return false;
+      }
     }
     if (!agreedToTerms) {
       toast.error("Please agree to the terms and conditions");
@@ -168,14 +177,15 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
           address: participant.address,
           emergencyContact: participant.emergencyContact,
           emergencyPhone: participant.emergencyPhone,
-          category: (category === "CATEGORY_5K" ? "CATEGORY_5K" : "CATEGORY_10K") as RegistrationCategory,
+          category: category as RegistrationCategory,
           type: type,
           jerseySize: participant.jerseySize,
           medicalCondition: participant.medicalCondition || undefined,
           idCardUrl: participant.idCardUrl,
           idCardPublicId: participant.idCardPublicId,
-          paymentProofUrl: paymentProofUrl,
-          paymentProofId: paymentProofId,
+          paymentProofUrl: totalPrice > 0 ? paymentProofUrl : undefined,
+          paymentProofId: totalPrice > 0 ? paymentProofId : undefined,
+          rekeningName: totalPrice > 0 ? rekeningName : "-",
         };
         const result = await createRegistration(registrationData);
         if (!result.success) {
@@ -266,82 +276,105 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
         ))}
       </div>
 
+      {totalPrice > 0 && (
+        <div className="bg-white p-6 shadow-lg border-b-2 border-gray-100">
+          <h2 className="text-2xl font-impact text-background mb-4">Payment Confirmation</h2>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Account holder name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              value={rekeningName}
+              onChange={(e) => setRekeningName(e.target.value)}
+              placeholder="Enter account holder name"
+              className="w-full px-4 py-3 border-2 rounded-lg border-gray-200 text-background focus:border-[#4BCFFC] outline-none transition-colors"
+            />
+          </div>
+        </div>
+      )}
+
       <div className="bg-white p-6 shadow-lg">
         <h2 className="text-2xl font-impact text-background mb-4">Summary</h2>
         <div className="space-y-3">
           <div className="flex justify-between text-gray-600">
             <span>
-                {packageType === "bundling" 
-                    ? "Bundling Package (10+1)" 
-                    : packageType === "uc_student" 
-                        ? "Mahasiswa UC Rate" 
-                        : `Paket Personal (${participantCount} Peserta)`}
+              {packageType === "bundling"
+                ? "Bundling Package (10+1)"
+                : packageType === "uc_student"
+                  ? "Mahasiswa UC Rate"
+                  : `Paket Personal (${participantCount} Peserta)`}
             </span>
             <span>
-                {formatCurrency(
-                    packageType === "bundling" 
-                        ? BUNDLING_PRICE 
-                        : packageType === "uc_student" 
-                            ? UC_STUDENT_PRICE 
-                            : participantCount * PERSONAL_PRICE
-                )}
+              {formatCurrency(
+                packageType === "bundling"
+                  ? BUNDLING_PRICE
+                  : packageType === "uc_student"
+                    ? UC_STUDENT_PRICE
+                    : participantCount * PERSONAL_PRICE
+              )}
             </span>
           </div>
 
           {participants.some(p => p.jerseySize === "XXL" || p.jerseySize === "XXXL") && (
             <div className="space-y-1">
-                <p className="text-sm font-bold text-gray-500 mt-2">Additional Charges (Jersey):</p>
-                {participants.map((p, idx) => {
-                    if (p.jerseySize === "XXL" || p.jerseySize === "XXXL") {
-                        const extra = p.jerseySize === "XXL" ? JERSEY_XXL_EXTRA : JERSEY_XXXL_EXTRA;
-                        return (
-                            <div key={idx} className="flex justify-between text-sm text-amber-600 pl-2">
-                                <span>Peserta {idx + 1} ({p.fullName || "Nameless"}) - Size {p.jerseySize}</span>
-                                <span>+{formatCurrency(extra)}</span>
-                            </div>
-                        );
-                    }
-                    return null;
-                })}
+              <p className="text-sm font-bold text-gray-500 mt-2">Additional Charges (Jersey):</p>
+              {participants.map((p, idx) => {
+                if (p.jerseySize === "XXL" || p.jerseySize === "XXXL") {
+                  const extra = p.jerseySize === "XXL" ? JERSEY_XXL_EXTRA : JERSEY_XXXL_EXTRA;
+                  return (
+                    <div key={idx} className="flex justify-between text-sm text-amber-600 pl-2">
+                      <span>Peserta {idx + 1} ({p.fullName || "Nameless"}) - Size {p.jerseySize}</span>
+                      <span>+{formatCurrency(extra)}</span>
+                    </div>
+                  );
+                }
+                return null;
+              })}
             </div>
           )}
 
           <div className="border-t-2 border-gray-200 pt-3 mt-3">
             <div className="flex justify-between text-xl font-bold text-background">
               <span>Total Bayar</span>
-              <span className="text-[#4BCFFC]">{formatCurrency(calculateTotal())}</span>
+              <span className="text-[#4BCFFC]">{formatCurrency(totalPrice)}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-amber-50 border-4 border-amber-400 p-6">
-        <h2 className="text-2xl font-impact text-background mb-4">Payment Information</h2>
-        <div className="bg-white p-4 space-y-2 text-gray-700">
-          <p><span className="font-medium">Bank:</span> BCA</p>
-          <p><span className="font-medium">Account:</span> 1234567890</p>
-          <p><span className="font-medium">Name:</span> ENTHUSIAST RUN 2025</p>
-        </div>
-      </div>
-
-      <div className="bg-white p-6 shadow-lg">
-        <h2 className="text-2xl font-impact text-background mb-4">Upload Payment Proof</h2>
-        {!paymentProofUrl ? (
-          <UploadWidget
-            folder="enthusiast-run/payment-proofs"
-            allowedFormats={["jpg", "jpeg", "png", "pdf"]}
-            label=""
-            onUploadSuccess={(url, publicId) => {
-              setPaymentProofUrl(url);
-              setPaymentProofId(publicId || "");
-            }}
-          />
-        ) : (
-          <div className="p-4 bg-green-50 border-2 border-green-200 text-green-700">
-            Payment proof uploaded. <button type="button" onClick={() => setPaymentProofUrl("")} className="text-red-500 underline">Change</button>
+      {totalPrice > 0 && (
+        <div className="bg-amber-50 border-4 border-amber-400 p-6">
+          <h2 className="text-2xl font-impact text-background mb-4">Payment Information</h2>
+          <div className="bg-white p-4 space-y-2 text-gray-700">
+            <p><span className="font-medium">Bank:</span> BCA</p>
+            <p><span className="font-medium">Account:</span> 1234567890</p>
+            <p><span className="font-medium">Name:</span> ENTHUSIAST RUN 2025</p>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {totalPrice > 0 && (
+        <div className="bg-white p-6 shadow-lg">
+          <h2 className="text-2xl font-impact text-background mb-4">Upload Payment Proof</h2>
+          {!paymentProofUrl ? (
+            <UploadWidget
+              folder="enthusiast-run/payment-proofs"
+              allowedFormats={["jpg", "jpeg", "png", "pdf"]}
+              label=""
+              onUploadSuccess={(url, publicId) => {
+                setPaymentProofUrl(url);
+                setPaymentProofId(publicId || "");
+              }}
+            />
+          ) : (
+            <div className="p-4 bg-green-50 border-2 border-green-200 text-green-700">
+              Payment proof uploaded. <button type="button" onClick={() => setPaymentProofUrl("")} className="text-red-500 underline">Change</button>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="bg-white p-6 shadow-lg rounded-b-xl">
         <label className="flex items-start gap-3 cursor-pointer">
@@ -353,7 +386,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
           disabled={isSubmitting}
           className={`w-full mt-6 py-4 rounded-xl font-impact text-xl text-white ${isSubmitting ? "bg-gray-400" : "bg-[#4BCFFC] hover:bg-[#3AA9D1]"}`}
         >
-          {isSubmitting ? "PROCESSING..." : `REGISTER NOW - ${formatCurrency(calculateTotal())}`}
+          {isSubmitting ? "PROCESSING..." : `REGISTER NOW - ${formatCurrency(totalPrice)}`}
         </button>
       </div>
     </form>

@@ -58,6 +58,7 @@ export default function RegistrationDetailModal({
               <DetailRow label="Full Name" value={registration.fullName} />
               <DetailRow label="Email" value={registration.email} />
               <DetailRow label="Phone" value={registration.phoneNumber} />
+              <DetailRow label="Account Holder Name" value={registration.rekeningName} />
               <DetailRow label="Date of Birth" value={formatDate(registration.dateOfBirth)} />
               <DetailRow label="Gender" value={registration.gender} />
               <DetailRow label="Blood Type" value={registration.bloodType || "-"} />
@@ -68,10 +69,10 @@ export default function RegistrationDetailModal({
 
           {/* Emergency Contact */}
           <div>
-            <h3 className="font-bold text-background mb-2 flex items-center gap-2">
+            <div className="font-bold text-background mb-2 flex items-center gap-2">
               <span className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">2</span>
                <h1 className="text-white">Emergency Contact</h1>
-            </h3>
+            </div>
             <div className="bg-gray-50 rounded-lg p-4">
               <DetailRow label="Name" value={registration.emergencyContact} />
               <DetailRow label="Phone" value={registration.emergencyPhone} />
@@ -80,10 +81,10 @@ export default function RegistrationDetailModal({
 
           {/* Event Info */}
           <div>
-            <h3 className="font-bold text-background mb-2 flex items-center gap-2">
+            <div className="font-bold text-background mb-2 flex items-center gap-2">
               <span className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">3</span>
                <h1 className="text-white">CATEGORY</h1>
-            </h3>
+            </div>
             <div className="bg-gray-50 rounded-lg p-4">
               <DetailRow
                 label="Category"
@@ -104,10 +105,10 @@ export default function RegistrationDetailModal({
 
           {/* Documents - ID Card */}
           <div>
-            <h3 className="font-bold text-background mb-2 flex items-center gap-2">
+            <div className="font-bold text-background mb-2 flex items-center gap-2">
               <span className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">4</span>
               <h1 className="text-white">ID CARD</h1>
-            </h3>
+            </div>
             <div className="bg-gray-50 rounded-lg p-4">
               {registration.idCardUrl ? (
                 <div className="space-y-3">
@@ -139,10 +140,10 @@ export default function RegistrationDetailModal({
 
           {/* Payment Proof */}
           <div>
-            <h3 className="font-bold text-background mb-2 flex items-center gap-2">
+            <div className="font-bold text-background mb-2 flex items-center gap-2">
               <span className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">5</span>
               <h1 className="text-white">PAYMENT PROOF</h1>
-            </h3>
+            </div>
             <div className="bg-gray-50 rounded-lg p-4">
               {registration.paymentProofUrl ? (
                 <div className="space-y-3">
@@ -174,10 +175,10 @@ export default function RegistrationDetailModal({
 
           {/* Status */}
           <div>
-            <h3 className="font-bold text-background mb-2 flex items-center gap-2">
+            <div className="font-bold text-background mb-2 flex items-center gap-2">
               <span className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">6</span>
                <h1 className="text-white">STATUS</h1>
-            </h3>
+            </div>
             <div className="bg-gray-50 rounded-lg p-4">
               <DetailRow
                 label="Status Registrasi"

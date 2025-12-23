@@ -46,6 +46,7 @@ model Registration {
   medicalCondition String?
   paymentDate      DateTime?
   paymentProofId   String?
+  rekeningName    String?
   paymentStatus    Boolean              @default(false)
   phoneNumber      String
   photoPublicId    String?
@@ -135,6 +136,7 @@ enum RegistrationType {
   super_early_bird
   early_bird
   regular
+  redeem_voucher
 }
 
 enum Role {

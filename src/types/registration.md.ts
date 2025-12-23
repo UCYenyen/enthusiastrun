@@ -50,7 +50,8 @@ export interface RegistrationData {
   jerseySize: string;
   paymentProofUrl?: string;
   paymentProofId?: string;
-  type: "super_early_bird" | "early_bird" | "regular";
+  rekeningName?: string;
+  type: "super_early_bird" | "early_bird" | "regular" | "redeem_voucher";
 }
 
 export interface Voucher {
