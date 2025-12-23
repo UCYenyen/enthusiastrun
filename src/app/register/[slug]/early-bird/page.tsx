@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import { redirect } from "next/navigation";
 import RegistrationForm from "@/components/pages/registration/RegistrationForm";
 import prisma from "@/lib/prisma";
