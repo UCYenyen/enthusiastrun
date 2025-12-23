@@ -37,15 +37,15 @@ const emptyParticipant: ParticipantData = {
   address: "",
   emergencyContact: "",
   emergencyPhone: "",
-  jerseySize: "",
+  jerseySize: "S",
   medicalCondition: "",
   idCardUrl: "",
   idCardPublicId: "",
 };
 
 const BUNDLING_TOTAL_PARTICIPANTS = 11;
-const JERSEY_XL_EXTRA = 10000;
-const JERSEY_XXL_EXTRA = 15000;
+const JERSEY_XXL_EXTRA = 10000;
+const JERSEY_XXXL_EXTRA = 15000;
 
 interface RegistrationFormProps {
   category: "CATEGORY_5K" | "CATEGORY_10K";
@@ -110,8 +110,8 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
     }
 
     const jerseyExtras = participants.reduce((total, p) => {
-      if (p.jerseySize === "XL") return total + JERSEY_XL_EXTRA;
       if (p.jerseySize === "XXL") return total + JERSEY_XXL_EXTRA;
+      if (p.jerseySize === "XXXL") return total + JERSEY_XXXL_EXTRA;
       return total;
     }, 0);
 
@@ -270,13 +270,46 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
         <h2 className="text-2xl font-impact text-background mb-4">Summary</h2>
         <div className="space-y-3">
           <div className="flex justify-between text-gray-600">
-            <span>{packageType === "bundling" ? "Bundling Package (10+1)" : packageType === "uc_student" ? "Mahasiswa UC Rate" : `${participantCount} Participants`}</span>
-            <span>{formatCurrency(packageType === "bundling" ? BUNDLING_PRICE : packageType === "uc_student" ? UC_STUDENT_PRICE : participantCount * PERSONAL_PRICE)}</span>
+            <span>
+                {packageType === "bundling" 
+                    ? "Bundling Package (10+1)" 
+                    : packageType === "uc_student" 
+                        ? "Mahasiswa UC Rate" 
+                        : `Paket Personal (${participantCount} Peserta)`}
+            </span>
+            <span>
+                {formatCurrency(
+                    packageType === "bundling" 
+                        ? BUNDLING_PRICE 
+                        : packageType === "uc_student" 
+                            ? UC_STUDENT_PRICE 
+                            : participantCount * PERSONAL_PRICE
+                )}
+            </span>
           </div>
+
+          {participants.some(p => p.jerseySize === "XXL" || p.jerseySize === "XXXL") && (
+            <div className="space-y-1">
+                <p className="text-sm font-bold text-gray-500 mt-2">Additional Charges (Jersey):</p>
+                {participants.map((p, idx) => {
+                    if (p.jerseySize === "XXL" || p.jerseySize === "XXXL") {
+                        const extra = p.jerseySize === "XXL" ? JERSEY_XXL_EXTRA : JERSEY_XXXL_EXTRA;
+                        return (
+                            <div key={idx} className="flex justify-between text-sm text-amber-600 pl-2">
+                                <span>Peserta {idx + 1} ({p.fullName || "Nameless"}) - Size {p.jerseySize}</span>
+                                <span>+{formatCurrency(extra)}</span>
+                            </div>
+                        );
+                    }
+                    return null;
+                })}
+            </div>
+          )}
+
           <div className="border-t-2 border-gray-200 pt-3 mt-3">
             <div className="flex justify-between text-xl font-bold text-background">
-              <span>Total</span>
-              <span>{formatCurrency(calculateTotal())}</span>
+              <span>Total Bayar</span>
+              <span className="text-[#4BCFFC]">{formatCurrency(calculateTotal())}</span>
             </div>
           </div>
         </div>
@@ -320,7 +353,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
           disabled={isSubmitting}
           className={`w-full mt-6 py-4 rounded-xl font-impact text-xl text-white ${isSubmitting ? "bg-gray-400" : "bg-[#4BCFFC] hover:bg-[#3AA9D1]"}`}
         >
-          {isSubmitting ? "Processing..." : `REGISTER NOW - ${formatCurrency(calculateTotal())}`}
+          {isSubmitting ? "PROCESSING..." : `REGISTER NOW - ${formatCurrency(calculateTotal())}`}
         </button>
       </div>
     </form>

@@ -13,7 +13,7 @@ export default function page() {
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
-      <div className="relative min-h-[90vh] xl:min-h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4 py-8">
+      <div className="relative min-h-[90vh] rounded-lg xl:min-h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4 py-8">
         <Image
           src="/about/city-light.webp"
           draggable={false}
@@ -38,7 +38,7 @@ export default function page() {
           height={500}
           className="absolute bottom-0 md:bottom-0 xl:-bottom-32 w-screen h-auto"
         />
-        <div className="w-[80%] py-16 sm:p-8 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col mt-[5.5%] items-center gap-8 font-impact">
+        <div className="w-[80%] rounded-lg py-16 sm:p-8 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col mt-[5.5%] items-center gap-8 font-impact">
           <Image
             src="/home/enthusiast-text-logo.webp"
             draggable={false}
@@ -65,7 +65,7 @@ export default function page() {
           </div>
         </div>
         <div
-          className="w-[80%] py-16 sm:p-8 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col mt-[2.5%] items-center gap-8 font-impact"
+          className="w-[80%] rounded-lg py-16 sm:p-8 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col mt-[2.5%] items-center gap-8 font-impact"
         >
           <div className="w-full flex flex-col items-center p-4 sm:p-0 gap-12">
             <FlagOffItem flagType="10K" flagOffTime="05:30" cutOffTime="02:30:00" />

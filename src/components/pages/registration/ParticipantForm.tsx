@@ -12,8 +12,8 @@ interface ParticipantFormProps {
 }
 
 const GENDER_OPTIONS = [
-  { value: "Male", label: "Laki-laki" },
-  { value: "Female", label: "Perempuan" },
+  { value: "Male", label: "Male" },
+  { value: "Female", label: "Female" },
 ];
 
 const BLOOD_TYPE_OPTIONS = ["A", "B", "AB", "O"];
@@ -22,8 +22,9 @@ const JERSEY_SIZE_OPTIONS = [
   { value: "S", label: "S", extra: 0 },
   { value: "M", label: "M", extra: 0 },
   { value: "L", label: "L", extra: 0 },
-  { value: "XL", label: "XL (+Rp 10.000)", extra: 10000 },
-  { value: "XXL", label: "XXL (+Rp 15.000)", extra: 15000 },
+  { value: "XL", label: "XL", extra: 0 },
+  { value: "XXL", label: "XXL (+Rp 10.000)", extra: 10000 },
+  { value: "XXXL", label: "XXXL (+Rp 15.000)", extra: 15000 },
 ];
 
 export default function ParticipantForm({
@@ -40,7 +41,6 @@ export default function ParticipantForm({
 
   return (
     <div className="bg-white border-b-2 border-white shadow-lg overflow-hidden">
-      {/* Header */}
       <button
         type="button"
         onClick={() => setIsExpanded(!isExpanded)}
@@ -71,16 +71,13 @@ export default function ParticipantForm({
         </svg>
       </button>
 
-      {/* Form Content */}
       {isExpanded && (
         <div className="p-6 space-y-6">
-          {/* Personal Info Section */}
           <div>
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
               Personal Data
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Full Name */}
               <div className="md:col-span-2">
                 <label className={labelClasses}>
                   Full Name <span className="text-red-500">*</span>
@@ -95,7 +92,6 @@ export default function ParticipantForm({
                 />
               </div>
 
-              {/* Email */}
               <div>
                 <label className={labelClasses}>
                   Email <span className="text-red-500">*</span>
@@ -110,7 +106,6 @@ export default function ParticipantForm({
                 />
               </div>
 
-              {/* Phone */}
               <div>
                 <label className={labelClasses}>
                   Phone Number <span className="text-red-500">*</span>
@@ -125,7 +120,6 @@ export default function ParticipantForm({
                 />
               </div>
 
-              {/* Date of Birth */}
               <div>
                 <label className={labelClasses}>
                   Date of Birth <span className="text-red-500">*</span>
@@ -139,7 +133,6 @@ export default function ParticipantForm({
                 />
               </div>
 
-              {/* Gender */}
               <div>
                 <label className={labelClasses}>
                   Gender <span className="text-red-500">*</span>
@@ -150,7 +143,7 @@ export default function ParticipantForm({
                   className={inputClasses}
                   required
                 >
-                  <option value="">Pilih jenis kelamin</option>
+                  <option value="">Gender</option>
                   {GENDER_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
@@ -159,7 +152,6 @@ export default function ParticipantForm({
                 </select>
               </div>
 
-              {/* Blood Type */}
               <div>
                 <label className={labelClasses}>
                   Blood Type <span className="text-red-500">*</span>
@@ -179,7 +171,6 @@ export default function ParticipantForm({
                 </select>
               </div>
 
-              {/* City */}
               <div>
                 <label className={labelClasses}>
                   City <span className="text-red-500">*</span>
@@ -194,7 +185,6 @@ export default function ParticipantForm({
                 />
               </div>
 
-              {/* Address */}
               <div className="md:col-span-2">
                 <label className={labelClasses}>
                   Full Address <span className="text-red-500">*</span>
@@ -211,13 +201,11 @@ export default function ParticipantForm({
             </div>
           </div>
 
-          {/* Emergency Contact Section */}
           <div>
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
               Emergency Contact
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Emergency Contact Name */}
               <div>
                 <label className={labelClasses}>
                   Emergency Contact Name <span className="text-red-500">*</span>
@@ -232,7 +220,6 @@ export default function ParticipantForm({
                 />
               </div>
 
-              {/* Emergency Contact Phone */}
               <div>
                 <label className={labelClasses}>
                   Emergency Contact Number <span className="text-red-500">*</span>
@@ -249,13 +236,11 @@ export default function ParticipantForm({
             </div>
           </div>
 
-          {/* Jersey & Medical Section */}
           <div>
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
               Jersey & Medical Condition
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Jersey Size */}
               <div>
                 <label className={labelClasses}>
                   Jersey Size <span className="text-red-500">*</span>
@@ -273,14 +258,13 @@ export default function ParticipantForm({
                     </option>
                   ))}
                 </select>
-                {(data.jerseySize === "XL" || data.jerseySize === "XXL") && (
+                {(data.jerseySize === "XXL" || data.jerseySize === "XXXL") && (
                   <p className="text-sm text-amber-600 mt-1">
                     * There is an additional charge for size {data.jerseySize}
                   </p>
                 )}
               </div>
 
-              {/* Medical Condition */}
               <div className="md:col-span-2">
                 <label className={labelClasses}>
                   Medical Condition <span className="text-gray-400">(Optional)</span>
@@ -296,7 +280,6 @@ export default function ParticipantForm({
             </div>
           </div>
 
-          {/* ID Card Upload Section */}
           <div>
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
               Upload ID Card (KTP/SIM/Student Card) <span className="text-red-500">*</span>

@@ -38,7 +38,7 @@ export default async function SuperEarlyRegistrationPage({ params }: Slug) {
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
-      <div className="relative min-h-screen py-[10%] w-screen flex flex-col items-center bg-linear-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4">
+      <div className="relative min-h-screen rounded-lg py-[10%] w-screen flex flex-col items-center bg-linear-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4">
         <Image
           src="/about/city-light.webp"
           draggable={false}

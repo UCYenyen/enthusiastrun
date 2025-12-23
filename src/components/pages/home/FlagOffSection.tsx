@@ -152,7 +152,7 @@ export default function FlagOffSection() {
 
       <div
         ref={containerRef}
-        className="flex w-[80%] sm:w-[60%] z-5 bg-background border-8 border-white flex-col items-end relative gap-12 py-12 shadow-lg"
+        className="flex w-[80%] sm:w-[60%] z-5 rounded-lg bg-background border-8 border-white flex-col items-end relative gap-12 py-12 shadow-lg"
       >
         <div ref={flagOffItemsRef} className="w-full flex flex-col items-center p-4 sm:p-0 gap-12">
           <FlagOffItem flagType="10K" flagOffTime="05:30" cutOffTime="02:30:00" />

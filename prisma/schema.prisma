@@ -112,6 +112,7 @@ enum JerseySize {
   L
   XL
   XXL
+  XXXL
 }
 
 enum ParticipantStatus {

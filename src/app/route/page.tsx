@@ -34,7 +34,7 @@ export default function page() {
                     height={500}
                     className="absolute bottom-0 md:bottom-0 xl:-bottom-32 w-screen h-auto"
                 />
-                <div className="w-[80%] py-16 sm:p-20 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col mt-[5.5%] items-center gap-8 font-impact">
+                <div className="w-[80%] rounded-lg py-16 sm:p-20 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col mt-[5.5%] items-center gap-8 font-impact">
                     <Image
                         src="/home/enthusiast-text-logo.webp"
                         draggable={false}
@@ -44,6 +44,17 @@ export default function page() {
                         className="absolute -top-8 md:-top-14 lg:-top-12 xl:-top-14 w-[80%] md:w-1/2 lg:w-1/3 xl:w-1/4 h-auto"
                     />
                     <Image src={"/route/route-5k.webp"} alt="Route 5K" width={500} height={500} className="w-full rounded-lg h-full" />
+                </div>
+                <div className="w-[80%] rounded-lg py-16 sm:p-20 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col mt-[5.5%] items-center gap-8 font-impact">
+                    <Image
+                        src="/home/enthusiast-text-logo.webp"
+                        draggable={false}
+                        alt="Enthusiast Logo"
+                        width={500}
+                        height={500}
+                        className="absolute -top-8 md:-top-14 lg:-top-12 xl:-top-14 w-[80%] md:w-1/2 lg:w-1/3 xl:w-1/4 h-auto"
+                    />
+                    <Image src={"/route/route-10k.webp"} alt="Route 10K" width={500} height={500} className="w-full rounded-lg h-full" />
                 </div>
             </div>
         </div>
