@@ -1,22 +1,44 @@
-"use client";
-import React from "react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import { redirect } from "next/navigation";
 import RegistrationForm from "@/components/pages/registration/RegistrationForm";
+import prisma from "@/lib/prisma";
+import { Metadata } from "next";
 
-export default function SuperEarlyRegistrationPage() {
-  const params = useParams();
-  const slug = params.slug as string;
+
+export const metadata: Metadata = {
+  title: "Super Early Bird Registration - Enthusiast Run",
+  description:
+    "Register for the Enthusiast Run super early bird special! Secure your spot in the CATEGORY_5K or CATEGORY_10K run and enjoy exclusive benefits. Limited super early bird slots available, so sign up now to take advantage of this special offer.",
+};
+
+interface Slug {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
+export default async function SuperEarlyRegistrationPage({ params }: Slug) {
+  const { slug } = await params;
 
   if (slug !== "CATEGORY_10K" && slug !== "CATEGORY_5K") {
     return redirect("/not-found");
   }
 
+  const registeredCount = await prisma.registration.findMany({
+    where: {
+      category: slug,
+      type: "super_early_bird"
+    }
+  })
+
+  if (registeredCount.length >= 240) {
+    return redirect("/register");
+  }
+
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
-      <div className="relative min-h-screen py-[10%] w-screen flex flex-col items-center bg-gradient-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4">
+      <div className="relative min-h-screen py-[10%] w-screen flex flex-col items-center bg-linear-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4">
         <Image
           src="/about/city-light.webp"
           draggable={false}

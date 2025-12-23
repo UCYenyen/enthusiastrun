@@ -1,22 +1,56 @@
-"use client";
-import React from "react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import { redirect } from "next/navigation";
 import RegistrationForm from "@/components/pages/registration/RegistrationForm";
+import { Metadata } from "next";
+import prisma from "@/lib/prisma";
 
-export default function NormalRegistrationPage() {
-  const params = useParams();
-  const slug = params.slug as string;
+export const metadata: Metadata = {
+  title: "Normal Registration - Enthusiast Run",
+  description:
+    "Register for the Enthusiast Run normal registration! Secure your spot in the CATEGORY_5K or CATEGORY_10K run. Sign up now to join the excitement of Enthusiast Run.",
+};
+
+interface Slug {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
+export default async function NormalRegistrationPage({ params }: Slug) {
+  const { slug } = await params;
 
   if (slug !== "CATEGORY_10K" && slug !== "CATEGORY_5K") {
     return redirect("/not-found");
   }
 
+  if (slug == "CATEGORY_5K") {
+    const registeredCount = await prisma.registration.findMany({
+      where: {
+        category: slug,
+        type: "regular"
+      }
+    })
+
+    if (registeredCount.length >= 800) {
+      return redirect("/register");
+    }
+  }else{
+    const registeredCount = await prisma.registration.findMany({
+      where: {
+        category: slug,
+        type: "regular"
+      }
+    })
+
+    if (registeredCount.length >= 400) {
+      return redirect("/register");
+    }
+  }
+
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
-      <div className="relative min-h-screen w-screen flex flex-col items-center bg-gradient-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4 py-8">
+      <div className="relative min-h-screen w-screen flex flex-col items-center bg-linear-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4 py-8">
         <Image
           src="/about/city-light.webp"
           draggable={false}

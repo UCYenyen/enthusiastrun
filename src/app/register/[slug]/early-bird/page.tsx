@@ -1,22 +1,57 @@
-"use client";
 import React from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { redirect } from "next/navigation";
 import RegistrationForm from "@/components/pages/registration/RegistrationForm";
+import prisma from "@/lib/prisma";
+import { Metadata } from "next";
 
-export default function EarlyRegistrationPage() {
-  const params = useParams();
-  const slug = params.slug as string;
+export const metadata: Metadata = {
+  title: "Early Bird Registration - Enthusiast Run",
+  description:
+    "Register for the Enthusiast Run early bird special! Secure your spot in the CATEGORY_5K or CATEGORY_10K run and enjoy exclusive benefits. Limited early bird slots available, so sign up now to take advantage of this special offer.",
+};
 
+interface Slug {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
+export default async function EarlyRegistrationPage({ params }: Slug) {
+  const { slug } = await params;
   if (slug !== "CATEGORY_10K" && slug !== "CATEGORY_5K") {
     return redirect("/not-found");
+  }
+
+  if (slug == "CATEGORY_5K") {
+    const registeredCount = await prisma.registration.findMany({
+      where: {
+        category: slug,
+        type: "early_bird"
+      }
+    })
+
+    if (registeredCount.length >= 480) {
+      return redirect("/register");
+    }
+  }else{
+    const registeredCount = await prisma.registration.findMany({
+      where: {
+        category: slug,
+        type: "early_bird"
+      }
+    })
+
+    if (registeredCount.length >= 280) {
+      return redirect("/register");
+    }
   }
 
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
-      <div className="relative min-h-screen w-screen flex flex-col items-center bg-gradient-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4 py-8">
+      <div className="relative min-h-screen w-screen flex flex-col items-center bg-linear-to-bl from-[#73DADB] to-[#FFEBCE] text-white px-4 py-8">
         <Image
           src="/about/city-light.webp"
           draggable={false}
@@ -58,9 +93,9 @@ export default function EarlyRegistrationPage() {
         </div>
 
         <div className="relative z-10 w-full pb-32">
-          <RegistrationForm 
-            category={slug as "CATEGORY_5K" | "CATEGORY_10K"} 
-            type="early_bird" 
+          <RegistrationForm
+            category={slug as "CATEGORY_5K" | "CATEGORY_10K"}
+            type="early_bird"
           />
         </div>
       </div>
