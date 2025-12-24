@@ -352,7 +352,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
             <p><span className="font-medium">Bank:</span> BCA</p>
             <p><span className="font-medium">Account:</span> 0092872571</p>
             <p><span className="font-medium">Name:</span> Kho Valencia Febe Amanda</p>
-             <p><span className="font-medium">News Format:</span> Run.Participant Name</p>
+             <p><span className="font-medium">Payment Description:</span> Run.Participant Name</p>
           </div>
         </div>
       )}
