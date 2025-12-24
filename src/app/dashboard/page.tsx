@@ -3,8 +3,8 @@ import Image from "next/image";
 import UserNotRegisteredToCompetition from "@/components/pages/dashboard/UserNotRegisteredToCompetition";
 import { getUserRegistration } from "@/lib/registration";
 import { getServerSession } from "next-auth/next";
-import UserNotLoggedIn from "@/components/auth/UserNotLoggedIn";
 import Link from "next/link";
+import { authOptions } from "@/lib/auth";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,10 +14,12 @@ export const metadata: Metadata = {
 
 
 export default async function page() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
+
   if (!session) {
-    return <UserNotLoggedIn />;
+    return <p>Silakan login kembali.</p>;
   }
+
   const isRegistered = await getUserRegistration(session.user.id);
   return (
     <div className="overflow-hidden">
@@ -81,7 +83,7 @@ export default async function page() {
                 width={200}
                 height={200}
               />
-              {isRegistered.qrCode? (
+              {isRegistered.qrCode ? (
                 <Link
                   href="/about"
                   className="bg-[#4BCFFC] border-2 hover:bg-[#3AA9D1] border-white px-6 py-2 rounded-lg w-fit text-white"
