@@ -234,8 +234,9 @@ export default function RedeemCodeForm() {
             <h2 className="text-2xl font-impact text-background mb-4">Payment Information</h2>
             <div className="bg-white p-4 space-y-2 text-gray-700">
               <p><span className="font-medium">Bank:</span> BCA</p>
-              <p><span className="font-medium">Account:</span> 1234567890</p>
-              <p><span className="font-medium">Name:</span> ENTHUSIAST RUN 2025</p>
+              <p><span className="font-medium">Account:</span> 0092872571</p>
+              <p><span className="font-medium">Name:</span> Kho Valencia Febe Amanda</p>
+              <p><span className="font-medium">Payment Description:</span> Run.Participant Name</p>
             </div>
           </div>
 
@@ -263,7 +264,7 @@ export default function RedeemCodeForm() {
       <div className="bg-white p-6 shadow-lg rounded-b-xl">
         <label className="flex items-start gap-3 cursor-pointer">
           <input type="checkbox" checked={agreedToTerms} onChange={(e) => setAgreedToTerms(e.target.checked)} className="mt-1 w-5 h-5" />
-        <span className="text-gray-600">I agree to the terms and conditions.</span>
+          <span className="text-gray-600">I agree to the terms and conditions.</span>
         </label>
         <button
           type="submit"

@@ -175,7 +175,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
       <div className="bg-white p-6 shadow-lg">
         <h2 className="text-2xl font-impact text-background mb-4">Summary</h2>
         <div className="flex justify-between text-xl font-bold text-background">
-          <span>Total Bayar</span>
+          <span>Total Price</span>
           <span className="text-[#4BCFFC]">{formatCurrency(totalPrice)}</span>
         </div>
       </div>
