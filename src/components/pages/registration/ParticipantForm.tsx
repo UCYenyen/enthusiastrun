@@ -51,7 +51,7 @@ export default function ParticipantForm({
             {index + 1}
           </span>
           <span className="text-white font-impact text-xl">
-            {data.fullName || `Peserta ${index + 1}`}
+            {data.fullName || `Participant ${index + 1}`}
             {isBundling && index === 10 && (
               <span className="ml-2 px-2 py-1 bg-green-400 text-green-900 text-xs rounded-full font-normal">
                 FREE!

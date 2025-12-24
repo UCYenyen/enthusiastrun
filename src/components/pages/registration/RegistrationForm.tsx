@@ -143,7 +143,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
           <div className="mt-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">Participant Count</label>
             <select value={participantCount} onChange={(e) => setParticipantCount(Number(e.target.value))} className="w-full md:w-48 px-4 py-2 border-2 rounded-lg border-gray-200 text-background">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => <option key={n} value={n}>{n} Peserta</option>)}
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => <option key={n} value={n}>{n} Participant</option>)}
             </select>
           </div>
         )}
