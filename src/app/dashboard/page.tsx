@@ -89,7 +89,7 @@ export default async function page() {
                   height={200}
                 />
               }
-              {isRegistered.qrCode ? (
+              {isRegistered.qrCode && isAccepted ? (
                 <Link
                   href="/about"
                   className="bg-[#4BCFFC] border-2 hover:bg-[#3AA9D1] border-white px-6 py-2 rounded-lg w-fit text-white"
