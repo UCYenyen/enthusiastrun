@@ -8,7 +8,8 @@ import { validateRegistrationQR, claimRacePack } from "@/lib/registration";
 export default function QrCodeScanner() {
   const [isScanning, setIsScanning] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  const [userData, setUserData] = useState<Registration | null>(null);
+  const [userList, setUserList] = useState<Registration[]>([]);
+  const [selectedUser, setSelectedUser] = useState<Registration | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -19,20 +20,22 @@ export default function QrCodeScanner() {
       const result = await validateRegistrationQR(code);
 
       if (result.success && result.data) {
-        setUserData(result.data);
+        setUserList(result.data);
+        if (result.data.length === 1) {
+          setSelectedUser(result.data[0]);
+        }
         setErrorMsg(null);
       } else {
-        setUserData(null);
+        setUserList([]);
         setErrorMsg(result.error || "Invalid QR Code");
       }
       setModalOpen(true);
     }
   };
 
-  const handleClaim = async () => {
-    if (!userData) return;
+  const handleClaim = async (regId: string) => {
     setLoading(true);
-    const result = await claimRacePack(userData.id);
+    const result = await claimRacePack(regId);
     if (result.success) {
       alert(result.message);
       closeModal();
@@ -44,7 +47,8 @@ export default function QrCodeScanner() {
 
   const closeModal = () => {
     setModalOpen(false);
-    setUserData(null);
+    setUserList([]);
+    setSelectedUser(null);
     setErrorMsg(null);
     setIsScanning(true);
   };
@@ -79,36 +83,54 @@ export default function QrCodeScanner() {
                   <h2 className="text-2xl font-bold text-red-600">{errorMsg}</h2>
                 </div>
               ) : (
-                userData && (
-                  <>
-                    <h2 className="text-2xl font-bold border-b pb-2 mb-4 text-blue-900">Participant Details</h2>
+                <div className="flex flex-col gap-4">
+                  <h2 className="text-2xl font-bold border-b pb-2 text-blue-900">
+                    {userList.length > 1 ? "Select Participant" : "Participant Details"}
+                  </h2>
+                  
+                  {userList.length > 1 && !selectedUser && (
+                    <div className="flex flex-col gap-2 max-h-[50vh] overflow-y-auto">
+                      {userList.map((user) => (
+                        <button 
+                          key={user.id}
+                          onClick={() => setSelectedUser(user)}
+                          className="flex items-center gap-4 p-3 border rounded-xl hover:bg-gray-50 transition text-left"
+                        >
+                          <img src={user.photoUrl || ""} className="w-12 h-12 rounded-full object-cover" />
+                          <div>
+                            <p className="font-bold">{user.fullName}</p>
+                            <p className="text-xs text-gray-500">{user.category}</p>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {selectedUser && (
                     <div className="grid grid-cols-2 gap-4 text-sm max-h-[60vh] overflow-y-auto pr-2">
                       <div className="col-span-2 flex justify-center mb-4">
-                         <img src={userData.photoUrl} alt="User" className="w-32 h-32 object-cover rounded-full border-4 border-blue-100" />
+                         <img src={selectedUser.photoUrl || ""} alt="User" className="w-32 h-32 object-cover rounded-full border-4 border-blue-100" />
                       </div>
-                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Full Name</p><p className="text-base">{userData.fullName}</p></div>
-                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Category</p><p className="text-base">{userData.category}</p></div>
-                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Email</p><p className="text-base truncate">{userData.email}</p></div>
-                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Phone</p><p className="text-base">{userData.phoneNumber}</p></div>
-                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Jersey Size</p><p className="text-base">{userData.jerseySize}</p></div>
-                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Blood Type</p><p className="text-base">{userData.bloodType}</p></div>
-                      <div className="col-span-2"><p className="font-bold text-gray-500 uppercase text-[10px]">Medical Condition</p><p className="text-base">{userData.medicalCondition || "-"}</p></div>
+                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Full Name</p><p className="text-base">{selectedUser.fullName}</p></div>
+                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Category</p><p className="text-base">{selectedUser.category}</p></div>
+                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Jersey</p><p className="text-base">{selectedUser.jerseySize}</p></div>
+                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Blood</p><p className="text-base">{selectedUser.bloodType}</p></div>
                       <div className="col-span-2">
                         <p className="font-bold text-gray-500 uppercase text-[10px]">Claim Status</p>
-                        <p className={`font-bold ${userData.qrCodeClaimed ? "text-red-500" : "text-green-500"}`}>
-                          {userData.qrCodeClaimed ? `ALREADY CLAIMED at ${new Date(userData.qrCodeClaimedAt!).toLocaleString()}` : "READY TO CLAIM"}
+                        <p className={`font-bold ${selectedUser.qrCodeClaimed ? "text-red-500" : "text-green-500"}`}>
+                          {selectedUser.qrCodeClaimed ? `CLAIMED at ${new Date(selectedUser.qrCodeClaimedAt!).toLocaleString()}` : "READY TO CLAIM"}
                         </p>
                       </div>
                     </div>
-                  </>
-                )
+                  )}
+                </div>
               )}
             </div>
             <div className="flex border-t">
               <button onClick={closeModal} className="flex-1 px-6 py-4 bg-gray-100 hover:bg-gray-200 font-bold transition">CLOSE</button>
-              {!errorMsg && userData && !userData.qrCodeClaimed && (
+              {selectedUser && !selectedUser.qrCodeClaimed && (
                 <button 
-                  onClick={handleClaim} 
+                  onClick={() => handleClaim(selectedUser.id)} 
                   disabled={loading}
                   className="flex-1 px-6 py-4 bg-green-600 hover:bg-green-700 text-white font-bold transition disabled:bg-gray-400"
                 >
