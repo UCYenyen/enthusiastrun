@@ -20,6 +20,7 @@ export function HeroCarousel() {
 
   const images = [
     "/home/hero-image.webp",
+    "/home/hero-image-2.webp",
   ];
 
   const [api, setApi] = React.useState<CarouselApi>();
@@ -68,7 +69,7 @@ export function HeroCarousel() {
            
             <Card
               style={{ backgroundImage: `url(${imageUrl})` }}
-              className="h-[60vh] p-0 rounded-none border-none bg-cover bg-center flex justify-center items-center"
+              className="h-[70vh] p-0 rounded-none border-none bg-cover bg-center flex justify-center items-center aspect-auto object-cover"
             >
                {index == 0 &&
               <Countdown></Countdown>
