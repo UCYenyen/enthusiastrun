@@ -264,3 +264,44 @@ export async function getGroupParticipants(qrCodeId: string): Promise<Registrati
     orderBy: { fullName: "asc" }
   }) as Registration[];
 }
+
+export async function makeVoucher(category: "CATEGORY_10K" | "CATEGORY_5K") {
+  await prisma.voucher.create({
+    data: {
+      category: category,
+    },
+  });
+}
+
+export async function deleteVoucher(id: string) {
+  await prisma.voucher.delete({
+    where: { id },
+  });
+}
+
+export async function useVoucher(id: string): Promise<ActionResult<Voucher>> {
+  try {
+    const voucher = await prisma.voucher.update({
+      where: { id },
+      data: { isUsed: true },
+    });
+
+    return {
+      success: true,
+      data: voucher as Voucher,
+      message: "Voucher used successfully",
+    };
+  } catch (error) {
+    console.error("Failed to use voucher:", error);
+    return {
+      success: false,
+      error: "Failed to use voucher",
+    };
+  }
+}
+
+export async function getAllVouchers(): Promise<Voucher[]> {
+  return await prisma.voucher.findMany({
+    orderBy: { id: "desc" },
+  });
+}
