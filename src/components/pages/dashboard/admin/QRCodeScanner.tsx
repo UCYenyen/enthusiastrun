@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Scanner, IDetectedBarcode } from "@yudiel/react-qr-scanner";
 import { Registration } from "@/types/registration.md";
 import { validateRegistrationQR, claimRacePack } from "@/lib/registration";
@@ -80,11 +80,11 @@ export default function QrCodeScanner() {
               {errorMsg ? (
                 <div className="text-center py-8">
                   <div className="text-6xl mb-4">❌</div>
-                  <h2 className="text-2xl font-bold text-red-600">{errorMsg}</h2>
+                  <h2 className="text-2xl  text-red-600">{errorMsg}</h2>
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
-                  <h2 className="text-2xl font-bold border-b pb-2 text-blue-900">
+                  <h2 className="text-2xl  border-b pb-2 text-blue-900">
                     {userList.length > 1 ? "Select Participant" : "Participant Details"}
                   </h2>
                   
@@ -96,9 +96,8 @@ export default function QrCodeScanner() {
                           onClick={() => setSelectedUser(user)}
                           className="flex items-center gap-4 p-3 border rounded-xl hover:bg-gray-50 transition text-left"
                         >
-                          <img src={user.photoUrl || ""} className="w-12 h-12 rounded-full object-cover" />
                           <div>
-                            <p className="font-bold">{user.fullName}</p>
+                            <p className="">{user.fullName}</p>
                             <p className="text-xs text-gray-500">{user.category}</p>
                           </div>
                         </button>
@@ -108,16 +107,13 @@ export default function QrCodeScanner() {
 
                   {selectedUser && (
                     <div className="grid grid-cols-2 gap-4 text-sm max-h-[60vh] overflow-y-auto pr-2">
-                      <div className="col-span-2 flex justify-center mb-4">
-                         <img src={selectedUser.photoUrl || ""} alt="User" className="w-32 h-32 object-cover rounded-full border-4 border-blue-100" />
-                      </div>
-                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Full Name</p><p className="text-base">{selectedUser.fullName}</p></div>
-                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Category</p><p className="text-base">{selectedUser.category}</p></div>
-                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Jersey</p><p className="text-base">{selectedUser.jerseySize}</p></div>
-                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Blood</p><p className="text-base">{selectedUser.bloodType}</p></div>
+                      <div><p className=" text-gray-500 uppercase text-[10px]">Full Name</p><p className="text-base">{selectedUser.fullName}</p></div>
+                      <div><p className=" text-gray-500 uppercase text-[10px]">Category</p><p className="text-base">{selectedUser.category}</p></div>
+                      <div><p className=" text-gray-500 uppercase text-[10px]">Jersey</p><p className="text-base">{selectedUser.jerseySize}</p></div>
+                      <div><p className=" text-gray-500 uppercase text-[10px]">Blood</p><p className="text-base">{selectedUser.bloodType}</p></div>
                       <div className="col-span-2">
-                        <p className="font-bold text-gray-500 uppercase text-[10px]">Claim Status</p>
-                        <p className={`font-bold ${selectedUser.qrCodeClaimed ? "text-red-500" : "text-green-500"}`}>
+                        <p className=" text-gray-500 uppercase text-[10px]">Claim Status</p>
+                        <p className={` ${selectedUser.qrCodeClaimed ? "text-red-500" : "text-green-500"}`}>
                           {selectedUser.qrCodeClaimed ? `CLAIMED at ${new Date(selectedUser.qrCodeClaimedAt!).toLocaleString()}` : "READY TO CLAIM"}
                         </p>
                       </div>
@@ -127,12 +123,12 @@ export default function QrCodeScanner() {
               )}
             </div>
             <div className="flex border-t">
-              <button onClick={closeModal} className="flex-1 px-6 py-4 bg-gray-100 hover:bg-gray-200 font-bold transition">CLOSE</button>
+              <button onClick={closeModal} className="flex-1 px-6 py-4 bg-gray-100 hover:bg-gray-200  transition">CLOSE</button>
               {selectedUser && !selectedUser.qrCodeClaimed && (
                 <button 
                   onClick={() => handleClaim(selectedUser.id)} 
                   disabled={loading}
-                  className="flex-1 px-6 py-4 bg-green-600 hover:bg-green-700 text-white font-bold transition disabled:bg-gray-400"
+                  className="flex-1 px-6 py-4 bg-green-600 hover:bg-green-700 text-white  transition disabled:bg-gray-400"
                 >
                   {loading ? "CLAIMING..." : "CONFIRM CLAIM"}
                 </button>
