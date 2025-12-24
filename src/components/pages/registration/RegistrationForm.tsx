@@ -154,7 +154,17 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
           <ParticipantForm key={i} index={i} data={p} onChange={(d) => setParticipants(prev => { const upd = [...prev]; upd[i] = { ...upd[i], ...d }; return upd; })} isBundling={packageType === "bundling"} />
         ))}
       </div>
-
+       {totalPrice > 0 && (
+        <div className="bg-amber-50 border-4 border-amber-400 p-6">
+          <h2 className="text-2xl font-impact text-background mb-4">Payment Information</h2>
+          <div className="bg-white p-4 space-y-2 text-gray-700">
+            <p><span className="font-medium">Bank:</span> BCA</p>
+            <p><span className="font-medium">Account:</span> 0092872571</p>
+            <p><span className="font-medium">Name:</span> Kho Valencia Febe Amanda</p>
+             <p><span className="font-medium">Payment Description:</span> Run.Participant Name</p>
+          </div>
+        </div>
+      )}
       {totalPrice > 0 && (
         <div className="bg-white p-6 shadow-lg border-b-2 border-gray-100">
           <h2 className="text-2xl font-impact text-background mb-4">Payment Confirmation</h2>
