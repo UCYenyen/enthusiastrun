@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 import { authOptions } from "@/lib/auth";
 import { Metadata } from "next";
+import { isAcceptedRegistration } from "@/lib/registration";
 
 export const metadata: Metadata = {
   title: "Dashboard Enthusiast Run - enthusiastrun.com",
@@ -21,6 +22,9 @@ export default async function page() {
   }
 
   const isRegistered = await getUserRegistration(session.user.id);
+
+  const isAccepted = await isAcceptedRegistration(session.user.id);
+
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
@@ -74,15 +78,17 @@ export default async function page() {
               <h1 className="text-4xl w-[90%] text-center sm:w-full">
                 RACEPACK QR-CODE!
               </h1>
-              <Image
-                src={
-                  isRegistered.qrCode?.qrCodeUrl || "/home/enthusiast-text-logo.webp"
-                }
-                unoptimized
-                alt={`Racepack ${isRegistered.fullName} QR Code`}
-                width={200}
-                height={200}
-              />
+              { isAccepted &&
+                <Image
+                  src={
+                    isRegistered.qrCode?.qrCodeUrl || "/home/enthusiast-text-logo.webp"
+                  }
+                  unoptimized
+                  alt={`Racepack ${isRegistered.fullName} QR Code`}
+                  width={200}
+                  height={200}
+                />
+              }
               {isRegistered.qrCode ? (
                 <Link
                   href="/about"

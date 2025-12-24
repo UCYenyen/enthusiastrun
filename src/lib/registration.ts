@@ -243,6 +243,13 @@ export async function getUserRegistration(userId: string): Promise<Registration 
   }) as Registration | null;
 }
 
+export async function isAcceptedRegistration(userId: string): Promise<boolean> {
+  const reg = await prisma.registration.findFirst({
+    where: { userId, status: "confirmed" },
+  });
+  return !!reg;
+}
+
 export async function getAllRegistrations(): Promise<Registration[]> {
   const allData = await prisma.registration.findMany({
     include: { user: true },
