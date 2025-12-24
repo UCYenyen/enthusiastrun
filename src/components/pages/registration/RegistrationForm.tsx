@@ -8,6 +8,7 @@ import ParticipantForm from "./ParticipantForm";
 import { UploadWidget } from "@/components/CloudinaryWidget";
 import { createRegistration } from "@/lib/registration";
 import { RegistrationCategory } from "@/types/registration.md";
+import Image from "next/image";
 
 export interface ParticipantData {
   fullName: string;
@@ -349,8 +350,9 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
           <h2 className="text-2xl font-impact text-background mb-4">Payment Information</h2>
           <div className="bg-white p-4 space-y-2 text-gray-700">
             <p><span className="font-medium">Bank:</span> BCA</p>
-            <p><span className="font-medium">Account:</span> 1234567890</p>
-            <p><span className="font-medium">Name:</span> ENTHUSIAST RUN 2025</p>
+            <p><span className="font-medium">Account:</span> 0092872571</p>
+            <p><span className="font-medium">Name:</span> Kho Valencia Febe Amanda</p>
+             <p><span className="font-medium">News Format:</span> Run.Participant Name</p>
           </div>
         </div>
       )}

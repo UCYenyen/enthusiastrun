@@ -3,7 +3,7 @@
 import React from "react";
 import { UploadWidget } from "@/components/CloudinaryWidget";
 import { ParticipantData } from "./RegistrationForm";
-
+import Image from "next/image";
 interface ParticipantFormProps {
   index: number;
   data: ParticipantData;
@@ -60,9 +60,8 @@ export default function ParticipantForm({
           </span>
         </div>
         <svg
-          className={`w-6 h-6 text-white transition-transform ${
-            isExpanded ? "rotate-180" : ""
-          }`}
+          className={`w-6 h-6 text-white transition-transform ${isExpanded ? "rotate-180" : ""
+            }`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -240,6 +239,7 @@ export default function ParticipantForm({
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
               Jersey & Medical Condition
             </h3>
+            <Image src="/registration/size_chart.jpg" className="w-full h-auto" alt="Size Chart" width={500} height={300} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className={labelClasses}>
