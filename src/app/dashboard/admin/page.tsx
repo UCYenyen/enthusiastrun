@@ -1,7 +1,13 @@
-"use client";
 import React from "react";
 import Image from "next/image";
 import EarlyNotEarly from "@/components/pages/registration/EarlyNotEarly";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Admin Dashboard Enthusiast Run - enthusiastrun.com",
+  description: "Admin dashboard for managing Enthusiast Run Vol. 2. Access tools for validating QR codes, managing registrations, and overseeing voucher distribution to ensure a smooth event experience.",
+};
+
 export default function page() {
   return (
     <div className="overflow-hidden">

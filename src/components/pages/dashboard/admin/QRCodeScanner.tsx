@@ -21,9 +21,7 @@ export default function QrCodeScanner() {
 
       if (result.success && result.data) {
         setUserList(result.data);
-        if (result.data.length === 1) {
-          setSelectedUser(result.data[0]);
-        }
+        if (result.data.length === 1) setSelectedUser(result.data[0]);
         setErrorMsg(null);
       } else {
         setUserList([]);
@@ -37,8 +35,9 @@ export default function QrCodeScanner() {
     setLoading(true);
     const result = await claimRacePack(regId);
     if (result.success) {
-      alert(result.message);
-      closeModal();
+      setUserList(prev => prev.map(u => u.id === regId ? { ...u, qrCodeClaimed: true, qrCodeClaimedAt: new Date() } : u));
+      setSelectedUser(prev => prev?.id === regId ? { ...prev, qrCodeClaimed: true, qrCodeClaimedAt: new Date() } : prev);
+      alert("Claim successful");
     } else {
       alert(result.error);
     }
@@ -47,74 +46,59 @@ export default function QrCodeScanner() {
 
   const closeModal = () => {
     setModalOpen(false);
-    setUserList([]);
-    setSelectedUser(null);
-    setErrorMsg(null);
     setIsScanning(true);
+    setSelectedUser(null);
+    setUserList([]);
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 w-full max-w-md mx-auto">
-      <div className="w-full h-80 border-4 border-dashed border-white overflow-hidden rounded-lg relative bg-black">
-        <Scanner
-          onScan={handleScan}
-          paused={!isScanning}
-          constraints={{ facingMode: "environment" }}
-          styles={{ container: { width: "100%", height: "100%" } }}
-        />
-        {isScanning && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-3/4 h-3/4 border-4 border-green-500 rounded-lg animate-pulse" />
-          </div>
-        )}
-      </div>
-
-      <div className="text-white text-lg p-4 rounded w-full text-center bg-black/50">
-        {isScanning ? "Point camera at QR Code" : "Processing..."}
-      </div>
+    <div className="w-full max-w-md mx-auto">
+      {isScanning && (
+        <div className="aspect-square overflow-hidden rounded-xl border-4 border-white shadow-2xl">
+          <Scanner onScan={handleScan} allowMultiple={false} scanDelay={2000} />
+        </div>
+      )}
 
       {modalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-white text-gray-900 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-300">
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white w-full max-w-lg rounded-2xl overflow-hidden shadow-2xl text-background">
+            <div className="p-6 border-b">
+              <h2 className="text-2xl font-impact uppercase italic">
+                {errorMsg ? "SCAN ERROR" : `PARTICIPANTS FOUND (${userList.length})`}
+              </h2>
+            </div>
+
             <div className="p-6">
               {errorMsg ? (
-                <div className="text-center py-8">
-                  <div className="text-6xl mb-4">❌</div>
-                  <h2 className="text-2xl  text-red-600">{errorMsg}</h2>
-                </div>
+                <div className="bg-red-50 text-red-600 p-4 rounded-lg font-bold text-center uppercase">{errorMsg}</div>
               ) : (
-                <div className="flex flex-col gap-4">
-                  <h2 className="text-2xl  border-b pb-2 text-blue-900">
-                    {userList.length > 1 ? "Select Participant" : "Participant Details"}
-                  </h2>
-                  
-                  {userList.length > 1 && !selectedUser && (
-                    <div className="flex flex-col gap-2 max-h-[50vh] overflow-y-auto">
-                      {userList.map((user) => (
-                        <button 
-                          key={user.id}
-                          onClick={() => setSelectedUser(user)}
-                          className="flex items-center gap-4 p-3 border rounded-xl hover:bg-gray-50 transition text-left"
-                        >
-                          <div>
-                            <p className="">{user.fullName}</p>
-                            <p className="text-xs text-gray-500">{user.category}</p>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  )}
+                <div className="space-y-4">
+                  <div className="max-h-48 overflow-y-auto space-y-2 mb-6">
+                    {userList.map((u) => (
+                      <button
+                        key={u.id}
+                        onClick={() => setSelectedUser(u)}
+                        className={`w-full p-3 rounded-lg border-2 text-left transition ${selectedUser?.id === u.id ? "border-[#4BCFFC] bg-[#4BCFFC]/5" : "border-gray-100"}`}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="font-bold uppercase text-sm">{u.fullName}</span>
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${u.qrCodeClaimed ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"}`}>
+                            {u.qrCodeClaimed ? "CLAIMED" : "READY"}
+                          </span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
 
                   {selectedUser && (
-                    <div className="grid grid-cols-2 gap-4 text-sm max-h-[60vh] overflow-y-auto pr-2">
-                      <div><p className=" text-gray-500 uppercase text-[10px]">Full Name</p><p className="text-base">{selectedUser.fullName}</p></div>
-                      <div><p className=" text-gray-500 uppercase text-[10px]">Category</p><p className="text-base">{selectedUser.category}</p></div>
-                      <div><p className=" text-gray-500 uppercase text-[10px]">Jersey</p><p className="text-base">{selectedUser.jerseySize}</p></div>
-                      <div><p className=" text-gray-500 uppercase text-[10px]">Blood</p><p className="text-base">{selectedUser.bloodType}</p></div>
+                    <div className="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl border-t-4 border-[#4BCFFC]">
+                      <div className="col-span-2"><p className="text-gray-500 uppercase text-[10px] font-bold">Category</p><p className="font-bold">{selectedUser.category}</p></div>
+                      <div><p className="text-gray-500 uppercase text-[10px] font-bold">Jersey</p><p className="font-bold">{selectedUser.jerseySize}</p></div>
+                      <div><p className="text-gray-500 uppercase text-[10px] font-bold">Blood</p><p className="font-bold">{selectedUser.bloodType}</p></div>
                       <div className="col-span-2">
-                        <p className=" text-gray-500 uppercase text-[10px]">Claim Status</p>
-                        <p className={` ${selectedUser.qrCodeClaimed ? "text-red-500" : "text-green-500"}`}>
-                          {selectedUser.qrCodeClaimed ? `CLAIMED at ${new Date(selectedUser.qrCodeClaimedAt!).toLocaleString()}` : "READY TO CLAIM"}
+                        <p className="text-gray-500 uppercase text-[10px] font-bold">Claim Status</p>
+                        <p className={`font-bold ${selectedUser.qrCodeClaimed ? "text-red-500" : "text-green-500"}`}>
+                          {selectedUser.qrCodeClaimed ? `CLAIMED at ${new Date(selectedUser.qrCodeClaimedAt!).toLocaleTimeString()}` : "READY TO CLAIM"}
                         </p>
                       </div>
                     </div>
@@ -122,14 +106,11 @@ export default function QrCodeScanner() {
                 </div>
               )}
             </div>
+
             <div className="flex border-t">
-              <button onClick={closeModal} className="flex-1 px-6 py-4 bg-gray-100 hover:bg-gray-200  transition">CLOSE</button>
+              <button onClick={closeModal} className="flex-1 px-6 py-4 bg-gray-100 hover:bg-gray-200 transition font-bold">CLOSE</button>
               {selectedUser && !selectedUser.qrCodeClaimed && (
-                <button 
-                  onClick={() => handleClaim(selectedUser.id)} 
-                  disabled={loading}
-                  className="flex-1 px-6 py-4 bg-green-600 hover:bg-green-700 text-white  transition disabled:bg-gray-400"
-                >
+                <button onClick={() => handleClaim(selectedUser.id)} disabled={loading} className="flex-1 px-6 py-4 bg-green-600 hover:bg-green-700 text-white transition disabled:bg-gray-400 font-bold">
                   {loading ? "CLAIMING..." : "CONFIRM CLAIM"}
                 </button>
               )}

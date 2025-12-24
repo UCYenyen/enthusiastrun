@@ -20,7 +20,6 @@ export async function checkRegistrationCount(category: "CATEGORY_5K" | "CATEGORY
     });
     return count;
   } catch (error) {
-    console.error("Failed to check registration count:", error);
     return 100;
   }
 }
@@ -34,23 +33,18 @@ export async function createRegistration(
     });
 
     if (!user) {
-      return {
-        success: false,
-        error: "User not found. Please login again.",
-      };
+      return { success: false, error: "User not found." };
     }
 
     const existingRegistration = await prisma.registration.findFirst({
       where: {
-        userId: data.userId,
+        email: data.email,
+        category: data.category,
       },
     });
 
     if (existingRegistration) {
-      return {
-        success: false,
-        error: "You have already registered for this event",
-      };
+      return { success: false, error: "Email already registered." };
     }
 
     const registration = await prisma.$transaction(async (tx) => {
@@ -76,7 +70,7 @@ export async function createRegistration(
           jerseySize: data.jerseySize,
           paymentProofUrl: data.paymentProofUrl,
           paymentProofId: data.paymentProofId,
-          status: `${data.type === "redeem_voucher" ? "confirmed" : "pending"}` as RegistrationStatus,
+          status: (data.type === "redeem_voucher" ? "confirmed" : "pending") as RegistrationStatus,
           type: data.type,
           updatedAt: new Date(),
           voucherId: data.voucherId || null,
@@ -85,7 +79,7 @@ export async function createRegistration(
       });
 
       if (data.voucherId) {
-        await prisma.voucher.update({
+        await tx.voucher.update({
           where: { id: data.voucherId },
           data: { isUsed: true }
         });
@@ -97,59 +91,97 @@ export async function createRegistration(
     revalidatePath("/register");
     revalidatePath("/dashboard");
 
-    return {
-      success: true,
-      data: registration as Registration,
-      message: "Registration successful!",
-    };
+    return { success: true, data: registration as Registration };
   } catch (error) {
-    console.error("Registration error:", error);
-    return {
-      success: false,
-      error: "Failed to register. Please try again.",
-    };
+    return { success: false, error: "Failed to register." };
   }
 }
 
-export async function makeVoucher(category: "CATEGORY_10K" | "CATEGORY_5K") {
-  await prisma.voucher.create({
-    data: {
-      category: category,
-    },
-  });
-}
-
-export async function deleteVoucher(id: string) {
-  await prisma.voucher.delete({
-    where: { id },
-  });
-}
-
-export async function useVoucher(id: string): Promise<ActionResult<Voucher>> {
+export async function createBulkRegistration(
+  dataList: (RegistrationData & { voucherId?: string })[]
+): Promise<ActionResult<Registration[]>> {
   try {
-    const voucher = await prisma.voucher.update({
-      where: { id },
-      data: { isUsed: true },
+    const registrations = await prisma.$transaction(async (tx) => {
+      const qrCode = await tx.qRCode.create({
+        data: { qrCodeUrl: "" }
+      });
+
+      const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qrCode.id}`;
+      await tx.qRCode.update({
+        where: { id: qrCode.id },
+        data: { qrCodeUrl }
+      });
+
+      const results = [];
+      for (const data of dataList) {
+        const reg = await tx.registration.create({
+          data: {
+            userId: data.userId,
+            fullName: data.fullName,
+            email: data.email,
+            phoneNumber: data.phoneNumber,
+            dateOfBirth: data.dateOfBirth,
+            gender: data.gender,
+            address: data.address,
+            city: data.city,
+            emergencyContact: data.emergencyContact,
+            emergencyPhone: data.emergencyPhone,
+            category: data.category,
+            bloodType: data.bloodType,
+            medicalCondition: data.medicalCondition,
+            photoUrl: data.photoUrl,
+            photoPublicId: data.photoPublicId,
+            idCardUrl: data.idCardUrl,
+            idCardPublicId: data.idCardPublicId,
+            jerseySize: data.jerseySize,
+            paymentProofUrl: data.paymentProofUrl,
+            paymentProofId: data.paymentProofId,
+            status: "pending",
+            type: data.type,
+            qrCodeId: qrCode.id,
+            rekeningName: data.rekeningName || "-",
+          },
+        });
+        results.push(reg);
+      }
+      return results;
     });
 
-    return {
-      success: true,
-      data: voucher as Voucher,
-      message: "Voucher used successfully",
-    };
-  } catch (error) {
-    console.error("Failed to use voucher:", error);
-    return {
-      success: false,
-      error: "Failed to use voucher",
-    };
+    revalidatePath("/dashboard/admin");
+    return { success: true, data: registrations as Registration[] };
+  } catch (error: any) {
+    return { success: false, error: error.message };
   }
 }
 
-export async function getAllVouchers(): Promise<Voucher[]> {
-  return await prisma.voucher.findMany({
-    orderBy: { id: "desc" },
-  });
+export async function updateRegistrationStatus(
+  id: string,
+  status: "pending" | "confirmed" | "cancelled"
+) {
+  try {
+    const target = await prisma.registration.findUnique({
+      where: { id },
+      select: { qrCodeId: true }
+    });
+
+    if (!target || !target.qrCodeId) return { success: false, error: "Registration or QR Group not found" };
+
+    await prisma.registration.updateMany({
+      where: { qrCodeId: target.qrCodeId },
+      data: { 
+        status,
+        paymentStatus: status === "confirmed" ? true : status === "cancelled" ? false : undefined
+      },
+    });
+
+    revalidatePath("/dashboard/admin");
+    return { 
+      success: true, 
+      message: `Successfully updated the entire registration group.` 
+    };
+  } catch (error) {
+    return { success: false, error: "Failed to perform update" };
+  }
 }
 
 export async function makeQRCode(registrationID: string) {
@@ -157,17 +189,9 @@ export async function makeQRCode(registrationID: string) {
     const registration = await prisma.registration.findUnique({
       where: { id: registrationID },
     });
+    if (!registration) return { success: false, error: "Not found" };
 
-    if (!registration) {
-      return { success: false, error: "Registration not found" };
-    }
-
-    const newQRCode = await prisma.qRCode.create({
-      data: {
-        qrCodeUrl: "",
-      },
-    });
-
+    const newQRCode = await prisma.qRCode.create({ data: { qrCodeUrl: "" } });
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${newQRCode.id}&size=200x200`;
 
     await prisma.qRCode.update({
@@ -180,39 +204,9 @@ export async function makeQRCode(registrationID: string) {
       data: { qrCodeId: newQRCode.id },
     });
 
-    const registrationWithQRCode = await prisma.registration.findUnique({
-      where: { id: registrationID },
-      include: { qrCode: true },
-    });
-    
-    return { success: true, data: registrationWithQRCode as Registration };
+    return { success: true };
   } catch (error) {
-    console.error(error);
-    return { success: false, error: "Failed to generate QR code" };
-  }
-}
-
-export async function getUserRegistration(
-  userId: string
-): Promise<Registration | null> {
-  try {
-    const registration = await prisma.registration.findFirst({
-      where: { userId },
-      include: {
-        user: {
-          select: {
-            name: true,
-            email: true,
-            image: true,
-          },
-        },
-        qrCode: true,
-      },
-    });
-    return registration as Registration | null;
-  } catch (error) {
-    console.error(error);
-    return null;
+    return { success: false, error: "QR Error" };
   }
 }
 
@@ -220,128 +214,53 @@ export async function validateRegistrationQR(qrCodeId: string): Promise<ActionRe
   try {
     const registrations = await prisma.registration.findMany({
       where: { qrCodeId: qrCodeId },
-      include: {
-        user: {
-          select: {
-            name: true,
-            email: true,
-            image: true,
-          },
-        },
-      },
+      orderBy: { fullName: "asc" }
     });
-
-    if (!registrations || registrations.length === 0) {
-      return { success: false, error: "Invalid QR Code: No registrations found." };
-    }
-
+    if (registrations.length === 0) return { success: false, error: "Invalid QR" };
     return { success: true, data: registrations as Registration[] };
   } catch (error) {
-    return { success: false, error: "Internal Server Error during validation." };
+    return { success: false, error: "Error" };
   }
 }
 
 export async function claimRacePack(registrationId: string): Promise<ActionResult<Registration>> {
   try {
-    const registration = await prisma.registration.findUnique({
-      where: { id: registrationId },
-    });
-
-    if (!registration) return { success: false, error: "Registration not found." };
-    if (registration.qrCodeClaimed) return { success: false, error: "Race pack already claimed." };
-
     const updated = await prisma.registration.update({
       where: { id: registrationId },
       data: { qrCodeClaimed: true, qrCodeClaimedAt: new Date() },
     });
-
-    revalidatePath("/dashboard/admin");
-    return { success: true, data: updated as Registration, message: "Race pack claimed successfully!" };
+    revalidatePath("/dashboard");
+    return { success: true, data: updated as Registration };
   } catch (error) {
-    return { success: false, error: "Failed to claim race pack." };
+    return { success: false, error: "Failed" };
   }
+}
+
+export async function getUserRegistration(userId: string): Promise<Registration | null> {
+  return await prisma.registration.findFirst({
+    where: { userId },
+    include: { qrCode: true }
+  }) as Registration | null;
 }
 
 export async function getAllRegistrations(): Promise<Registration[]> {
-  try {
-    const registrations = await prisma.registration.findMany({
-      include: {
-        user: {
-          select: {
-            name: true,
-            email: true,
-            image: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+  const allData = await prisma.registration.findMany({
+    include: { user: true },
+    orderBy: { createdAt: "desc" }
+  });
 
-    return registrations as Registration[];
-  } catch (error) {
-    console.error("Failed to get registrations:", error);
-    return [];
-  }
+  const seenQr = new Set();
+  return allData.filter(reg => {
+    if (!reg.qrCodeId) return true;
+    if (seenQr.has(reg.qrCodeId)) return false;
+    seenQr.add(reg.qrCodeId);
+    return true;
+  }) as Registration[];
 }
 
-export async function updateRegistrationStatus(
-  id: string,
-  status: RegistrationStatus
-): Promise<ActionResult<Registration>> {
-  try {
-    const registration = await prisma.registration.update({
-      where: { id },
-      data: { status },
-    });
-
-    if (!registration) {
-      return {
-        success: false,
-        error: "Failed to update registration",
-      };
-    }
-
-    if (status == "confirmed") {
-      const paymentStatus = await prisma.registration.update({
-        where: { id },
-        data: { paymentStatus: true },
-      });
-
-      const qrCode = await makeQRCode(registration.id);
-
-      if (!qrCode.success) {
-        return {
-          success: false,
-          error: qrCode.error,
-        };
-      }
-
-      if (!paymentStatus) {
-        return {
-          success: false,
-          error: "Failed to update payment status",
-        };
-      }
-    } else if (status == "cancelled") {
-      await prisma.registration.update({
-        where: { id },
-        data: { paymentStatus: false },
-      });
-    }
-    revalidatePath("/dashboard");
-
-    return {
-      success: true,
-      data: registration as Registration,
-      message: `Registration ${status} successfully`,
-    };
-  } catch (error) {
-    console.error("Failed to update registration:", error);
-    return {
-      success: false,
-      error: "Failed to update registration status",
-    };
-  }
+export async function getGroupParticipants(qrCodeId: string): Promise<Registration[]> {
+  return await prisma.registration.findMany({
+    where: { qrCodeId: qrCodeId },
+    orderBy: { fullName: "asc" }
+  }) as Registration[];
 }

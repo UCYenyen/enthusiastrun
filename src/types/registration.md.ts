@@ -75,6 +75,7 @@ export interface Registration extends RegistrationData {
     image: string | null;
   };
   qrCode?:{
+    qrCodeId: string;
     qrCodeUrl: string;
   }
 }

@@ -1,14 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Registration } from "@/types/registration.md";
 import { updateRegistrationStatus } from "@/lib/registration";
 import { toast } from "sonner";
@@ -18,259 +10,172 @@ interface RegistrationTableProps {
   registrations: Registration[];
 }
 
-export default function RegistrationTable({ registrations }: RegistrationTableProps) {
-  const [data, setData] = useState(registrations);
-  const [isUpdating, setIsUpdating] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [categoryFilter, setCategoryFilter] = useState<string>("all");
-  
-  // Modal state
-  const [selectedRegistration, setSelectedRegistration] = useState<Registration | null>(null);
+export default function RegistrationTable({ registrations: initialRegistrations }: RegistrationTableProps) {
+  const [registrations, setRegistrations] = useState<Registration[]>(initialRegistrations);
+  const [selectedReg, setSelectedReg] = useState<Registration | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filter, setFilter] = useState<"all" | "pending" | "confirmed" | "cancelled">("all");
+  const [categoryFilter, setCategoryFilter] = useState<"all" | "CATEGORY_5K" | "CATEGORY_10K">("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
 
-  const openDetailModal = (registration: Registration) => {
-    setSelectedRegistration(registration);
+  const handleStatusUpdate = async (id: string, newStatus: "pending" | "confirmed" | "cancelled") => {
+    setUpdatingId(id);
+    const result = await updateRegistrationStatus(id, newStatus);
+    
+    if (result.success) {
+      setRegistrations(prev => prev.map(r => r.id === id ? { ...r, status: newStatus, paymentStatus: newStatus === "confirmed" } : r));
+      toast.success(result.message || "Status updated");
+    } else {
+      toast.error(result.error || "Failed to update");
+    }
+    setUpdatingId(null);
+  };
+
+  const openModal = (reg: Registration) => {
+    setSelectedReg(reg);
     setIsModalOpen(true);
   };
 
-  const closeDetailModal = () => {
-    setIsModalOpen(false);
-    setSelectedRegistration(null);
-  };
-
-  const handleStatusChange = async (id: string, newStatus: "pending" | "confirmed" | "cancelled") => {
-    setIsUpdating(id);
-    try {
-      const result = await updateRegistrationStatus(id, newStatus);
-      if (result.success) {
-        setData((prev) =>
-          prev.map((reg) =>
-            reg.id === id ? { ...reg, status: newStatus, paymentStatus: newStatus === "confirmed" } : reg
-          )
-        );
-        toast.success(`Status berhasil diubah ke ${newStatus}`);
-      } else {
-        toast.error(result.error || "Gagal mengubah status");
-      }
-    } catch (error) {
-      toast.error("Terjadi kesalahan");
-    } finally {
-      setIsUpdating(null);
-    }
-  };
-
-  const filteredData = data.filter((reg) => {
-    const matchesSearch =
-      reg.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      reg.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      reg.phoneNumber.includes(searchTerm);
-
-    const matchesStatus = statusFilter === "all" || reg.status === statusFilter;
-    const matchesCategory = categoryFilter === "all" || reg.category === categoryFilter;
-
-    return matchesSearch && matchesStatus && matchesCategory;
+  const filteredRegistrations = registrations.filter(r => {
+    const matchStatus = filter === "all" || r.status === filter;
+    const matchCategory = categoryFilter === "all" || r.category === categoryFilter;
+    const matchSearch = searchQuery === "" || 
+      r.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      r.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      r.phoneNumber.includes(searchQuery);
+    return matchStatus && matchCategory && matchSearch;
   });
 
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
-
-  const getStatusBadge = (status: string) => {
-    const styles = {
-      pending: "bg-yellow-100 text-yellow-800 border-yellow-300",
-      confirmed: "bg-green-100 text-green-800 border-green-300",
-      cancelled: "bg-red-100 text-red-800 border-red-300",
-    };
-    return styles[status as keyof typeof styles] || styles.pending;
-  };
-
-  const getCategoryBadge = (category: string) => {
-    return category === "CATEGORY_5K"
-      ? "bg-blue-100 text-blue-800 border-blue-300"
-      : "bg-purple-100 text-purple-800 border-purple-300";
+  const stats = {
+    total: registrations.length,
+    pending: registrations.filter(r => r.status === "pending").length,
+    confirmed: registrations.filter(r => r.status === "confirmed").length,
+    cancelled: registrations.filter(r => r.status === "cancelled").length,
   };
 
   return (
-    <div className="w-[90%] space-y-4">
-      {/* Header & Stats */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h2 className="text-2xl font-impact text-white">Registration Data</h2>
-          <p className="text-white/70 text-sm">Total: {filteredData.length} participants</p>
+    <div className="w-[90%] md:w-full space-y-6 mt-4 md:mt-12">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="bg-white/20 border border-white/40 rounded-lg p-4 text-center">
+          <p className="text-3xl font-impact text-white">{stats.total}</p>
+          <p className="text-white/70 text-sm">Total</p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <div className="bg-yellow-500/20 border border-yellow-500 px-3 py-1 rounded-lg">
-            <span className="text-yellow-300 text-sm">
-              Pending: {data.filter((r) => r.status === "pending").length}
-            </span>
-          </div>
-          <div className="bg-green-500/20 border border-green-500 px-3 py-1 rounded-lg">
-            <span className="text-green-300 text-sm">
-              Confirmed: {data.filter((r) => r.status === "confirmed").length}
-            </span>
-          </div>
-          <div className="bg-red-500/20 border border-red-500 px-3 py-1 rounded-lg">
-            <span className="text-red-300 text-sm">
-              Cancelled: {data.filter((r) => r.status === "cancelled").length}
-            </span>
-          </div>
+        <div className="bg-yellow-500/20 border border-yellow-500 rounded-lg p-4 text-center">
+          <p className="text-3xl font-impact text-yellow-300">{stats.pending}</p>
+          <p className="text-yellow-300/70 text-sm">Pending</p>
+        </div>
+        <div className="bg-green-500/20 border border-green-500 rounded-lg p-4 text-center">
+          <p className="text-3xl font-impact text-green-300">{stats.confirmed}</p>
+          <p className="text-green-300/70 text-sm">Confirmed</p>
+        </div>
+        <div className="bg-red-500/20 border border-red-500 rounded-lg p-4 text-center">
+          <p className="text-3xl font-impact text-red-300">{stats.cancelled}</p>
+          <p className="text-red-300/70 text-sm">Cancelled</p>
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-col md:flex-row gap-3">
-        <input
-          type="text"
-          placeholder="Cari nama, email, atau nomor telepon..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="flex-1 px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white placeholder-white/50 focus:outline-none focus:border-[#4BCFFC]"
+      <div className="flex flex-col sm:flex-row gap-3">
+        <input 
+          type="text" 
+          value={searchQuery} 
+          onChange={(e) => setSearchQuery(e.target.value)} 
+          placeholder="Search by name, email, or phone..." 
+          className="flex-1 px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white placeholder:text-white/50 focus:outline-none focus:border-[#4BCFFC]"
         />
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white focus:outline-none focus:border-[#4BCFFC]"
-        >
-          <option value="all" className="bg-background">All Statuses</option>
+        <select value={filter} onChange={(e) => setFilter(e.target.value as "all" | "pending" | "confirmed" | "cancelled")} className="px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white focus:outline-none focus:border-[#4BCFFC]">
+          <option value="all" className="bg-background">All Status</option>
           <option value="pending" className="bg-background">Pending</option>
           <option value="confirmed" className="bg-background">Confirmed</option>
-          <option value="cancelled" className="bg-background">Cancelled</option>
+          <option value="cancelled" className="bg-background">Rejected</option>
         </select>
-        <select
-          value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
-          className="px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white focus:outline-none focus:border-[#4BCFFC]"
-        >
+        <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value as "all" | "CATEGORY_5K" | "CATEGORY_10K")} className="px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white focus:outline-none focus:border-[#4BCFFC]">
           <option value="all" className="bg-background">All Categories</option>
           <option value="CATEGORY_5K" className="bg-background">5K Run</option>
           <option value="CATEGORY_10K" className="bg-background">10K Run</option>
         </select>
       </div>
+      
+      <div className="flex justify-between items-center">
+        <p className="text-white/70 text-sm">
+          Showing {filteredRegistrations.length} of {registrations.length} registrations
+        </p>
+        {searchQuery && (
+          <button 
+            onClick={() => setSearchQuery("")} 
+            className="text-white/70 text-sm hover:text-white underline"
+          >
+            Clear search
+          </button>
+        )}
+      </div>
 
-      {/* Table */}
       <div className="bg-white rounded-xl overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-gray-100">
-                <TableHead className="text-background">No</TableHead>
-                <TableHead className="text-background">Name</TableHead>
-                <TableHead className="text-background">Email</TableHead>
-                <TableHead className="text-background">Phone</TableHead>
-                <TableHead className="text-background">Category</TableHead>
-                <TableHead className="text-background">Jersey</TableHead>
-                <TableHead className="text-background">Status</TableHead>
-                <TableHead className="text-background">Payment</TableHead>
-                <TableHead className="text-background">Registration Date</TableHead>
-                <TableHead className="text-background">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredData.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={10} className="text-center py-8 text-gray-500">
-                    Tidak ada data registrasi
-                  </TableCell>
-                </TableRow>
+          <table className="w-full">
+            <thead>
+              <tr className="bg-gray-100 border-b-2 border-gray-200">
+                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">No</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Name</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Email</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Category</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Type</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Status</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Payment</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredRegistrations.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="text-center py-8 text-gray-500">No registrations found</td>
+                </tr>
               ) : (
-                filteredData.map((reg, index) => (
-                  <TableRow key={reg.id} className="hover:bg-gray-50">
-                    <TableCell className="text-background font-medium">{index + 1}</TableCell>
-                    <TableCell>
-                      <div className="text-background font-medium">{reg.fullName}</div>
-                      <div className="text-gray-500 text-xs">{reg.city}</div>
-                    </TableCell>
-                    <TableCell className="text-background">{reg.email}</TableCell>
-                    <TableCell className="text-background">{reg.phoneNumber}</TableCell>
-                    <TableCell>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getCategoryBadge(reg.category)}`}>
+                filteredRegistrations.map((reg, idx) => (
+                  <tr key={reg.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="px-4 py-3 text-sm text-background font-medium">{idx + 1}</td>
+                    <td className="px-4 py-3 text-sm text-background font-bold">{reg.fullName}</td>
+                    <td className="px-4 py-3 text-sm text-background">{reg.email}</td>
+                    <td className="px-4 py-3">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${reg.category === "CATEGORY_5K" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800"}`}>
                         {reg.category === "CATEGORY_5K" ? "5K" : "10K"}
                       </span>
-                    </TableCell>
-                    <TableCell className="text-background">{reg.jerseySize}</TableCell>
-                    <TableCell>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusBadge(reg.status)}`}>
+                    </td>
+                    <td className="px-4 py-3 text-xs text-background uppercase">{reg.type.replace(/_/g, ' ')}</td>
+                    <td className="px-4 py-3">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${reg.status === "confirmed" ? "bg-green-100 text-green-800" : reg.status === "pending" ? "bg-yellow-100 text-yellow-800" : "bg-red-100 text-red-800"}`}>
                         {reg.status}
                       </span>
-                    </TableCell>
-                    <TableCell>
-                      {reg.paymentProofUrl ? (
-                        <a
-                          href={reg.paymentProofUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#4BCFFC] hover:underline text-sm"
-                        >
-                          View Proof
-                        </a>
-                      ) : (
-                        <span className="text-gray-400 text-sm">Not uploaded</span>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-background text-sm">
-                      {formatDate(reg.createdAt)}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex gap-1">
-                        {/* Detail Button */}
-                        <button
-                          onClick={() => openDetailModal(reg)}
-                          className="px-2 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600"
-                          title="Lihat Detail"
-                        >
-                          👁
-                        </button>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${reg.paymentStatus ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                        {reg.paymentStatus ? "PAID" : "UNPAID"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex gap-2">
+                        <button onClick={() => openModal(reg)} className="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition">View</button>
                         {reg.status !== "confirmed" && (
-                          <button
-                            onClick={() => handleStatusChange(reg.id, "confirmed")}
-                            disabled={isUpdating === reg.id}
-                            className="px-2 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600 disabled:opacity-50"
-                            title="Konfirmasi"
-                          >
-                            {isUpdating === reg.id ? "..." : "✓"}
+                          <button onClick={() => handleStatusUpdate(reg.id, "confirmed")} disabled={updatingId === reg.id} className="px-3 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600 transition disabled:bg-gray-400">
+                            {updatingId === reg.id ? "..." : "Confirm"}
                           </button>
                         )}
                         {reg.status !== "cancelled" && (
-                          <button
-                            onClick={() => handleStatusChange(reg.id, "cancelled")}
-                            disabled={isUpdating === reg.id}
-                            className="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 disabled:opacity-50"
-                            title="Batalkan"
-                          >
-                            {isUpdating === reg.id ? "..." : "✗"}
-                          </button>
-                        )}
-                        {reg.status !== "pending" && (
-                          <button
-                            onClick={() => handleStatusChange(reg.id, "pending")}
-                            disabled={isUpdating === reg.id}
-                            className="px-2 py-1 bg-yellow-500 text-white text-xs rounded hover:bg-yellow-600 disabled:opacity-50"
-                            title="Set Pending"
-                          >
-                            {isUpdating === reg.id ? "..." : "↺"}
+                          <button onClick={() => handleStatusUpdate(reg.id, "cancelled")} disabled={updatingId === reg.id} className="px-3 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600 transition disabled:bg-gray-400">
+                            {updatingId === reg.id ? "..." : "Reject"}
                           </button>
                         )}
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </td>
+                  </tr>
                 ))
               )}
-            </TableBody>
-          </Table>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      {/* Detail Modal */}
-      <RegistrationDetailModal
-        registration={selectedRegistration}
-        isOpen={isModalOpen}
-        onClose={closeDetailModal}
-      />
+      <RegistrationDetailModal registration={selectedReg} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }

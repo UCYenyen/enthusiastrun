@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Registration } from "@/types/registration.md";
+import { getGroupParticipants } from "@/lib/registration";
 import {
   Dialog,
   DialogContent,
@@ -21,6 +22,42 @@ export default function RegistrationDetailModal({
   isOpen,
   onClose,
 }: RegistrationDetailModalProps) {
+  const [participants, setParticipants] = useState<Registration[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchGroup() {
+      if (!registration || !isOpen) return;
+
+      setLoading(true);
+      try {
+        let targetQrId = null;
+        
+        if ((registration as any).qrCodeId) {
+          targetQrId = (registration as any).qrCodeId;
+        } else if (registration.qrCode) {
+          targetQrId = (registration.qrCode as any).qrCodeId || (registration.qrCode as any).id;
+        }
+
+        if (targetQrId) {
+          const data = await getGroupParticipants(targetQrId);
+          if (data && data.length > 0) {
+            setParticipants(data);
+          } else {
+            setParticipants([registration]);
+          }
+        } else {
+          setParticipants([registration]);
+        }
+      } catch (error) {
+        setParticipants([registration]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchGroup();
+  }, [registration, isOpen]);
+
   if (!registration) return null;
 
   const formatDate = (date: Date) => {
@@ -31,188 +68,84 @@ export default function RegistrationDetailModal({
     });
   };
 
-  const DetailRow = ({ label, value }: { label: string; value: string | React.ReactNode }) => (
-    <div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100">
-      <span className="text-gray-500 text-sm">{label}</span>
-      <span className="text-background text-right font-medium">{value}</span>
+  const DetailItem = ({ label, value }: { label: string; value: string | React.ReactNode }) => (
+    <div className="flex flex-col py-1">
+      <span className="text-gray-400 text-[10px]  uppercase tracking-wider">{label}</span>
+      <span className="text-background  text-sm">{value || "-"}</span>
     </div>
   );
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-impact text-background">
-            Detail Registrasi
+      <DialogContent className="max-w-4xl max-h-[70vh] overflow-y-auto bg-white p-0">
+        <DialogHeader className="p-6 bg-background">
+          <DialogTitle className="text-2xl font-impact font-medium text-white uppercase">
+            Registration Group Details {participants.length > 0 && `(${participants.length} Participants)`}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6">
-          {/* Personal Info */}
-          <div>
-            <div className="font-bold text-background mb-2 flex items-center gap-2">
-              <h3 className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">1</h3>
-              <h1 className="text-white">PERSONAL DATAS</h1>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <DetailRow label="Full Name" value={registration.fullName} />
-              <DetailRow label="Email" value={registration.email} />
-              <DetailRow label="Phone" value={registration.phoneNumber} />
-              <DetailRow label="Account Holder Name" value={registration.rekeningName} />
-              <DetailRow label="Date of Birth" value={formatDate(registration.dateOfBirth)} />
-              <DetailRow label="Gender" value={registration.gender} />
-              <DetailRow label="Blood Type" value={registration.bloodType || "-"} />
-              <DetailRow label="City" value={registration.city} />
-              <DetailRow label="Address"  value={registration.address} />
-            </div>
-          </div>
-
-          {/* Emergency Contact */}
-          <div>
-            <div className="font-bold text-background mb-2 flex items-center gap-2">
-              <span className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">2</span>
-               <h1 className="text-white">Emergency Contact</h1>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <DetailRow label="Name" value={registration.emergencyContact} />
-              <DetailRow label="Phone" value={registration.emergencyPhone} />
-            </div>
-          </div>
-
-          {/* Event Info */}
-          <div>
-            <div className="font-bold text-background mb-2 flex items-center gap-2">
-              <span className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">3</span>
-               <h1 className="text-white">CATEGORY</h1>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <DetailRow
-                label="Category"
-                value={
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    registration.category === "CATEGORY_5K" 
-                      ? "bg-blue-100 text-blue-800" 
-                      : "bg-purple-100 text-purple-800"
-                  }`}>
-                    {registration.category === "CATEGORY_5K" ? "5K Run" : "10K Run"}
+        <div className="p-6 space-y-8">
+          {loading ? (
+            <div className="text-center py-10 font-impact text-background animate-pulse">LOADING PARTICIPANT DATA...</div>
+          ) : (
+            participants.map((p, idx) => (
+              <div key={p.id} className="border-4 border-gray-100 rounded-2xl overflow-hidden">
+                <div className="bg-gray-100 px-4 py-2 flex justify-between items-center">
+                  <span className="font-impact text-background uppercase italic">Participant #{idx + 1}</span>
+                  <span className={`px-3 py-0.5 rounded-full text-[10px] font-black uppercase ${p.status === 'confirmed' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white'}`}>
+                    {p.status}
                   </span>
-                }
-              />
-              <DetailRow label="Jersey Size" value={registration.jerseySize} />
-              <DetailRow label="Medical Condition" value={registration.medicalCondition || "-"} />
-            </div>
-          </div>
-
-          {/* Documents - ID Card */}
-          <div>
-            <div className="font-bold text-background mb-2 flex items-center gap-2">
-              <span className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">4</span>
-              <h1 className="text-white">ID CARD</h1>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4">
-              {registration.idCardUrl ? (
-                <div className="space-y-3">
-                  <div className="relative w-full h-64 bg-gray-200 rounded-lg overflow-hidden">
-                    <Image
-                      src={registration.idCardUrl}
-                      alt="KTP"
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                  <a
-                    href={registration.idCardUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-[#4BCFFC] hover:underline text-sm"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                    Open in new tab
-                  </a>
                 </div>
-              ) : (
-                <p className="text-gray-400 text-center py-8">Not uploaded ID Card</p>
-              )}
-            </div>
-          </div>
-
-          {/* Payment Proof */}
-          <div>
-            <div className="font-bold text-background mb-2 flex items-center gap-2">
-              <span className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">5</span>
-              <h1 className="text-white">PAYMENT PROOF</h1>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4">
-              {registration.paymentProofUrl ? (
-                <div className="space-y-3">
-                  <div className="relative w-full h-64 bg-gray-200 rounded-lg overflow-hidden">
-                    <Image
-                      src={registration.paymentProofUrl}
-                      alt="Bukti Pembayaran"
-                      fill
-                      className="object-contain"
-                    />
+                
+                <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-3">
+                    <h4 className="text-[10px] font-black text-[#4BCFFC] uppercase border-b border-gray-100 pb-1">Identity</h4>
+                    <DetailItem label="Full Name" value={p.fullName} />
+                    <DetailItem label="Email" value={p.email} />
+                    <DetailItem label="Phone" value={p.phoneNumber} />
+                    <DetailItem label="Gender" value={p.gender} />
+                    <DetailItem label="DOB" value={formatDate(p.dateOfBirth)} />
                   </div>
-                  <a
-                    href={registration.paymentProofUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-[#4BCFFC] hover:underline text-sm"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                    Open in new tab
-                  </a>
-                </div>
-              ) : (
-                <p className="text-gray-400 text-center py-8">Not uploaded payment proof</p>
-              )}
-            </div>
-          </div>
 
-          {/* Status */}
-          <div>
-            <div className="font-bold text-background mb-2 flex items-center gap-2">
-              <span className="w-6 h-6 bg-[#4BCFFC] rounded-full flex items-center justify-center text-white text-xs">6</span>
-               <h1 className="text-white">STATUS</h1>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <DetailRow
-                label="Status Registrasi"
-                value={
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      registration.status === "confirmed"
-                        ? "bg-green-100 text-green-800"
-                        : registration.status === "cancelled"
-                        ? "bg-red-100 text-red-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {registration.status === "confirmed" ? "Confirmed" : 
-                     registration.status === "cancelled" ? "Cancelled" : "Pending"}
-                  </span>
-                }
-              />
-              <DetailRow
-                label="Status Pembayaran"
-                value={
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    registration.paymentStatus 
-                      ? "bg-green-100 text-green-800" 
-                      : "bg-red-100 text-red-800"
-                  }`}>
-                    {registration.paymentStatus ? "Paid" : "Unpaid"}
-                  </span>
-                }
-              />
-              <DetailRow label="Registration Date" value={formatDate(registration.createdAt)} />
-              {registration.paymentDate && (
-                <DetailRow label="Payment Date" value={formatDate(registration.paymentDate)} />
-              )}
+                  <div className="space-y-3">
+                    <h4 className="text-[10px] font-black text-[#4BCFFC] uppercase border-b border-gray-100 pb-1">Event Details</h4>
+                    <DetailItem label="Category" value={p.category === "CATEGORY_5K" ? "5K RUN" : "10K RUN"} />
+                    <DetailItem label="Jersey Size" value={p.jerseySize} />
+                    <DetailItem label="Blood Type" value={p.bloodType} />
+                    <DetailItem label="Medical" value={p.medicalCondition} />
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="text-[10px] font-black text-[#4BCFFC] uppercase border-b border-gray-100 pb-1">ID Card</h4>
+                    {p.idCardUrl ? (
+                      <div className="relative w-full h-32 rounded-lg overflow-hidden border-2 border-gray-100">
+                        <Image src={p.idCardUrl} alt="ID Card" fill className="object-cover" />
+                        <a href={p.idCardUrl} target="_blank" className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] ">VIEW FULL</a>
+                      </div>
+                    ) : <div className="h-32 bg-gray-50 rounded-lg flex items-center justify-center text-gray-300 text-[10px]">NO ID CARD</div>}
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+
+          <div className="space-y-4">
+            <h3 className="font-impact text-xl text-background uppercase italic border-b-4 border-[#4BCFFC] inline-block">Group Payment Info</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-2xl">
+              <div className="space-y-2">
+                <DetailItem label="Account Holder Name" value={registration.rekeningName} />
+                <DetailItem label="Registration Type" value={registration.type.replace(/_/g, ' ')} />
+                <DetailItem label="Payment Status" value={registration.paymentStatus ? "PAID" : "UNPAID"} />
+              </div>
+              <div>
+                <p className="text-gray-400 text-[10px]  uppercase mb-2">Payment Proof</p>
+                {registration.paymentProofUrl ? (
+                  <div className="relative w-full h-64 rounded-xl overflow-hidden shadow-md bg-white border-2 border-white">
+                    <Image src={registration.paymentProofUrl} alt="Payment Proof" fill className="object-contain" />
+                    <a href={registration.paymentProofUrl} target="_blank" className="absolute bottom-2 right-2 bg-[#4BCFFC] text-white px-3 py-1 rounded text-[10px] ">VIEW PROOF</a>
+                  </div>
+                ) : <div className="h-64 bg-white rounded-xl flex items-center justify-center text-gray-300 italic text-xs">No proof uploaded</div>}
+              </div>
             </div>
           </div>
         </div>
