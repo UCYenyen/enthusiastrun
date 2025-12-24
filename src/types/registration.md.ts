@@ -66,7 +66,6 @@ export interface Registration extends RegistrationData {
   paymentStatus: boolean;
   paymentDate?: Date | null;
   createdAt: Date;
-  qrCodeUrl?: string | null;
   qrCodeClaimed?: boolean | null;
   qrCodeClaimedAt?: Date | null;
   updatedAt: Date;
@@ -75,6 +74,9 @@ export interface Registration extends RegistrationData {
     email: string | null;
     image: string | null;
   };
+  qrCode?:{
+    qrCodeUrl: string;
+  }
 }
 
 export interface BundlingParticipant {

@@ -18,7 +18,6 @@ export default async function page() {
   if (!session) {
     return <UserNotLoggedIn />;
   }
-
   const isRegistered = await getUserRegistration(session.user.id);
   return (
     <div className="overflow-hidden">
@@ -48,7 +47,7 @@ export default async function page() {
           height={500}
           className="absolute bottom-0 md:bottom-0 xl:-bottom-32 w-screen h-auto"
         />
-        <div className="w-[80%] sm:p-8 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col py-[10%] items-center gap-8 font-impact">
+        <div className="w-[80%] sm:p-8 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col py-[10%] mt-12 md:mt-0 items-center gap-8 font-impact">
           <Image
             src="/home/enthusiast-text-logo.webp"
             draggable={false}
@@ -60,7 +59,7 @@ export default async function page() {
           {!isRegistered ? (
             <UserNotRegisteredToCompetition />
           ) : (
-            <div className="mt-[2.5%] flex flex-col gap-4 items-center text-center sm:text-start">
+            <div className="mt-[2.5%] flex flex-col gap-4 items-center w-[80%] md:w-full text-center sm:text-start">
               <h1 className="text-4xl w-[90%] text-center sm:w-full">
                 WELCOME TO YOUR DASHBOARD!
               </h1>
@@ -75,14 +74,14 @@ export default async function page() {
               </h1>
               <Image
                 src={
-                  isRegistered.qrCodeUrl || "/home/enthusiast-text-logo.webp"
+                  isRegistered.qrCode?.qrCodeUrl || "/home/enthusiast-text-logo.webp"
                 }
                 unoptimized
                 alt={`Racepack ${isRegistered.fullName} QR Code`}
                 width={200}
                 height={200}
               />
-              {isRegistered.qrCodeUrl ? (
+              {isRegistered.qrCode? (
                 <Link
                   href="/about"
                   className="bg-[#4BCFFC] border-2 hover:bg-[#3AA9D1] border-white px-6 py-2 rounded-lg w-fit text-white"
@@ -92,7 +91,7 @@ export default async function page() {
               ) : (
                 <div className="bg-red-500 border-2 border-white px-6 py-2 rounded-lg w-fit text-white">
                   RACEPACK QR CODE NOT AVAILABLE YET, PLEASE CHECK BACK IN
-                  MAX 3x24 JAM
+                  MAX 3x24 HOURS
                 </div>
               )}
             </div>

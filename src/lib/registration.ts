@@ -161,11 +161,25 @@ export async function makeQRCode(registrationID: string) {
   }
   try {
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${registrationID}&size=200x200`;
-    const updatedRegistration = await prisma.registration.update({
-      where: { id: registrationID },
+    const updatedRegistration = await prisma.qRCode.create({
       data: { qrCodeUrl: qrCodeUrl },
     });
-    return { success: true, data: updatedRegistration as Registration };
+
+    const linkRegistration = await prisma.registration.update({
+      where: { id: registrationID },
+      data: { qrCodeId: updatedRegistration.id },
+    });
+
+    if (!linkRegistration) {
+      return { success: false, error: "Failed to link QR code to registration" };
+    }
+
+    const registrationWithQRCode = await prisma.registration.findUnique({
+      where: { id: registrationID },
+      include: { qrCode: true },
+    });
+    
+    return { success: true, data: registrationWithQRCode as Registration };
   } catch (error) {
     console.error("Failed to generate QR code:", error);
     return { success: false, error: "Failed to generate QR code" };
@@ -186,9 +200,9 @@ export async function getUserRegistration(
             image: true,
           },
         },
+        qrCode: true,
       },
     });
-
     return registration as Registration | null;
   } catch (error) {
     console.error("Failed to get registration:", error);
@@ -196,12 +210,10 @@ export async function getUserRegistration(
   }
 }
 
-export async function getRegistrationById(
-  id: string
-): Promise<Registration | null> {
+export async function validateRegistrationQR(qrCodeId: string): Promise<ActionResult<Registration>> {
   try {
-    const registration = await prisma.registration.findUnique({
-      where: { id },
+    const registration = await prisma.registration.findFirst({
+      where: { qrCodeId: qrCodeId },
       include: {
         user: {
           select: {
@@ -213,38 +225,34 @@ export async function getRegistrationById(
       },
     });
 
-    return registration as Registration | null;
+    if (!registration) {
+      return { success: false, error: "Invalid QR Code: Registration not found." };
+    }
+
+    return { success: true, data: registration as Registration };
   } catch (error) {
-    console.error("Failed to get registration by ID:", error);
-    return null;
+    return { success: false, error: "Internal Server Error during validation." };
   }
 }
 
-export async function checkInRegistration(
-  id: string
-): Promise<{ success: boolean; error?: string }> {
+export async function claimRacePack(registrationId: string): Promise<ActionResult<Registration>> {
   try {
     const registration = await prisma.registration.findUnique({
-      where: { id },
+      where: { id: registrationId },
     });
 
-    if (!registration) {
-      return { success: false, error: "Registration not found" };
-    }
+    if (!registration) return { success: false, error: "Registration not found." };
+    if (registration.qrCodeClaimed) return { success: false, error: "Race pack already claimed." };
 
-    if (registration.qrCodeClaimed) {
-      return { success: false, error: "QR Code has already been claimed" };
-    }
-
-    await prisma.registration.update({
-      where: { id },
+    const updated = await prisma.registration.update({
+      where: { id: registrationId },
       data: { qrCodeClaimed: true, qrCodeClaimedAt: new Date() },
     });
 
-    return { success: true };
+    revalidatePath("/dashboard/admin");
+    return { success: true, data: updated as Registration, message: "Race pack claimed successfully!" };
   } catch (error) {
-    console.error("Failed to check-in registration:", error);
-    return { success: false, error: "Failed to check-in registration" };
+    return { success: false, error: "Failed to claim race pack." };
   }
 }
 

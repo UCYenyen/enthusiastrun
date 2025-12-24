@@ -1,130 +1,123 @@
-// components/QrCodeScanner.tsx
 "use client";
 
 import React, { useState } from "react";
 import { Scanner, IDetectedBarcode } from "@yudiel/react-qr-scanner";
-import { UserData } from "@/types/user.md";
-
-// Ganti dengan path API yang sesuai
-const VALIDATE_API_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/api/validate-qr-code`;
-
-interface ValidationResponse {
-  message?: string;
-  user?: UserData;
-}
+import { Registration } from "@/types/registration.md";
+import { validateRegistrationQR, claimRacePack } from "@/lib/registration";
 
 export default function QrCodeScanner() {
-  const [scanResult, setScanResult] = useState<string | null>(null);
-  const [validationStatus, setValidationStatus] = useState<string>("");
-  const [isScanning, setIsScanning] = useState<boolean>(true);
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [bgColor, setBgColor] = useState<string>("bg-black/50");
+  const [isScanning, setIsScanning] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [userData, setUserData] = useState<Registration | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleScan = (decodedResults: IDetectedBarcode[]) => {
-    if (decodedResults && decodedResults.length > 0) {
+  const handleScan = async (decodedResults: IDetectedBarcode[]) => {
+    if (decodedResults?.length > 0 && isScanning) {
       const code = decodedResults[0].rawValue;
-      if (code && isScanning) {
-        setScanResult(code);
-        validateQrCode(code);
-      }
-    }
-  };
+      setIsScanning(false);
+      const result = await validateRegistrationQR(code);
 
-  const handleError = (error: unknown) => {
-    console.error("QR Scanner Error:", error);
-    setValidationStatus("❌ Error accessing camera or scanning.");
-  };
-
-  const handleReset = () => {
-    setScanResult(null);
-    setValidationStatus("");
-    setUserData(null);
-    setIsScanning(true);
-    setBgColor("bg-black/50");
-  };
-
-  const validateQrCode = async (code: string) => {
-    setIsScanning(false);
-    setValidationStatus("Validating...");
-
-    try {
-      const response = await fetch(VALIDATE_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ qrCodeData: code }),
-      });
-
-      const data: ValidationResponse = await response.json();
-
-      if (response.ok) {
-        setValidationStatus(`✅ Validation Success: ${data.message || "Code is valid."}`);
-        setBgColor("bg-green-500/50");
-        if (data.user) {
-          setUserData(data.user);
-        }
+      if (result.success && result.data) {
+        setUserData(result.data);
+        setErrorMsg(null);
       } else {
-        setValidationStatus(`Validation Failed: ${data.message || "Invalid code."}`);
-        setBgColor("bg-red-500/50");
+        setUserData(null);
+        setErrorMsg(result.error || "Invalid QR Code");
       }
-    } catch (error) {
-      setValidationStatus("⚠️ An error occurred during API call.");
-      setBgColor("bg-yellow-500/50");
-      console.error("API Error:", error);
+      setModalOpen(true);
     }
+  };
+
+  const handleClaim = async () => {
+    if (!userData) return;
+    setLoading(true);
+    const result = await claimRacePack(userData.id);
+    if (result.success) {
+      alert(result.message);
+      closeModal();
+    } else {
+      alert(result.error);
+    }
+    setLoading(false);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setUserData(null);
+    setErrorMsg(null);
+    setIsScanning(true);
   };
 
   return (
     <div className="flex flex-col items-center gap-4 w-full max-w-md mx-auto">
-      <div className="w-full h-80 border-4 border-dashed border-white overflow-hidden rounded-lg relative">
+      <div className="w-full h-80 border-4 border-dashed border-white overflow-hidden rounded-lg relative bg-black">
         <Scanner
           onScan={handleScan}
-          onError={handleError}
           paused={!isScanning}
-          constraints={{
-            facingMode: "environment",
-          }}
-          styles={{
-            container: { width: "100%", height: "100%" },
-            video: { objectFit: "cover" as const },
-          }}
+          constraints={{ facingMode: "environment" }}
+          styles={{ container: { width: "100%", height: "100%" } }}
         />
-        {/* Overlay dan Indikator */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          {isScanning && (
+        {isScanning && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="w-3/4 h-3/4 border-4 border-green-500 rounded-lg animate-pulse" />
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
-      <div
-        className={`text-white text-lg p-4 rounded w-full text-center break-words transition-colors duration-300 ${bgColor}`}
-      >
-        {validationStatus ||
-          (isScanning ? "Arahkan kamera ke QR Code..." : "Processing result...")}
+      <div className="text-white text-lg p-4 rounded w-full text-center bg-black/50">
+        {isScanning ? "Point camera at QR Code" : "Processing..."}
       </div>
 
-      {userData && (
-        <div className="w-full p-4 bg-white text-gray-800 rounded-lg shadow-xl">
-          <h3 className="text-xl font-bold mb-2 border-b pb-1">User Details</h3>
-          <p>
-            Name: {userData.name}
-          </p>
-          <p>
-            Email: {userData.email}
-          </p>
+      {modalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-white text-gray-900 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div className="p-6">
+              {errorMsg ? (
+                <div className="text-center py-8">
+                  <div className="text-6xl mb-4">❌</div>
+                  <h2 className="text-2xl font-bold text-red-600">{errorMsg}</h2>
+                </div>
+              ) : (
+                userData && (
+                  <>
+                    <h2 className="text-2xl font-bold border-b pb-2 mb-4 text-blue-900">Participant Details</h2>
+                    <div className="grid grid-cols-2 gap-4 text-sm max-h-[60vh] overflow-y-auto pr-2">
+                      <div className="col-span-2 flex justify-center mb-4">
+                         <img src={userData.photoUrl} alt="User" className="w-32 h-32 object-cover rounded-full border-4 border-blue-100" />
+                      </div>
+                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Full Name</p><p className="text-base">{userData.fullName}</p></div>
+                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Category</p><p className="text-base">{userData.category}</p></div>
+                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Email</p><p className="text-base truncate">{userData.email}</p></div>
+                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Phone</p><p className="text-base">{userData.phoneNumber}</p></div>
+                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Jersey Size</p><p className="text-base">{userData.jerseySize}</p></div>
+                      <div><p className="font-bold text-gray-500 uppercase text-[10px]">Blood Type</p><p className="text-base">{userData.bloodType}</p></div>
+                      <div className="col-span-2"><p className="font-bold text-gray-500 uppercase text-[10px]">Medical Condition</p><p className="text-base">{userData.medicalCondition || "-"}</p></div>
+                      <div className="col-span-2">
+                        <p className="font-bold text-gray-500 uppercase text-[10px]">Claim Status</p>
+                        <p className={`font-bold ${userData.qrCodeClaimed ? "text-red-500" : "text-green-500"}`}>
+                          {userData.qrCodeClaimed ? `ALREADY CLAIMED at ${new Date(userData.qrCodeClaimedAt!).toLocaleString()}` : "READY TO CLAIM"}
+                        </p>
+                      </div>
+                    </div>
+                  </>
+                )
+              )}
+            </div>
+            <div className="flex border-t">
+              <button onClick={closeModal} className="flex-1 px-6 py-4 bg-gray-100 hover:bg-gray-200 font-bold transition">CLOSE</button>
+              {!errorMsg && userData && !userData.qrCodeClaimed && (
+                <button 
+                  onClick={handleClaim} 
+                  disabled={loading}
+                  className="flex-1 px-6 py-4 bg-green-600 hover:bg-green-700 text-white font-bold transition disabled:bg-gray-400"
+                >
+                  {loading ? "CLAIMING..." : "CONFIRM CLAIM"}
+                </button>
+              )}
+            </div>
+          </div>
         </div>
-      )}
-
-      {/* Tombol Scan Ulang */}
-      {!isScanning && (
-        <button
-          onClick={handleReset}
-          className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white font-impact rounded-md shadow-lg transition duration-150"
-        >
-          Scan Ulang
-        </button>
       )}
     </div>
   );

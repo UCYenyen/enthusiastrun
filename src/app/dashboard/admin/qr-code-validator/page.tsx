@@ -9,7 +9,6 @@ export default async function page() {
   if (!session) {
     return <UserNotLoggedIn />;
   }
-  const registrations = await getAllRegistrations();
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
