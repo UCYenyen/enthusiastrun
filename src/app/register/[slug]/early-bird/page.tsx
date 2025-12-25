@@ -32,7 +32,7 @@ export default async function EarlyRegistrationPage({ params }: Slug) {
     })
 
     if (registeredCount.length >= 480) {
-      return redirect("/register");
+      return redirect(`/register/${slug}/full`);
     }
   }else{
     const registeredCount = await prisma.registration.findMany({
@@ -95,6 +95,7 @@ export default async function EarlyRegistrationPage({ params }: Slug) {
           <RegistrationForm
             category={slug as "CATEGORY_5K" | "CATEGORY_10K"}
             type="early_bird"
+            mahasiswaUCEnabled={true}
           />
         </div>
       </div>

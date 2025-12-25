@@ -2,7 +2,8 @@ export type RegistrationCategory = "CATEGORY_5K" | "CATEGORY_10K";
 export type RegistrationStatus = "pending" | "confirmed" | "cancelled";
 export type Gender = "Male" | "Female";
 export type BloodType = "A" | "B" | "AB" | "O";
-export type JerseySize = "XS" | "S" | "M" | "L" | "XL" | "XXL";
+export type JerseySize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
+export type ChosenPackage = "personal" | "bundling" | "ucstudent";
 
 export interface RegistrationFormData {
   fullName: string;
@@ -52,6 +53,7 @@ export interface RegistrationData {
   paymentProofId?: string;
   rekeningName?: string;
   type: "super_early_bird" | "early_bird" | "regular" | "redeem_voucher";
+  chosenPackage?: ChosenPackage;
 }
 
 export interface Voucher {

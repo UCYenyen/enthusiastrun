@@ -75,6 +75,7 @@ export async function createRegistration(
           updatedAt: new Date(),
           voucherId: data.voucherId || null,
           rekeningName: data.rekeningName || "-",
+          chosenPackage: data.chosenPackage || "personal",
         },
       });
 
@@ -101,6 +102,11 @@ export async function createBulkRegistration(
   dataList: (RegistrationData & { voucherId?: string })[]
 ): Promise<ActionResult<Registration[]>> {
   try {
+    const firstData = dataList[0];
+    if (firstData.chosenPackage === "ucstudent" && firstData.type !== "early_bird") {
+      return { success: false, error: "UC Student package only available for early bird registration" };
+    }
+
     const registrations = await prisma.$transaction(async (tx) => {
       const qrCode = await tx.qRCode.create({
         data: { qrCodeUrl: "" }
@@ -140,6 +146,7 @@ export async function createBulkRegistration(
             type: data.type,
             qrCodeId: qrCode.id,
             rekeningName: data.rekeningName || "-",
+            chosenPackage: data.chosenPackage || "personal",
           },
         });
         results.push(reg);

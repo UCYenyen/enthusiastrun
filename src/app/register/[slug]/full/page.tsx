@@ -13,13 +13,13 @@ export const metadata: Metadata = {
 };
 
 interface Slug {
-  params: Promise<{
-    slug: string;
-  }>;
+    params: Promise<{
+        slug: string;
+    }>;
 }
 
 export default async function RegistrationFull({ params }: Slug) {
-  const { slug } = await params;
+    const { slug } = await params;
 
     if (slug !== "CATEGORY_5K" && slug !== "CATEGORY_10K") {
         return redirect("/not-found");
@@ -69,15 +69,6 @@ export default async function RegistrationFull({ params }: Slug) {
 
                     <div className=""></div>
 
-                    <div className="flex flex-col font-futura w-full justify-center items-center gap-1">
-                        <h3 className="text-xl">Have a voucher?</h3>
-                        <Link
-                            href={"/register/redeem-code"}
-                            className="bg-[#4BCFFC] text-background gap-2 px-4 py-2 font-impact shadow-2xl border-3 border-white rounded-lg hover:bg-[#3AA9D1] flex justify-center items-center z-50"
-                        >
-                            REDEEM CODE
-                        </Link>
-                    </div>
                 </div>
             </div>
         </div>

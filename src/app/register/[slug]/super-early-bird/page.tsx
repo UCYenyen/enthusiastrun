@@ -32,7 +32,7 @@ export default async function SuperEarlyRegistrationPage({ params }: Slug) {
   })
 
   if (registeredCount.length >= 240) {
-    return redirect("/register");
+    return redirect(`/register/${slug}/full`);
   }
 
   return (
@@ -82,7 +82,7 @@ export default async function SuperEarlyRegistrationPage({ params }: Slug) {
 
         {/* Registration Form */}
         <div className="relative z-10 w-full pb-32">
-          <RegistrationForm category={slug as "CATEGORY_5K" | "CATEGORY_10K"} type="super_early_bird" />
+          <RegistrationForm category={slug as "CATEGORY_5K" | "CATEGORY_10K"} type="super_early_bird" mahasiswaUCEnabled={false} />
         </div>
       </div>
     </div>

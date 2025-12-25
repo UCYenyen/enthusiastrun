@@ -55,6 +55,7 @@ model Registration {
   type             RegistrationType
   gender           String
   jerseySize       String
+  chosenPackage   ChosenPackage @default(personal)
 
   qrCodeClaimed   Boolean   @default(false)
   qrCodeClaimedAt DateTime?
@@ -148,6 +149,12 @@ enum RegistrationType {
   early_bird
   regular
   redeem_voucher
+}
+
+enum ChosenPackage{
+  personal
+  bundling
+  ucstudent
 }
 
 enum Role {

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import ParticipantForm from "./ParticipantForm";
 import { UploadWidget } from "@/components/CloudinaryWidget";
 import { createBulkRegistration } from "@/lib/registration";
-import { RegistrationCategory } from "@/types/registration.md";
+import { RegistrationCategory, ChosenPackage } from "@/types/registration.md";
 import Image from "next/image";
 
 export interface ParticipantData {
@@ -51,12 +51,13 @@ const JERSEY_XXXL_EXTRA = 15000;
 interface RegistrationFormProps {
   category: "CATEGORY_5K" | "CATEGORY_10K";
   type: "super_early_bird" | "early_bird" | "regular";
+  mahasiswaUCEnabled?: boolean;
 }
 
-export default function RegistrationForm({ category, type }: RegistrationFormProps) {
+export default function RegistrationForm({ category, type, mahasiswaUCEnabled = false }: RegistrationFormProps) {
   const { data: session } = useSession();
   const router = useRouter();
-  const [packageType, setPackageType] = useState<"personal" | "bundling" | "uc_student">("personal");
+  const [packageType, setPackageType] = useState<ChosenPackage>("personal");
   const [participantCount, setParticipantCount] = useState(1);
   const [participants, setParticipants] = useState<ParticipantData[]>([{ ...emptyParticipant }]);
   const [paymentProofUrl, setPaymentProofUrl] = useState("");
@@ -78,7 +79,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
   useEffect(() => {
     if (packageType === "bundling") {
       setParticipants(Array(BUNDLING_TOTAL_PARTICIPANTS).fill(null).map((_, i) => participants[i] || { ...emptyParticipant }));
-    } else if (packageType === "uc_student") {
+    } else if (packageType === "ucstudent") {
       setParticipantCount(1);
       setParticipants([participants[0] || { ...emptyParticipant }]);
     } else {
@@ -87,7 +88,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
   }, [packageType, participantCount]);
 
   const totalPrice = (() => {
-    let base = packageType === "bundling" ? BUNDLING_PRICE : packageType === "uc_student" ? UC_STUDENT_PRICE : participantCount * PERSONAL_PRICE;
+    let base = packageType === "bundling" ? BUNDLING_PRICE : packageType === "ucstudent" ? UC_STUDENT_PRICE : participantCount * PERSONAL_PRICE;
     const extra = participants.reduce((acc, p) => acc + (p.jerseySize === "XXL" ? JERSEY_XXL_EXTRA : p.jerseySize === "XXXL" ? JERSEY_XXXL_EXTRA : 0), 0);
     return base + extra;
   })();
@@ -108,6 +109,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
         paymentProofUrl: totalPrice > 0 ? paymentProofUrl : undefined,
         paymentProofId: totalPrice > 0 ? paymentProofId : undefined,
         rekeningName: rekeningName || "-",
+        chosenPackage: packageType,
       }));
 
       const result = await createBulkRegistration(dataList);
@@ -128,7 +130,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
     <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto">
       <div className="bg-white p-6 shadow-lg">
         <h2 className="text-2xl font-impact text-background mb-4">Select Package</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className={`grid gap-4 ${mahasiswaUCEnabled && type === "early_bird" ? "grid-cols-1 md:grid-cols-3" : "grid-cols-1 md:grid-cols-2"}`}>
           <button type="button" onClick={() => setPackageType("personal")} className={`p-6 rounded-xl border-4 ${packageType === "personal" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}>
             <h3 className="text-xl font-impact text-background">Personal</h3>
             <p className="text-xl font-bold text-background mt-2">{formatCurrency(PERSONAL_PRICE)}/person</p>
@@ -138,6 +140,12 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
             <p className="text-gray-600 mt-2 text-sm">Buy 10 Get 1 Free!</p>
             <p className="text-xl font-bold text-background mt-2">{formatCurrency(BUNDLING_PRICE)}</p>
           </button>
+          {mahasiswaUCEnabled && type === "early_bird" && (
+            <button type="button" onClick={() => setPackageType("ucstudent")} className={`p-6 rounded-xl border-4 ${packageType === "ucstudent" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}>
+              <h3 className="text-xl font-impact text-background">UC Student</h3>
+              <p className="text-xl font-bold text-background mt-2">{formatCurrency(UC_STUDENT_PRICE)}/person</p>
+            </button>
+          )}
         </div>
         {packageType === "personal" && (
           <div className="mt-6">
@@ -151,20 +159,22 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
 
       <div>
         {participants.map((p, i) => (
-          <ParticipantForm key={i} index={i} data={p} onChange={(d) => setParticipants(prev => { const upd = [...prev]; upd[i] = { ...upd[i], ...d }; return upd; })} isBundling={packageType === "bundling"} />
+          <ParticipantForm key={i} index={i} data={p} isUcStudent={packageType === "ucstudent"} onChange={(d) => setParticipants(prev => { const upd = [...prev]; upd[i] = { ...upd[i], ...d }; return upd; })} isBundling={packageType === "bundling"} />
         ))}
       </div>
-       {totalPrice > 0 && (
+
+      {totalPrice > 0 && (
         <div className="bg-amber-50 border-4 border-amber-400 p-6">
           <h2 className="text-2xl font-impact text-background mb-4">Payment Information</h2>
           <div className="bg-white p-4 space-y-2 text-gray-700">
             <p><span className="font-medium">Bank:</span> BCA</p>
             <p><span className="font-medium">Account:</span> 0092872571</p>
             <p><span className="font-medium">Name:</span> Kho Valencia Febe Amanda</p>
-             <p><span className="font-medium">Payment Description:</span> Run.Participant Name</p>
+            <p><span className="font-medium">Payment Description:</span> Run.Participant Name</p>
           </div>
         </div>
       )}
+
       {totalPrice > 0 && (
         <div className="bg-white p-6 shadow-lg border-b-2 border-gray-100">
           <h2 className="text-2xl font-impact text-background mb-4">Payment Confirmation</h2>
@@ -190,6 +200,7 @@ export default function RegistrationForm({ category, type }: RegistrationFormPro
           )}
         </div>
       )}
+
       <div className="bg-white rounded-b-lg p-4 ">
         <button type="submit" disabled={isSubmitting} className={`w-full mt-6 py-4 rounded-xl font-impact text-xl text-white ${isSubmitting ? "bg-gray-400" : "bg-[#4BCFFC]"}`}>
           {isSubmitting ? "PROCESSING..." : `REGISTER NOW - ${formatCurrency(totalPrice)}`}

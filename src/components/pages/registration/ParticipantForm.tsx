@@ -9,6 +9,7 @@ interface ParticipantFormProps {
   data: ParticipantData;
   onChange: (data: Partial<ParticipantData>) => void;
   isBundling: boolean;
+  isUcStudent?: boolean; 
 }
 
 const GENDER_OPTIONS = [
@@ -32,6 +33,7 @@ export default function ParticipantForm({
   data,
   onChange,
   isBundling,
+  isUcStudent = false,
 }: ParticipantFormProps) {
   const [isExpanded, setIsExpanded] = React.useState(index === 0);
 
@@ -282,7 +284,7 @@ export default function ParticipantForm({
 
           <div>
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
-              Upload ID Card (KTP/SIM/Student Card) <span className="text-red-500">*</span>
+              {isUcStudent ? `Upload Student Card` : "Upload ID Card (KTP/SIM/Student Card)"} <span className="text-red-500">*</span>
             </h3>
             {data.idCardUrl ? (
               <div className="flex items-center gap-4 p-4 bg-green-50 rounded-lg border-2 border-green-200">

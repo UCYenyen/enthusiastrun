@@ -135,6 +135,7 @@ export default function RegistrationDetailModal({
               <div className="space-y-2">
                 <DetailItem label="Account Holder Name" value={registration.rekeningName} />
                 <DetailItem label="Registration Type" value={registration.type.replace(/_/g, ' ')} />
+                <DetailItem label="Package Chosen" value={registration.chosenPackage?.toUpperCase() || "PERSONAL"} />
                 <DetailItem label="Payment Status" value={registration.paymentStatus ? "PAID" : "UNPAID"} />
               </div>
               <div>

@@ -115,14 +115,14 @@ export default function RegistrationTable({ registrations: initialRegistrations 
           <table className="w-full">
             <thead>
               <tr className="bg-gray-100 border-b-2 border-gray-200">
-                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">No</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Name</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Email</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Category</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Type</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Status</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Payment</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-background uppercase">Actions</th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">No</th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Name</th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Package</th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Category</th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Type</th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Status</th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Payment</th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -134,8 +134,12 @@ export default function RegistrationTable({ registrations: initialRegistrations 
                 filteredRegistrations.map((reg, idx) => (
                   <tr key={reg.id} className="border-b border-gray-100 hover:bg-gray-50">
                     <td className="px-4 py-3 text-sm text-background font-medium">{idx + 1}</td>
-                    <td className="px-4 py-3 text-sm text-background font-bold">{reg.fullName}</td>
-                    <td className="px-4 py-3 text-sm text-background">{reg.email}</td>
+                    <td className="px-4 py-3 text-sm text-background ">{reg.fullName}</td>
+                    <td className="px-4 py-3">
+                      <span className={`px-2 py-1 rounded-full text-[10px]  uppercase ${reg.chosenPackage === 'bundling' ? 'bg-orange-100 text-orange-700' : reg.chosenPackage === 'ucstudent' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}>
+                        {reg.chosenPackage?.replace('_', ' ') || 'personal'}
+                      </span>
+                    </td>
                     <td className="px-4 py-3">
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${reg.category === "CATEGORY_5K" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800"}`}>
                         {reg.category === "CATEGORY_5K" ? "5K" : "10K"}

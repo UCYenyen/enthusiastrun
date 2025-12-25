@@ -31,10 +31,10 @@ export default async function NormalRegistrationPage({ params }: Slug) {
       }
     })
 
-    if (registeredCount.length >= 800) {
-      return redirect("/register");
+    if (registeredCount.length >= 2000) {
+      return redirect(`/register/${slug}/full`);
     }
-  }else{
+  } else {
     const registeredCount = await prisma.registration.findMany({
       where: {
         category: slug,
@@ -94,7 +94,7 @@ export default async function NormalRegistrationPage({ params }: Slug) {
 
         {/* Registration Form */}
         <div className="relative z-10 w-full pb-32">
-          <RegistrationForm category={slug as "CATEGORY_5K" | "CATEGORY_10K"} type="regular"/>
+          <RegistrationForm category={slug as "CATEGORY_5K" | "CATEGORY_10K"} type="regular" mahasiswaUCEnabled={false} />
         </div>
       </div>
     </div>
