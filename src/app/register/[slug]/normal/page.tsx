@@ -42,7 +42,7 @@ export default async function NormalRegistrationPage({ params }: Slug) {
       return redirect(`/register/${slug}/super-early-bird`);
     }
 
-    if(earlyBirdCount.length < 580){
+    if(earlyBirdCount.length < 480){
       return redirect(`/register/${slug}/early-bird`);
     }
   } else {

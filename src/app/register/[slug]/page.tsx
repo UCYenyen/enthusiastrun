@@ -48,7 +48,7 @@ export default function RegistrationPage() {
   // Determine if each phase is active
 
   const isSuperEarlyActive = superEarlyCount < (is5K ? 20 : 20);
-  const isEarlyBirdActive = !isSuperEarlyActive && earlyBirdCount < (is5K ? 580 : 280);
+  const isEarlyBirdActive = !isSuperEarlyActive && earlyBirdCount < (is5K ? 480 : 280);
   const isRegularActive = !isSuperEarlyActive && !isEarlyBirdActive;
 
   return (
