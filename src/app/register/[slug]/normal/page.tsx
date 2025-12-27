@@ -24,26 +24,48 @@ export default async function NormalRegistrationPage({ params }: Slug) {
   }
 
   if (slug == "CATEGORY_5K") {
-    const registeredCount = await prisma.registration.findMany({
+    const registeredSuperEarlyBirdCount = await prisma.registration.findMany({
       where: {
         category: slug,
-        type: "regular"
+        type: "super_early_bird"
       }
     })
 
-    if (registeredCount.length >= 2000) {
-      return redirect(`/register/${slug}/full`);
+    const earlyBirdCount = await prisma.registration.findMany({
+      where: {
+        category: slug,
+        type: "early_bird"
+      }
+    })
+
+    if (registeredSuperEarlyBirdCount.length < 20) {
+      return redirect(`/register/${slug}/super-early-bird`);
+    }
+
+    if(earlyBirdCount.length < 580){
+      return redirect(`/register/${slug}/early-bird`);
     }
   } else {
-    const registeredCount = await prisma.registration.findMany({
+    const registeredSuperEarlyBirdCount = await prisma.registration.findMany({
       where: {
         category: slug,
-        type: "regular"
+        type: "super_early_bird"
       }
     })
 
-    if (registeredCount.length >= 400) {
-      return redirect("/register");
+     const earlyBirdCount = await prisma.registration.findMany({
+      where: {
+        category: slug,
+        type: "early_bird"
+      }
+    })
+
+    if (registeredSuperEarlyBirdCount.length < 20) {
+      return redirect(`/register/${slug}/super-early-bird`);
+    }
+
+    if(earlyBirdCount.length < 280){
+      return redirect(`/register/${slug}/early-bird`);
     }
   }
 

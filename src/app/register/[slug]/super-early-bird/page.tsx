@@ -31,7 +31,7 @@ export default async function SuperEarlyRegistrationPage({ params }: Slug) {
     }
   })
 
-  if (registeredCount.length >= 240) {
+  if (registeredCount.length >= 20) {
     return redirect(`/register/${slug}/full`);
   }
 
