@@ -63,7 +63,7 @@ export default function page() {
                   className="w-fit hover:underline text-justify max-h-[250px] overflow-y-auto flex gap-2 items-start"
                 >
                   <FaWhatsapp className="mt-1" />
-                  <h1>0895-6211-65330 (maulana raka)</h1>
+                  <h1>0895621165330 (Maulana Raka)</h1>
                 </Link>
                 <Link
                   href={"https://wa.me/+6281252795787"}

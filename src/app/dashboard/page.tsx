@@ -91,7 +91,8 @@ export default async function page() {
               }
               {isRegistered.qrCode && isAccepted ? (
                 <Link
-                  href="/about"
+                  href="https://chat.whatsapp.com/EX8dy4DCsM0Eo1rQTVbmgd"
+                  target="_blank"
                   className="bg-[#4BCFFC] border-2 hover:bg-[#3AA9D1] border-white px-6 py-2 rounded-lg w-fit text-white"
                 >
                   JOIN GROUP WA
