@@ -1,10 +1,9 @@
-'use server'
 import React from "react";
 import { MdGpsFixed } from "react-icons/md";
 import Link from "next/link";
 import Image from "next/image";
 import { MdOutlineMailOutline } from "react-icons/md";
-export default async function Footer() {
+export default function Footer() {
   return (
     <footer className="shadow-lg font-futura relative z-2 w-screen bg-background border-t-4 border-white flex flex-col">
       <div className="flex flex-col lg:flex-row w-full justify-between items-center lg:items-start p-8 gap-8 w-[80%]">
@@ -33,7 +32,7 @@ export default async function Footer() {
             className="w-48 rotate-z-6 h-auto"
           />
           {/* <h2 className="text-2xl font-impact">Supported By</h2> */}
-          <Link href={"/privacy-policy"} rel="privacy policy" className="text-xl underline font-impact">Privacy Policy</Link>
+          <Link href="/privacy-policy" rel="privacy policy" className="text-xl underline font-impact">Privacy Policy</Link>
           <Link href={"/terms-of-service"} rel="privacy policy" className="text-xl underline font-impact">Terms of Service</Link>
         </div>
         <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
