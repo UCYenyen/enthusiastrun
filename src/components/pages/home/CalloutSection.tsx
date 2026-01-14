@@ -121,7 +121,6 @@ export default function CalloutSection() {
           <br />
           Take a new step, push your boundaries, and experience the most exciting foam run at Universitas Ciputra Surabaya! Are you ready to Break the Limits with Enthusiast Vol. 2?
         </h3>
-        <Link href={"/privacy-policy"} rel="privacy policy" className="text-xl hover:underline font-impact">Privacy Policy</Link>
       </div>
       <div className="flex gap-1 flex-col w-[80%] items-center sm:items-start">
         <h3 ref={descRef} className="text-xl ] font-futura text-center sm:text-justify">

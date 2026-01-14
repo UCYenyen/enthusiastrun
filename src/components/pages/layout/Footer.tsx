@@ -32,7 +32,7 @@ export default function Footer() {
             className="w-48 rotate-z-6 h-auto"
           />
           {/* <h2 className="text-2xl font-impact">Supported By</h2> */}
-          <Link href={"/privacy-policy"} rel="privacy policy" className="text-xl hover:underline font-impact">Privacy Policy</Link>
+          <Link href={"/privacy-policy"} rel="privacy policy" className="text-xl hover:underline font-impact rounded-lg bg-[#4BCFFC] border-white border-3 whitespace-nowrap px-2 py-1">Privacy Policy</Link>
           <Link href={"/terms-of-service"} rel="privacy policy" className="text-xl hover:underline font-impact">Terms of Service</Link>
         </div>
         <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
