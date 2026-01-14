@@ -4,7 +4,7 @@ import { MdGpsFixed } from "react-icons/md";
 import Link from "next/link";
 import Image from "next/image";
 import { MdOutlineMailOutline } from "react-icons/md";
-export default function Footer() {
+export default async function Footer() {
   return (
     <footer className="shadow-lg font-futura relative z-2 w-screen bg-background border-t-4 border-white flex flex-col">
       <div className="flex flex-col lg:flex-row w-full justify-between items-center lg:items-start p-8 gap-8 w-[80%]">
