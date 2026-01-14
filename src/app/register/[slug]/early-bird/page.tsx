@@ -6,9 +6,9 @@ import prisma from "@/lib/prisma";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Early Bird Registration - Enthusiast Run",
+  title: "Early Bird Registration - Enthusiast Fun Run",
   description:
-    "Register for the Enthusiast Run early bird special! Secure your spot in the CATEGORY_5K or CATEGORY_10K run and enjoy exclusive benefits. Limited early bird slots available, so sign up now to take advantage of this special offer.",
+    "Register for the Enthusiast Fun Run early bird special! Secure your spot in the CATEGORY_5K or CATEGORY_10K run and enjoy exclusive benefits. Limited early bird slots available, so sign up now to take advantage of this special offer.",
 };
 
 interface Slug {

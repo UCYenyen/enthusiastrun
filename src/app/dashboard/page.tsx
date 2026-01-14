@@ -9,8 +9,8 @@ import { Metadata } from "next";
 import { isAcceptedRegistration } from "@/lib/registration";
 
 export const metadata: Metadata = {
-  title: "Dashboard Enthusiast Run - enthusiastrun.com",
-  description: "Access your personal dashboard for Enthusiast Run Vol. 2. Manage your registration, view your racepack QR code, and stay updated with the latest event information and announcements.",
+  title: "Dashboard Enthusiast Fun Run - enthusiastrun.com",
+  description: "Access your personal dashboard for Enthusiast Fun Run Vol. 2. Manage your registration, view your racepack QR code, and stay updated with the latest event information and announcements.",
 };
 
 

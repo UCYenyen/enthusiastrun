@@ -1,15 +1,11 @@
 import Image from "next/image";
-import EarlyNotEarly from "@/components/pages/registration/EarlyNotEarly";
-import { useParams } from "next/dist/client/components/navigation";
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import { checkRegistrationCount } from "@/lib/registration";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Registration Full - Enthusiast Run",
+    title: "Registration Full - Enthusiast Fun Run",
     description:
-        "The registration for the Enthusiast Run is currently full. Please check back later or explore other options to join the excitement of Enthusiast Run.",
+        "The registration for the Enthusiast Fun Run is currently full. Please check back later or explore other options to join the excitement of Enthusiast Fun Run.",
 };
 
 interface Slug {

@@ -5,9 +5,9 @@ import { Metadata } from "next";
 import prisma from "@/lib/prisma";
 
 export const metadata: Metadata = {
-  title: "Normal Registration - Enthusiast Run",
+  title: "Normal Registration - Enthusiast Fun Run",
   description:
-    "Register for the Enthusiast Run normal registration! Secure your spot in the CATEGORY_5K or CATEGORY_10K run. Sign up now to join the excitement of Enthusiast Run.",
+    "Register for the Enthusiast Fun Run normal registration! Secure your spot in the CATEGORY_5K or CATEGORY_10K run. Sign up now to join the excitement of Enthusiast Fun Run.",
 };
 
 interface Slug {

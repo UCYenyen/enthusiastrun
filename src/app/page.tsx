@@ -4,6 +4,13 @@ import CalloutSection from "@/components/pages/home/CalloutSection";
 import FlagOffSection from "@/components/pages/home/FlagOffSection";
 import SponsorSlider from "@/components/pages/home/SponsorSlider";
 import RecapVideo from "@/components/pages/home/RecapVideo";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Enthusiast Fun Run",
+  description: "Join the Enthusiast Fun Run Vol. 2! Experience an exciting running event with categories for all levels, from 5K to Half Marathon. Register now and be part of the fun!",
+};
+
 export default function Home() {
   return (
     <div className="relative flex flex-col overflow-hidden bg-linear-to-b from-[#2A35BC] to-[#5B4F9E]">
