@@ -5,8 +5,8 @@ import FlagOffItem from "@/components/pages/home/FlagOffItem";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Enthusiast Fun Run - enthusiastrun.com",
-  description: "Enthusiast Fun Run is an exciting event that challenges you to push your limits and share the joy of running with friends. Join us for Enthusiast Vol. 2 with a Foam Run theme, where you'll experience the thrill of running through foam. This event is designed to create a fun and pressure-free environment for everyone to enjoy exercise. Don't miss out on this unique opportunity to break your limits and have a blast!",
+  title: "About Enthusiast Foam Run - enthusiastrun.com",
+  description: "Enthusiast Foam Run is an exciting event that challenges you to push your limits and share the joy of running with friends. Join us for Enthusiast Vol. 2 with a Foam Run theme, where you'll experience the thrill of running through foam. This event is designed to create a fun and pressure-free environment for everyone to enjoy exercise. Don't miss out on this unique opportunity to break your limits and have a blast!",
 };
 
 export default function page() {

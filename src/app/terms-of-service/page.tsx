@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service - Enthusiast Fun Run - enthusiastrun.com",
+  title: "Terms of Service - Enthusiast Foam Run - enthusiastrun.com",
   description: "Terms of Service and Conditions for using the enthusiastrun.com platform and Google Authentication services.",
 };
 
@@ -65,7 +65,7 @@ export default function page() {
 
             <h3 className="font-bold text-lg mt-4 mb-2">1. Account Registration & Google Authentication</h3>
             <p className="mb-2">
-              To register for the Enthusiast Fun Run, you may create an account using our internal system or via Third-Party Authentication services, specifically <strong>Google Sign-In</strong>.
+              To register for the Enthusiast Foam Run, you may create an account using our internal system or via Third-Party Authentication services, specifically <strong>Google Sign-In</strong>.
             </p>
             <ul className="list-disc pl-5 mb-4 space-y-1">
               <li>
@@ -93,7 +93,7 @@ export default function page() {
 
             <h3 className="font-bold text-lg mt-4 mb-2">5. Intellectual Property</h3>
             <p className="mb-4">
-              All content on this site, including the "Enthusiast Fun Run" logo, images, and text, is the property of the organizers. You may not use these assets without express written permission.
+              All content on this site, including the "Enthusiast Foam Run" logo, images, and text, is the property of the organizers. You may not use these assets without express written permission.
             </p>
 
             <h3 className="font-bold text-lg mt-4 mb-2">6. Contact Us</h3>

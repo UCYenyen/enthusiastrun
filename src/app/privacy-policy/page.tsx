@@ -3,8 +3,8 @@ import Image from "next/image";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Enthusiast Fun Run - enthusiastrun.com",
-  description: "Privacy Policy regarding data collection, Google Authentication usage, and user rights for Enthusiast Fun Run.",
+  title: "Privacy Policy - Enthusiast Foam Run - enthusiastrun.com",
+  description: "Privacy Policy regarding data collection, Google Authentication usage, and user rights for Enthusiast Foam Run.",
 };
 
 export default function page() {
@@ -60,7 +60,7 @@ export default function page() {
           <div className="w-full px-4 md:px-8 font-futura text-gray-800 h-[400px] overflow-y-auto pr-2 text-sm md:text-base leading-relaxed text-left border-t border-b border-gray-300 py-4">
             
             <p className="mb-4">
-              At <strong>enthusiastrun.com</strong> ("Enthusiast Fun Run"), we value your privacy. This Privacy Policy explains how we collect, use, and protect your information when you visit our website or register for our events using Google Authentication.
+              At <strong>enthusiastrun.com</strong> ("Enthusiast Foam Run"), we value your privacy. This Privacy Policy explains how we collect, use, and protect your information when you visit our website or register for our events using Google Authentication.
             </p>
 
             <h3 className="font-bold text-lg mt-4 mb-2">1. Information We Collect</h3>
@@ -73,7 +73,7 @@ export default function page() {
 
             <h3 className="font-bold text-lg mt-4 mb-2">2. How We Use Your Data</h3>
             <p className="mb-4">
-              We use the data collected solely for the purpose of organizing the Enthusiast Fun Run:
+              We use the data collected solely for the purpose of organizing the Enthusiast Foam Run:
             </p>
             <ul className="list-disc pl-5 mb-4 space-y-1">
               <li>To create your user account and verify your identity.</li>
@@ -87,7 +87,7 @@ export default function page() {
                 <strong>Explicit Disclosure:</strong> We do not share, sell, or transfer your Google User Data to any third-party advertising networks or data brokers.
               </p>
               <p className="text-sm mt-2">
-                Enthusiast Fun Run's use and transfer to any other app of information received from Google APIs will adhere to <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noreferrer" className="text-blue-600 underline">Google API Services User Data Policy</a>, including the Limited Use requirements.
+                Enthusiast Foam Run's use and transfer to any other app of information received from Google APIs will adhere to <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noreferrer" className="text-blue-600 underline">Google API Services User Data Policy</a>, including the Limited Use requirements.
               </p>
             </div>
 
@@ -114,7 +114,7 @@ export default function page() {
           </div>
           
           <div className="text-xs text-gray-500 font-futura">
-             © {new Date().getFullYear()} Enthusiast Fun Run. All rights reserved.
+             © {new Date().getFullYear()} Enthusiast Foam Run. All rights reserved.
           </div>
         </div>
       </div>

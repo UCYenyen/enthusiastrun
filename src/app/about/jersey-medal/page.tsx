@@ -2,8 +2,8 @@ import React from "react";
 import Image from "next/image";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Jersey & Medal Enthusiast Fun Run - enthusiastrun.com",
-  description: "Find out the details about the jersey and medal for Enthusiast Fun Run Vol. 2. Learn about the design, materials, and significance of the jersey and medal for this exciting running event.",
+  title: "Jersey & Medal Enthusiast Foam Run - enthusiastrun.com",
+  description: "Find out the details about the jersey and medal for Enthusiast Foam Run Vol. 2. Learn about the design, materials, and significance of the jersey and medal for this exciting running event.",
 };
 export default function page() {
   return (

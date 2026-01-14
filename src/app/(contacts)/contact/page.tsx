@@ -6,8 +6,8 @@ import Link from "next/link";
 
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Contact Us Enthusiast Fun Run - enthusiastrun.com",
-  description: "Get in touch with the Enthusiast Fun Run team. Find contact details including WhatsApp and Instagram to ask questions or learn more about Enthusiast Fun Run Vol. 2.",
+  title: "Contact Us Enthusiast Foam Run - enthusiastrun.com",
+  description: "Get in touch with the Enthusiast Foam Run team. Find contact details including WhatsApp and Instagram to ask questions or learn more about Enthusiast Foam Run Vol. 2.",
 };
 
 export default function page() {

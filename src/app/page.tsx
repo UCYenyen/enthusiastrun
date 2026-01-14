@@ -7,8 +7,8 @@ import RecapVideo from "@/components/pages/home/RecapVideo";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Enthusiast Fun Run",
-  description: "Join the Enthusiast Fun Run Vol. 2! Experience an exciting running event with categories for all levels, from 5K to Half Marathon. Register now and be part of the fun!",
+  title: "Enthusiast Foam Run",
+  description: "Join the Enthusiast Foam Run Vol. 2! Experience an exciting running event with categories for all levels, from 5K to Half Marathon. Register now and be part of the fun!",
 };
 
 export default function Home() {

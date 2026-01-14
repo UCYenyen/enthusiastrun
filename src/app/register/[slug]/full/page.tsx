@@ -3,9 +3,9 @@ import { redirect } from "next/navigation";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Registration Full - Enthusiast Fun Run",
+    title: "Registration Full - Enthusiast Foam Run",
     description:
-        "The registration for the Enthusiast Fun Run is currently full. Please check back later or explore other options to join the excitement of Enthusiast Fun Run.",
+        "The registration for the Enthusiast Foam Run is currently full. Please check back later or explore other options to join the excitement of Enthusiast Foam Run.",
 };
 
 interface Slug {

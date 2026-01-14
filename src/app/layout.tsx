@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Enthusiast Fun Run",
-  description: "Enthusiast Fun Run is a premier fun run event by IBM Student Union, Universitas Ciputra. Discover our routes, partnership opportunities, and 5K/10K categories.",
+  title: "Enthusiast Foam Run",
+  description: "Enthusiast Foam Run is a premier fun run event by IBM Student Union, Universitas Ciputra. Discover our routes, partnership opportunities, and 5K/10K categories.",
 };
 
 export default async function RootLayout({
