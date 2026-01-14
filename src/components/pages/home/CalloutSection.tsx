@@ -116,6 +116,9 @@ export default function CalloutSection() {
         </h3> */}
         <h3 ref={descRef} className="text-2xl w-[80%] font-futura text-center sm:text-justify">
           {" "}
+          This website allows participants to join the Enthusiast Foam Run. Log in to secure your spot, view race routes, and manage your registration details.
+          <br/>
+          <br />
           Take a new step, push your boundaries, and experience the most exciting foam run at Universitas Ciputra Surabaya! Are you ready to Break the Limits with Enthusiast Vol. 2?
         </h3>
       </div>
