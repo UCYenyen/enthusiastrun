@@ -8,7 +8,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Enthusiast Foam Run",
-  description: "Join the Enthusiast Foam Run Vol. 2! Experience an exciting running event with categories for all levels, from 5K to Half Marathon. Register now and be part of the fun!",
+  description: "Join the Enthusiast Foam Run! Experience an exciting running event with categories for all levels, from 5K to Half Marathon. Register now and be part of the fun!",
 };
 
 export default function Home() {
