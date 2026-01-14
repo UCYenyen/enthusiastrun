@@ -1,3 +1,4 @@
+'use server'
 import React from "react";
 import { MdGpsFixed } from "react-icons/md";
 import Link from "next/link";
