@@ -215,7 +215,6 @@ export default function Navbar() {
         <Link href="/contact" rel="contact" className="text-white hover:underline">
           CONTACT
         </Link>
-        <Link href={"/privacy-policy"} rel="privacy policy" className="text-xl hover:underline font-impact">PRIVACY POLICY</Link>
         <div className="flex items-center">
           {status === "loading" ? (
             <div className="w-10 h-10 rounded-full bg-zinc-200 animate-pulse" />
