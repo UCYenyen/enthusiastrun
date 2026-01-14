@@ -5,6 +5,7 @@ import FlagOffSection from "@/components/pages/home/FlagOffSection";
 import SponsorSlider from "@/components/pages/home/SponsorSlider";
 import RecapVideo from "@/components/pages/home/RecapVideo";
 import { Metadata } from "next";
+import Link from "next/dist/client/link";
 
 export const metadata: Metadata = {
   title: "Enthusiast Foam Run",
@@ -31,6 +32,7 @@ export default function Home() {
         height={1080}
         className="w-full h-full"
       />
+      <Link href={"/privacy-policy"} rel="privacy policy" className="text-xl underline font-impact">Privacy Policy</Link>
     </div>
   );
 }
