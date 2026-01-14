@@ -181,7 +181,6 @@ export default function Navbar() {
               >
                 CONTACT
               </Link>
-              <Link href={"/privacy-policy"} rel="privacy policy" className="text-xl underline font-impact">Privacy Policy</Link>
             </div>
           </div>
         </SheetContent>

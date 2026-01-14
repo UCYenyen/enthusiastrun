@@ -118,9 +118,6 @@ export default function CalloutSection() {
           {" "}
           <span className="font-bold">This website allows participants to join the Enthusiast Foam Run. Log in to secure your spot, view race routes, and manage your registration details. See the privacy policy here</span>
           <br/>
-          <br/>
-            <Link href={"/privacy-policy"} className="text-xl underline font-impact">Privacy Policy</Link>
-          <br />
           Take a new step, push your boundaries, and experience the most exciting foam run at Universitas Ciputra Surabaya! Are you ready to Break the Limits with Enthusiast Foam Run?
         </h3>
       </div>
