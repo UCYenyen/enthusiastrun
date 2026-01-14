@@ -87,7 +87,7 @@ export default function CalloutSection() {
 
   return (
     <div
-      ref={sectionRef}
+      // ref={sectionRef}
       className="sm:p-8 shadow-lg relative z-2 w-screen bg-background border-y-4 border-white flex flex-col py-[10%] items-center sm:items-start gap-8 font-impact"
     >
       <Image
