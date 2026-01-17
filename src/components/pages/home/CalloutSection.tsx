@@ -117,17 +117,22 @@ export default async function CalloutSection() {
         </h3> */}
         <h3 className="about text-2xl w-[80%] font-futura text-center sm:text-justify">
           {" "}
-          <span className="about font-bold">The purpose of this website is to allow participants to join the Enthusiast Foam Run. Log in to secure your spot, view race routes, and manage your registration details. See the privacy policy here</span>
+          <span className="about font-bold">Enthusiast Foam Run is an annual event held by Ciputra University Surabaya under the Student Organization Department of the Student Union IBM. This event serves as a platform for everyone to embrace an active lifestyle while enjoying a fun and unique running experience through foam-filled courses.</span>
+          <br/>
+          <br />
+          <span className="about font-bold">
+            The purpose of this website is to allow participants to join the Enthusiast Foam Run. Log in to secure your spot, view race routes, and manage your registration details.</span>
           <br/>
           <br />
           <span>To maintain the integrity, Enthusiast Foam Run web uses Google OAuth (Google Sign-In) specifically to ensure that all registered participants are using a valid email. We use your Google profile information (name and email) solely for identity verification and registration management. Your data is used internally and will not be shared with any third parties.</span>
           <br/>
           <br />
-          <Link href={"/privacy-policy"} rel="privacy-policy" className="text-xl text-white underline font-impact">Privacy Policy</Link>
           <br />
           <br />
           {/* Take a new step, push your boundaries, and experience the most exciting foam run at Universitas Ciputra Surabaya! Are you ready to Break the Limits with Enthusiast Foam Run? */}
         </h3>
+        <h3 className="about text-2xl w-[80%] font-futura text-center sm:text-justify">See the privacy policy here</h3>
+        <Link href={"/privacy-policy"} rel="privacy-policy" className="text-xl text-white underline font-impact">Privacy Policy</Link>
       </div>
       <div className="flex gap-1 flex-col w-[80%] items-center sm:items-start">
         <h3  className="text-xl font-futura text-center sm:text-justify">
