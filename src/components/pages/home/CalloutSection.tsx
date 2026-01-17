@@ -131,8 +131,8 @@ export default async function CalloutSection() {
           <br />
           {/* Take a new step, push your boundaries, and experience the most exciting foam run at Universitas Ciputra Surabaya! Are you ready to Break the Limits with Enthusiast Foam Run? */}
         </h3>
-        <h3 className="about text-2xl w-[80%] font-futura text-center sm:text-justify">See the privacy policy here</h3>
-        <Link href={"/privacy-policy"} rel="privacy-policy" className="text-xl text-white underline font-impact">Privacy Policy</Link>
+        <a className="about text-2xl w-[80%] font-futura text-center sm:text-justify" href="https://enthusiastrun.com/privacy-policy">See the privacy policy here</a>
+        <a href={"/privacy-policy"} className="text-xl text-white underline font-impact">Privacy Policy</a>
       </div>
       <div className="flex gap-1 flex-col w-[80%] items-center sm:items-start">
         <h3  className="text-xl font-futura text-center sm:text-justify">
