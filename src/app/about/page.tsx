@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import { Countdown } from "@/components/pages/home/RegistrationSection";
 import FlagOffItem from "@/components/pages/home/FlagOffItem";

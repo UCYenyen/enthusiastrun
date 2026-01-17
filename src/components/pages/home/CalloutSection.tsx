@@ -1,3 +1,4 @@
+'use server'
 // "use client";
 
 // import React, { useRef, useEffect } from "react";
@@ -8,7 +9,7 @@ import Link from "next/link";
 
 // gsap.registerPlugin(ScrollTrigger);
 
-export default function CalloutSection() {
+export default async function CalloutSection() {
   // const sectionRef = useRef<HTMLDivElement>(null);
   // const titleRef = useRef<HTMLDivElement>(null);
   // const descRef = useRef<HTMLHeadingElement>(null);
