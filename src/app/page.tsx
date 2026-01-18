@@ -18,11 +18,11 @@ export default function Home() {
       <HeroCarousel />
       <section className="relative flex flex-col overflow-hidden">
         <CalloutSection />
-        <FlagOffSection />
+        {/* <FlagOffSection /> */}
       </section>
-      <SponsorSlider />
-      <RecapVideo />
-      <SponsorSlider src="co-sponsors.webp" />
+      {/* <SponsorSlider /> */}
+      {/* <RecapVideo /> */}
+      {/* <SponsorSlider src="co-sponsors.webp" /> */}
       <Image
         src="/home/recap-foto.webp"
         draggable={false}

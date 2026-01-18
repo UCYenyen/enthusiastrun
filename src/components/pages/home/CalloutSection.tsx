@@ -35,8 +35,6 @@ export default async function CalloutSection() {
           <span>To maintain the integrity, Enthusiast web uses Google OAuth (Google Sign-In) specifically to ensure that all registered participants are using a valid email. We use your Google profile information (name and email) solely for identity verification and registration management. Your data is used internally and will not be shared with any third parties.</span>
           <br/>
           <br />
-          <br />
-          <br />
         </h3>
         <a className="about text-2xl w-[80%] font-futura text-center sm:text-justify" href="https://enthusiastrun.com/privacy-policy">See the privacy policy here</a>
         <a href={"/privacy-policy"} className="text-xl text-white underline font-impact">Privacy Policy</a>
