@@ -106,9 +106,8 @@ export default function CalloutSection() {
         <h1 className="text-4xl w-[80%] sm:w-full">ARE YOU READY FOR ENTHUSIAST FOAM RUN?</h1>
         <h3 className="text-xl text-[#9ED486]">3 MEI 2026</h3>
       </div>
-      <div className="flex flex-col gap-1 items-center sm:items-start">
+      <div ref={descRef} className="flex flex-col gap-1 items-center sm:items-start">
          <h3
-          ref={descRef}
           className="text-xl w-[80%] font-bold font-futura text-center sm:text-justify"
         >
           Bersiaplah! Saatnya bergabung dalam gelombang energi dan keseruan di
@@ -116,9 +115,7 @@ export default function CalloutSection() {
         </h3>
         <h3 className="about text-2xl w-[80%] font-futura text-center sm:text-justify">
           {" "}
-          <span className="about font-bold">Enthusiast Foam Run is an annual event held by Ciputra University Surabaya under the Student Organization Department of the Student Union IBM. This event serves as a platform for everyone to embrace an active lifestyle while enjoying a fun and unique running experience through foam-filled courses.</span>
-          <br />
-          <br />
+          {/* <span className="about font-bold">Enthusiast Foam Run is an annual event held by Ciputra University Surabaya under the Student Organization Department of the Student Union IBM. This event serves as a platform for everyone to embrace an active lifestyle while enjoying a fun and unique running experience through foam-filled courses.</span> */}
           Take a new step, push your boundaries, and experience the most exciting foam run at Universitas Ciputra Surabaya! Are you ready to Break the Limits with Enthusiast Foam Run?
         </h3>
       </div>
