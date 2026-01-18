@@ -103,13 +103,13 @@ export default function page() {
 
             <h3 className="font-bold text-lg mt-4 mb-2">6. Your Rights & Data Deletion</h3>
             <p className="mb-4">
-              You have the right to request access to or deletion of your personal data. If you wish to delete your account and remove your Google data from our records, please email us at <a href="mailto:support@enthusiastrun.com" className="text-blue-600 underline">support@enthusiastrun.com</a>. We will process deletion requests within 30 days.
+              You have the right to request access to or deletion of your personal data. If you wish to delete your account and remove your Google data from our records, please email us at <a href="mailto:enthusiastibm@gmail.com" className="text-blue-600 underline">enthusiastibm@gmail.com</a>. We will process deletion requests within 30 days.
             </p>
 
             <h3 className="font-bold text-lg mt-4 mb-2">7. Contact Us</h3>
             <p className="mb-4">
               For any privacy-related inquiries, please contact:<br/>
-              <strong>Email:</strong> support@enthusiastrun.com
+              <strong>Email:</strong> enthusiastibm@gmail.com
             </p>
           </div>
           
