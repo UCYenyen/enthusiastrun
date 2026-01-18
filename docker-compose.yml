@@ -1,0 +1,18 @@
+services:
+  enthusiast_app:
+    container_name: enthusiast_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+        - .env.local
+    networks:
+      - global_proxy
+      - enthusiast_internal
+
+networks:
+  global_proxy:
+    external: true
+  enthusiast_internal:
+    driver: bridge
