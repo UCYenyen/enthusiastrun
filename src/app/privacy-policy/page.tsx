@@ -84,7 +84,7 @@ export default function PrivacyPolicyPage() {
 
             <h3>6. Your Rights & Data Deletion</h3>
             <p>
-              You have the right to request access to or deletion of your personal data. If you wish to delete your account and remove your Google data from our records, please email us at <a href="mailto:support@enthusiastrun.com">support@enthusiastrun.com</a>. We will process deletion requests within 30 days.
+              You have the right to request access to or deletion of your personal data. If you wish to delete your account and remove your Google data from our records, please email us at <a href="mailto:enthusiastibm@gmail.com">enthusiastibm@gmail.com</a>. We will process deletion requests within 30 days.
             </p>
 
             <h3>7. Contact Us</h3>
