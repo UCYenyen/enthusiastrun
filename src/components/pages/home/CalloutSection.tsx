@@ -36,8 +36,8 @@ export default async function CalloutSection() {
           <br/>
           <br />
         </h3>
-        <a className="about text-2xl w-[80%] font-futura text-center sm:text-justify" href="https://enthusiastrun.com/privacy-policy">See the privacy policy here</a>
-        <Link href={"https://enthusiastrun.com/privacy-policy"} className="text-xl text-white underline font-impact">Privacy Policy</Link>
+        <a className="about text-2xl w-[80%] font-futura text-center sm:text-justify" href="https://new.enthusiastrun.com/privacy-policy">See the privacy policy here</a>
+        <Link href={"/privacy-policy"} className="text-xl text-white underline font-impact">Privacy Policy</Link>
       </div>
       <div className="flex gap-1 flex-col w-[80%] items-center sm:items-start">
         <h3  className="text-xl font-futura text-center sm:text-justify">
