@@ -16,14 +16,14 @@ export default function PrivacyPolicyPage() {
           - Tinggi fixed (h-[85vh]) agar scroll terjadi DI DALAM kartu
           - Shadow & Rounded corners untuk estetika modern simple 
       */}
-      <div className="bg-white w-full max-w-3xl h-[85vh] rounded-2xl shadow-xl flex flex-col overflow-hidden border border-gray-100">
+      <div className="bg-white w-full mt-24 max-w-3xl h-[85vh] rounded-2xl shadow-xl flex flex-col overflow-hidden border border-gray-100">
         
         {/* Sticky Header di dalam Kartu (Opsional, agar Judul selalu terlihat) */}
         <div className="bg-white px-6 py-5 border-b border-gray-100 flex-shrink-0 text-center z-10">
-          <h1 className="text-xl md:text-2xl font-bold uppercase tracking-wide text-gray-900">
+          <h1 className="text-xl md:text-2xl font-bold uppercase tracking-wide text-black">
             Privacy Policy
           </h1>
-          <p className="text-gray-400 text-xs mt-1">
+          <p className="text-black text-xs mt-1">
             Enthusiast Foam Run • Last Updated: January 2026
           </p>
         </div>
@@ -31,9 +31,9 @@ export default function PrivacyPolicyPage() {
         {/* Scrollable Content Area */}
         <div className="flex-1 overflow-y-auto p-6 md:p-10 scroll-smooth">
           
-          <article className="prose prose-sm md:prose-base prose-gray max-w-none 
-            prose-headings:font-bold prose-headings:text-gray-900 
-            prose-p:text-gray-600 prose-li:text-gray-600
+          <article className="prose text-black prose-sm md:prose-base prose-gray max-w-none 
+            prose-headings:font-bold prose-headings:text-black 
+            prose-p:text-black prose-li:text-black
             prose-a:text-blue-600 hover:prose-a:text-blue-800 transition-colors">
             
             <p className="lead">
@@ -95,7 +95,7 @@ export default function PrivacyPolicyPage() {
           </article>
 
           {/* Footer inside scroll area */}
-          <div className="mt-12 pt-6 border-t border-gray-100 text-center text-xs text-gray-400">
+          <div className="mt-12 pt-6 border-t border-gray-100 text-center text-xs text-black">
             <p>&copy; {new Date().getFullYear()} Enthusiast Foam Run. All rights reserved.</p>
           </div>
         </div>
