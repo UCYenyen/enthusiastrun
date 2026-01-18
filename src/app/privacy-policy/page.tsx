@@ -1,4 +1,3 @@
-'use server'
 import React from "react";
 import Image from "next/image";
 import { Metadata } from "next";
@@ -8,7 +7,7 @@ export const metadata: Metadata = {
   description: "Privacy Policy regarding data collection, Google Authentication usage, and user rights for Enthusiast Foam Run.",
 };
 
-export default async function page() {
+export default function page() {
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
