@@ -73,7 +73,7 @@ export default function page() {
 
             <h3 className="font-bold text-lg mt-4 mb-2">2. How We Use Your Data</h3>
             <p className="mb-4">
-              We use the data collected solely for the purpose of organizing the Enthusiast Foam Run:
+              We use the data collected solely for the purpose of organizing the Enthusiast:
             </p>
             <ul className="list-disc pl-5 mb-4 space-y-1">
               <li>To create your user account and verify your identity.</li>
@@ -87,7 +87,7 @@ export default function page() {
                 <strong>Explicit Disclosure:</strong> We do not share, sell, or transfer your Google User Data to any third-party advertising networks or data brokers.
               </p>
               <p className="text-sm mt-2">
-                Enthusiast Foam Run's use and transfer to any other app of information received from Google APIs will adhere to <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noreferrer" className="text-blue-600 underline">Google API Services User Data Policy</a>, including the Limited Use requirements.
+                Enthusiast use and transfer to any other app of information received from Google APIs will adhere to <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noreferrer" className="text-blue-600 underline">Google API Services User Data Policy</a>, including the Limited Use requirements.
               </p>
             </div>
 
@@ -114,7 +114,7 @@ export default function page() {
           </div>
           
           <div className="text-xs text-gray-500 font-futura">
-             © {new Date().getFullYear()} Enthusiast Foam Run. All rights reserved.
+             © {new Date().getFullYear()} Enthusiast. All rights reserved.
           </div>
         </div>
       </div>
