@@ -52,7 +52,7 @@ export default function RegistrationPage() {
   const isRegularActive = !isSuperEarlyActive && !isEarlyBirdActive;
 
 
-  const isSuperEarlySoldOut = superEarlyCount >= (is5K ? 20 : 20)
+  const isSuperEarlySoldOut = superEarlyCount >= (is5K ? 20 : 5)
   const isEarlyBirdSoldOut = earlyBirdCount >= (is5K ? 480 : 280)
   const isRegularSoldOut = false;
 
