@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TextDropdownPanel, { TextDropdownPanelCallout } from "../layout/TextDropdownPanel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -103,11 +104,18 @@ export default function CalloutSection() {
         ref={titleRef}
         className="flex flex-col gap-2 text-center sm:text-start items-center sm:items-start"
       >
+        <TextDropdownPanelCallout
+          label="REGISTRATION"
+          items={[
+            { item_label: "5K RUN", item_href: "/register/CATEGORY_5K" },
+            { item_label: "10K RUN", item_href: "/register/CATEGORY_10K" },
+          ]}
+        ></TextDropdownPanelCallout>
         <h1 className="text-4xl w-[80%] sm:w-full">ARE YOU READY FOR ENTHUSIAST FOAM RUN?</h1>
         <h3 className="text-xl text-[#9ED486]">3 MEI 2026</h3>
       </div>
       <div ref={descRef} className="flex flex-col gap-1 items-center sm:items-start">
-         <h3
+        <h3
           className="text-xl w-[80%] font-bold font-futura text-center sm:text-justify"
         >
           Bersiaplah! Saatnya bergabung dalam gelombang energi dan keseruan di
@@ -120,10 +128,10 @@ export default function CalloutSection() {
         </h3>
       </div>
       <div className="flex gap-1 flex-col w-[80%] items-center sm:items-start">
-        <h3  className="text-xl font-futura text-center sm:text-justify">
+        <h3 className="text-xl font-futura text-center sm:text-justify">
           Click the button below to view more informations{" "}
         </h3>
-        <h3  className="text-xl font-futura font-bold text-justify">
+        <h3 className="text-xl font-futura font-bold text-justify">
           {"Let's"} run, splash, and have fun!
         </h3>
       </div>

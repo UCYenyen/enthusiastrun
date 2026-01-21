@@ -11,7 +11,6 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
-import { Countdown } from "./RegistrationSection";
 
 export function HeroCarousel() {
   const plugin = React.useRef(
