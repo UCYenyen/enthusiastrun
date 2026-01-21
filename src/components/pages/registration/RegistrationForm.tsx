@@ -69,8 +69,8 @@ export default function RegistrationForm({ category, type, mahasiswaUCEnabled = 
   const prices = type === "super_early_bird"
     ? { personal: is5K ? 149000 : 179000, uc: 0 }
     : type === "early_bird"
-      ? { personal: is5K ? 229000 : 239000, uc: is5K ? 189000 : 199000 }
-      : { personal: is5K ? 249000 : 299000, uc: is5K ? 199000 : 199000 };
+      ? { personal: is5K ? 185000 : 210000, uc: is5K ? 155000 : 185000 }
+      : { personal: is5K ? 220000 : 245000, uc: is5K ? 199000 : 199000 };
 
   const PERSONAL_PRICE = prices.personal;
   const UC_STUDENT_PRICE = prices.uc;
