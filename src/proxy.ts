@@ -18,12 +18,12 @@ export default withAuth(
             }
         }
 
-        // if (pathname.startsWith("/register")) {
-        //     if (!token) {
-        //         console.log("token : ", token)
-        //         return NextResponse.redirect(new URL('/login', req.url));
-        //     }
-        // }
+        if (pathname.startsWith("/register")) {
+            if (!token) {
+                console.log("token : ", token)
+                return NextResponse.redirect(new URL('/login', req.url));
+            }
+        }
 
         return NextResponse.next();
     },
@@ -35,5 +35,5 @@ export default withAuth(
 );
 
 export const config = {
-    matcher: ["/dashboard/:path*"],
+    matcher: ["/dashboard/:path*", "/register/:path*"],
 }
