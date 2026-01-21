@@ -51,6 +51,11 @@ export default function RegistrationPage() {
   const isEarlyBirdActive = !isSuperEarlyActive && earlyBirdCount < (is5K ? 480 : 280);
   const isRegularActive = !isSuperEarlyActive && !isEarlyBirdActive;
 
+
+  const isSuperEarlySoldOut = superEarlyCount >= (is5K ? 20 : 20)
+  const isEarlyBirdSoldOut = earlyBirdCount >= (is5K ? 480 : 280)
+  const isRegularSoldOut = false;
+
   return (
     <div className="overflow-hidden">
       <div className="h-[7vh]"></div>
@@ -100,6 +105,7 @@ export default function RegistrationPage() {
             price={is5K ? "149000" : "179000"}
             href={`/register/${slug}/super-early-bird`}
             isActive={isSuperEarlyActive}
+            isSoldOut={isSuperEarlySoldOut}
             count={superEarlyCount}
             maxCount={1}
           />
@@ -108,6 +114,7 @@ export default function RegistrationPage() {
             price={is5K ? "229000" : "239000"}
             href={`/register/${slug}/early-bird`}
             isActive={isEarlyBirdActive}
+            isSoldOut={isEarlyBirdSoldOut}
             count={earlyBirdCount}
             maxCount={50}
           />
@@ -123,7 +130,8 @@ export default function RegistrationPage() {
             title="Regular"
             price={is5K ? "249000" : "299000"}
             href={`/register/${slug}/normal`}
-            isActive={isRegularActive}
+             isActive={isRegularActive}
+            isSoldOut={isRegularSoldOut}
           />
           
           <div className="flex flex-col font-futura w-full justify-center items-center gap-1">
