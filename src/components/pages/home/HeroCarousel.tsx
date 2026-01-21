@@ -15,11 +15,11 @@ import { Countdown } from "./RegistrationSection";
 
 export function HeroCarousel() {
   const plugin = React.useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: true })
+    Autoplay({ delay: 5000, stopOnInteraction: false })
   );
 
   const images = [
-    "/home/hero-image.webp",
+    "/home/recap-foto.webp",
     "/home/hero-image-2.webp",
   ];
 
@@ -71,9 +71,9 @@ export function HeroCarousel() {
               style={{ backgroundImage: `url(${imageUrl})` }}
               className="h-[70vh] p-0 rounded-none border-none bg-cover bg-center flex justify-center items-center aspect-auto object-cover"
             >
-               {index == 0 &&
+               {/* {index == 0 &&
               <Countdown></Countdown>
-               }
+               } */}
             </Card>
             
           </CarouselItem>

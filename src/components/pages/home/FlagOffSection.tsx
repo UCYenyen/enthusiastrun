@@ -5,6 +5,7 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import FlagOffItem from "./FlagOffItem";
+import { Countdown } from "./RegistrationSection";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -104,7 +105,7 @@ export default function FlagOffSection() {
   return (
     <div
       ref={sectionRef}
-      className="relative items-center min-h-[40rem] justify-center z-1 w-screen bg-linear-to-b from-0% from-[#00C1C0] to-40% to-[#FFF8E1] border-y-4 border-white flex flex-col gap-8 font-bold"
+      className="relative items-center min-h-[60rem] justify-center z-1 w-screen bg-linear-to-b from-0% from-[#00C1C0] to-40% to-[#FFF8E1] border-y-4 border-white flex flex-col gap-8 font-bold"
     >
       <div className="absolute w-full h-full bg-linear-to-bl from-[#00CADE] to-[#00CADE]/0"></div>
       <Image
@@ -157,6 +158,7 @@ export default function FlagOffSection() {
         <div ref={flagOffItemsRef} className="w-full flex flex-col items-center p-4 sm:p-0 gap-12">
           <FlagOffItem flagType="10K" flagOffTime="05:15" cutOffTime="02:00:00" />
           <FlagOffItem flagType="5K" flagOffTime="05:45" cutOffTime="01:15:00" />
+           <Countdown></Countdown>
         </div>
       </div>
     </div>
