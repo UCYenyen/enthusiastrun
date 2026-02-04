@@ -40,6 +40,7 @@ export async function createRegistration(
       where: {
         email: data.email,
         category: data.category,
+        status: { not: "cancelled" },
       },
     });
 
