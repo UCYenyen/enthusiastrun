@@ -27,7 +27,8 @@ export default async function EarlyRegistrationPage({ params }: Slug) {
     const registeredCount = await prisma.registration.findMany({
       where: {
         category: slug,
-        type: "early_bird"
+        type: "early_bird",
+        status: { not: "cancelled" }
       }
     })
 
@@ -38,7 +39,8 @@ export default async function EarlyRegistrationPage({ params }: Slug) {
     const registeredCount = await prisma.registration.findMany({
       where: {
         category: slug,
-        type: "early_bird"
+        type: "early_bird",
+        status: { not: "cancelled" }
       }
     })
 

@@ -27,7 +27,8 @@ export default async function SuperEarlyRegistrationPage({ params }: Slug) {
   const registeredCount = await prisma.registration.findMany({
     where: {
       category: slug,
-      type: "super_early_bird"
+      type: "super_early_bird",
+      status: { not: "cancelled" }
     }
   })
 
