@@ -9,7 +9,7 @@ interface ParticipantFormProps {
   data: ParticipantData;
   onChange: (data: Partial<ParticipantData>) => void;
   isBundling: boolean;
-  isUcStudent?: boolean; 
+  isUcStudent?: boolean;
 }
 
 const GENDER_OPTIONS = [
@@ -62,13 +62,19 @@ export default function ParticipantForm({
           </span>
         </div>
         <svg
-          className={`w-6 h-6 text-white transition-transform ${isExpanded ? "rotate-180" : ""
-            }`}
+          className={`w-6 h-6 text-white transition-transform ${
+            isExpanded ? "rotate-180" : ""
+          }`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
 
@@ -214,7 +220,9 @@ export default function ParticipantForm({
                 <input
                   type="text"
                   value={data.emergencyContact}
-                  onChange={(e) => onChange({ emergencyContact: e.target.value })}
+                  onChange={(e) =>
+                    onChange({ emergencyContact: e.target.value })
+                  }
                   placeholder="Name of emergency contact"
                   className={inputClasses}
                   required
@@ -223,7 +231,8 @@ export default function ParticipantForm({
 
               <div>
                 <label className={labelClasses}>
-                  Emergency Contact Number <span className="text-red-500">*</span>
+                  Emergency Contact Number{" "}
+                  <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -241,7 +250,13 @@ export default function ParticipantForm({
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
               Jersey & Medical Condition
             </h3>
-            <Image src="/registration/size_chart.jpg" className="w-full h-auto" alt="Size Chart" width={500} height={300} />
+            <Image
+              src="/registration/size_chart.jpg"
+              className="w-full h-auto"
+              alt="Size Chart"
+              width={500}
+              height={300}
+            />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className={labelClasses}>
@@ -269,11 +284,14 @@ export default function ParticipantForm({
 
               <div className="md:col-span-2">
                 <label className={labelClasses}>
-                  Medical Condition <span className="text-gray-400">(Optional)</span>
+                  Medical Condition{" "}
+                  <span className="text-gray-400">(Optional)</span>
                 </label>
                 <textarea
                   value={data.medicalCondition}
-                  onChange={(e) => onChange({ medicalCondition: e.target.value })}
+                  onChange={(e) =>
+                    onChange({ medicalCondition: e.target.value })
+                  }
                   placeholder="Example: Allergies to certain medications, asthma, etc."
                   rows={2}
                   className={inputClasses}
@@ -284,7 +302,10 @@ export default function ParticipantForm({
 
           <div>
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
-              {isUcStudent ? `Upload Student Card` : "Upload ID Card (KTP/SIM/Student Card)"} <span className="text-red-500">*</span>
+              {isUcStudent
+                ? `Upload Student Card`
+                : "Upload ID Card (KTP/SIM/Student Card)"}{" "}
+              <span className="text-red-500">*</span>
             </h3>
             {data.idCardUrl ? (
               <div className="flex items-center gap-4 p-4 bg-green-50 rounded-lg border-2 border-green-200">
@@ -304,7 +325,9 @@ export default function ParticipantForm({
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <p className="font-medium text-green-700">ID Card successfully uploaded</p>
+                  <p className="font-medium text-green-700">
+                    ID Card successfully uploaded
+                  </p>
                   <button
                     type="button"
                     onClick={() => {
@@ -326,6 +349,22 @@ export default function ParticipantForm({
                 }}
               />
             )}
+            <input
+              type="text"
+              value={data.idCardUrl}
+              onChange={() => {}}
+              required
+              className="opacity-0 absolute h-0 w-0 pointer-events-none"
+              tabIndex={-1}
+              onInvalid={(e) =>
+                (e.target as HTMLInputElement).setCustomValidity(
+                  "Please upload your ID card",
+                )
+              }
+              onInput={(e) =>
+                (e.target as HTMLInputElement).setCustomValidity("")
+              }
+            />
           </div>
         </div>
       )}
