@@ -10,21 +10,43 @@ interface RegistrationTableProps {
   registrations: Registration[];
 }
 
-export default function RegistrationTable({ registrations: initialRegistrations }: RegistrationTableProps) {
-  const [registrations, setRegistrations] = useState<Registration[]>(initialRegistrations);
+export default function RegistrationTable({
+  registrations: initialRegistrations,
+}: RegistrationTableProps) {
+  const [registrations, setRegistrations] =
+    useState<Registration[]>(initialRegistrations);
   const [selectedReg, setSelectedReg] = useState<Registration | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filter, setFilter] = useState<"all" | "pending" | "confirmed" | "cancelled">("all");
-  const [categoryFilter, setCategoryFilter] = useState<"all" | "CATEGORY_5K" | "CATEGORY_10K">("all");
+  const [filter, setFilter] = useState<
+    "all" | "pending" | "confirmed" | "cancelled"
+  >("all");
+  const [categoryFilter, setCategoryFilter] = useState<
+    "all" | "CATEGORY_5K" | "CATEGORY_10K"
+  >("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 8;
 
-  const handleStatusUpdate = async (id: string, newStatus: "pending" | "confirmed" | "cancelled") => {
+  const handleStatusUpdate = async (
+    id: string,
+    newStatus: "pending" | "confirmed" | "cancelled",
+  ) => {
     setUpdatingId(id);
     const result = await updateRegistrationStatus(id, newStatus);
-    
+
     if (result.success) {
-      setRegistrations(prev => prev.map(r => r.id === id ? { ...r, status: newStatus, paymentStatus: newStatus === "confirmed" } : r));
+      setRegistrations((prev) =>
+        prev.map((r) =>
+          r.id === id
+            ? {
+                ...r,
+                status: newStatus,
+                paymentStatus: newStatus === "confirmed",
+              }
+            : r,
+        ),
+      );
       toast.success(result.message || "Status updated");
     } else {
       toast.error(result.error || "Failed to update");
@@ -37,21 +59,29 @@ export default function RegistrationTable({ registrations: initialRegistrations 
     setIsModalOpen(true);
   };
 
-  const filteredRegistrations = registrations.filter(r => {
+  const filteredRegistrations = registrations.filter((r) => {
     const matchStatus = filter === "all" || r.status === filter;
-    const matchCategory = categoryFilter === "all" || r.category === categoryFilter;
-    const matchSearch = searchQuery === "" || 
+    const matchCategory =
+      categoryFilter === "all" || r.category === categoryFilter;
+    const matchSearch =
+      searchQuery === "" ||
       r.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       r.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       r.phoneNumber.includes(searchQuery);
     return matchStatus && matchCategory && matchSearch;
   });
 
+  const totalPages = Math.ceil(filteredRegistrations.length / ITEMS_PER_PAGE);
+  const paginatedRegistrations = filteredRegistrations.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
+
   const stats = {
     total: registrations.length,
-    pending: registrations.filter(r => r.status === "pending").length,
-    confirmed: registrations.filter(r => r.status === "confirmed").length,
-    cancelled: registrations.filter(r => r.status === "cancelled").length,
+    pending: registrations.filter((r) => r.status === "pending").length,
+    confirmed: registrations.filter((r) => r.status === "confirmed").length,
+    cancelled: registrations.filter((r) => r.status === "cancelled").length,
   };
 
   return (
@@ -62,11 +92,15 @@ export default function RegistrationTable({ registrations: initialRegistrations 
           <p className="text-white/70 text-sm">Total</p>
         </div>
         <div className="bg-yellow-500/20 border border-yellow-500 rounded-lg p-4 text-center">
-          <p className="text-3xl font-impact text-yellow-300">{stats.pending}</p>
+          <p className="text-3xl font-impact text-yellow-300">
+            {stats.pending}
+          </p>
           <p className="text-yellow-300/70 text-sm">Pending</p>
         </div>
         <div className="bg-green-500/20 border border-green-500 rounded-lg p-4 text-center">
-          <p className="text-3xl font-impact text-green-300">{stats.confirmed}</p>
+          <p className="text-3xl font-impact text-green-300">
+            {stats.confirmed}
+          </p>
           <p className="text-green-300/70 text-sm">Confirmed</p>
         </div>
         <div className="bg-red-500/20 border border-red-500 rounded-lg p-4 text-center">
@@ -76,33 +110,95 @@ export default function RegistrationTable({ registrations: initialRegistrations 
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
-        <input 
-          type="text" 
-          value={searchQuery} 
-          onChange={(e) => setSearchQuery(e.target.value)} 
-          placeholder="Search by name, email, or phone..." 
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1);
+          }}
+          placeholder="Search by name, email, or phone..."
           className="flex-1 px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white placeholder:text-white/50 focus:outline-none focus:border-[#4BCFFC]"
         />
-        <select value={filter} onChange={(e) => setFilter(e.target.value as "all" | "pending" | "confirmed" | "cancelled")} className="px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white focus:outline-none focus:border-[#4BCFFC]">
-          <option value="all" className="bg-background">All Status</option>
-          <option value="pending" className="bg-background">Pending</option>
-          <option value="confirmed" className="bg-background">Confirmed</option>
-          <option value="cancelled" className="bg-background">Rejected</option>
+        <select
+          value={filter}
+          onChange={(e) => {
+            setFilter(
+              e.target.value as "all" | "pending" | "confirmed" | "cancelled",
+            );
+            setCurrentPage(1);
+          }}
+          className="px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white focus:outline-none focus:border-[#4BCFFC]"
+        >
+          <option value="all" className="bg-background">
+            All Status
+          </option>
+          <option value="pending" className="bg-background">
+            Pending
+          </option>
+          <option value="confirmed" className="bg-background">
+            Confirmed
+          </option>
+          <option value="cancelled" className="bg-background">
+            Rejected
+          </option>
         </select>
-        <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value as "all" | "CATEGORY_5K" | "CATEGORY_10K")} className="px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white focus:outline-none focus:border-[#4BCFFC]">
-          <option value="all" className="bg-background">All Categories</option>
-          <option value="CATEGORY_5K" className="bg-background">5K Run</option>
-          <option value="CATEGORY_10K" className="bg-background">10K Run</option>
+        <select
+          value={categoryFilter}
+          onChange={(e) => {
+            setCategoryFilter(
+              e.target.value as "all" | "CATEGORY_5K" | "CATEGORY_10K",
+            );
+            setCurrentPage(1);
+          }}
+          className="px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white focus:outline-none focus:border-[#4BCFFC]"
+        >
+          <option value="all" className="bg-background">
+            All Categories
+          </option>
+          <option value="CATEGORY_5K" className="bg-background">
+            5K Run
+          </option>
+          <option value="CATEGORY_10K" className="bg-background">
+            10K Run
+          </option>
         </select>
       </div>
-      
+
       <div className="flex justify-between items-center">
         <p className="text-white/70 text-sm">
-          Showing {filteredRegistrations.length} of {registrations.length} registrations
+          Showing{" "}
+          {paginatedRegistrations.length > 0
+            ? (currentPage - 1) * ITEMS_PER_PAGE + 1
+            : 0}{" "}
+          -{" "}
+          {Math.min(currentPage * ITEMS_PER_PAGE, filteredRegistrations.length)}{" "}
+          of {filteredRegistrations.length} registrations
         </p>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="px-3 py-1 bg-white/10 text-white rounded text-sm hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Previous
+          </button>
+          <span className="text-white text-sm flex items-center">
+            Page {currentPage} of {totalPages || 1}
+          </span>
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages || totalPages === 0}
+            className="px-3 py-1 bg-white/10 text-white rounded text-sm hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Next
+          </button>
+        </div>
         {searchQuery && (
-          <button 
-            onClick={() => setSearchQuery("")} 
+          <button
+            onClick={() => setSearchQuery("")}
             className="text-white/70 text-sm hover:text-white underline"
           >
             Clear search
@@ -115,57 +211,109 @@ export default function RegistrationTable({ registrations: initialRegistrations 
           <table className="w-full">
             <thead>
               <tr className="bg-gray-100 border-b-2 border-gray-200">
-                <th className="px-4 py-3 text-left text-xs  text-background uppercase">No</th>
-                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Name</th>
-                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Package</th>
-                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Category</th>
-                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Type</th>
-                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Status</th>
-                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Payment</th>
-                <th className="px-4 py-3 text-left text-xs  text-background uppercase">Actions</th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">
+                  No
+                </th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">
+                  Name
+                </th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">
+                  Package
+                </th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">
+                  Category
+                </th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">
+                  Type
+                </th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">
+                  Status
+                </th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">
+                  Payment
+                </th>
+                <th className="px-4 py-3 text-left text-xs  text-background uppercase">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
-              {filteredRegistrations.length === 0 ? (
+              {paginatedRegistrations.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="text-center py-8 text-gray-500">No registrations found</td>
+                  <td colSpan={8} className="text-center py-8 text-gray-500">
+                    No registrations found
+                  </td>
                 </tr>
               ) : (
-                filteredRegistrations.map((reg, idx) => (
-                  <tr key={reg.id} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm text-background font-medium">{idx + 1}</td>
-                    <td className="px-4 py-3 text-sm text-background ">{reg.fullName}</td>
+                paginatedRegistrations.map((reg, idx) => (
+                  <tr
+                    key={reg.id}
+                    className="border-b border-gray-100 hover:bg-gray-50"
+                  >
+                    <td className="px-4 py-3 text-sm text-background font-medium">
+                      {idx + 1}
+                    </td>
+                    <td className="px-4 py-3 text-sm text-background ">
+                      {reg.fullName}
+                    </td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded-full text-[10px]  uppercase ${reg.chosenPackage === 'bundling' ? 'bg-orange-100 text-orange-700' : reg.chosenPackage === 'ucstudent' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}>
-                        {reg.chosenPackage?.replace('_', ' ') || 'personal'}
+                      <span
+                        className={`px-2 py-1 rounded-full text-[10px]  uppercase ${reg.chosenPackage === "bundling" ? "bg-orange-100 text-orange-700" : reg.chosenPackage === "ucstudent" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-700"}`}
+                      >
+                        {reg.chosenPackage?.replace("_", " ") || "personal"}
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${reg.category === "CATEGORY_5K" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800"}`}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${reg.category === "CATEGORY_5K" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800"}`}
+                      >
                         {reg.category === "CATEGORY_5K" ? "5K" : "10K"}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-xs text-background uppercase">{reg.type.replace(/_/g, ' ')}</td>
+                    <td className="px-4 py-3 text-xs text-background uppercase">
+                      {reg.type.replace(/_/g, " ")}
+                    </td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${reg.status === "confirmed" ? "bg-green-100 text-green-800" : reg.status === "pending" ? "bg-yellow-100 text-yellow-800" : "bg-red-100 text-red-800"}`}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${reg.status === "confirmed" ? "bg-green-100 text-green-800" : reg.status === "pending" ? "bg-yellow-100 text-yellow-800" : "bg-red-100 text-red-800"}`}
+                      >
                         {reg.status}
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${reg.paymentStatus ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${reg.paymentStatus ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
+                      >
                         {reg.paymentStatus ? "PAID" : "UNPAID"}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex gap-2">
-                        <button onClick={() => openModal(reg)} className="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition">View</button>
+                        <button
+                          onClick={() => openModal(reg)}
+                          className="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition"
+                        >
+                          View
+                        </button>
                         {reg.status !== "confirmed" && (
-                          <button onClick={() => handleStatusUpdate(reg.id, "confirmed")} disabled={updatingId === reg.id} className="px-3 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600 transition disabled:bg-gray-400">
+                          <button
+                            onClick={() =>
+                              handleStatusUpdate(reg.id, "confirmed")
+                            }
+                            disabled={updatingId === reg.id}
+                            className="px-3 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600 transition disabled:bg-gray-400"
+                          >
                             {updatingId === reg.id ? "..." : "Confirm"}
                           </button>
                         )}
                         {reg.status !== "cancelled" && (
-                          <button onClick={() => handleStatusUpdate(reg.id, "cancelled")} disabled={updatingId === reg.id} className="px-3 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600 transition disabled:bg-gray-400">
+                          <button
+                            onClick={() =>
+                              handleStatusUpdate(reg.id, "cancelled")
+                            }
+                            disabled={updatingId === reg.id}
+                            className="px-3 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600 transition disabled:bg-gray-400"
+                          >
                             {updatingId === reg.id ? "..." : "Reject"}
                           </button>
                         )}
@@ -179,7 +327,11 @@ export default function RegistrationTable({ registrations: initialRegistrations 
         </div>
       </div>
 
-      <RegistrationDetailModal registration={selectedReg} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <RegistrationDetailModal
+        registration={selectedReg}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }
