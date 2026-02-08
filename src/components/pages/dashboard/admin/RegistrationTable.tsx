@@ -13,6 +13,7 @@ interface RegistrationTableProps {
 export default function RegistrationTable({
   registrations: initialRegistrations,
 }: RegistrationTableProps) {
+  console.log("RegistrationTable initial count:", initialRegistrations.length);
   const [registrations, setRegistrations] =
     useState<Registration[]>(initialRegistrations);
   const [selectedReg, setSelectedReg] = useState<Registration | null>(null);

@@ -4,6 +4,9 @@ import { getAllRegistrations } from "@/lib/registration";
 import { getServerSession } from "next-auth/next";
 import UserNotLoggedIn from "@/components/auth/UserNotLoggedIn";
 import RegistrationTable from "@/components/pages/dashboard/admin/RegistrationTable";
+
+export const dynamic = "force-dynamic";
+
 export default async function page() {
   const session = await getServerSession();
   if (!session) {

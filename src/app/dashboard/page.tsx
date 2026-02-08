@@ -10,9 +10,9 @@ import { isAcceptedRegistration } from "@/lib/registration";
 
 export const metadata: Metadata = {
   title: "Dashboard Enthusiast Foam Run - enthusiastrun.com",
-  description: "Access your personal dashboard for Enthusiast Foam Run Vol. 2. Manage your registration, view your racepack QR code, and stay updated with the latest event information and announcements.",
+  description:
+    "Access your personal dashboard for Enthusiast Foam Run Vol. 2. Manage your registration, view your racepack QR code, and stay updated with the latest event information and announcements.",
 };
-
 
 export default async function page() {
   const session = await getServerSession(authOptions);
@@ -64,6 +64,20 @@ export default async function page() {
           />
           {!isRegistered ? (
             <UserNotRegisteredToCompetition />
+          ) : isRegistered.status === "cancelled" ? (
+            <div className="flex flex-col mt-6 items-center gap-4 text-center">
+              <h1 className="text-4xl text-white">REGISTRATION REJECTED</h1>
+              <p className="text-xl">
+                Your registration has been rejected by the admin. Please
+                register again.
+              </p>
+              <Link
+                href="/register/5k"
+                className="bg-[#4BCFFC] border-2 border-white px-6 py-2 rounded-lg w-fit hover:bg-[#3AA9D1] text-white"
+              >
+                REGISTER AGAIN
+              </Link>
+            </div>
           ) : (
             <div className="mt-[2.5%] flex flex-col gap-4 items-center w-[80%] md:w-full text-center sm:text-start">
               <h1 className="text-4xl w-[90%] text-center sm:w-full">
@@ -78,17 +92,18 @@ export default async function page() {
               <h1 className="text-4xl w-[90%] text-center sm:w-full">
                 RACEPACK QR-CODE!
               </h1>
-              { isAccepted &&
+              {isAccepted && (
                 <Image
                   src={
-                    isRegistered.qrCode?.qrCodeUrl || "/home/enthusiast-text-logo.webp"
+                    isRegistered.qrCode?.qrCodeUrl ||
+                    "/home/enthusiast-text-logo.webp"
                   }
                   unoptimized
                   alt={`Racepack ${isRegistered.fullName} QR Code`}
                   width={200}
                   height={200}
                 />
-              }
+              )}
               {isRegistered.qrCode && isAccepted ? (
                 <Link
                   href="https://chat.whatsapp.com/EX8dy4DCsM0Eo1rQTVbmgd"
@@ -99,8 +114,8 @@ export default async function page() {
                 </Link>
               ) : (
                 <div className="bg-red-500 border-2 border-white px-6 py-2 rounded-lg w-fit text-white">
-                  RACEPACK QR CODE NOT AVAILABLE YET, PLEASE CHECK BACK IN
-                  MAX 3x24 HOURS
+                  RACEPACK QR CODE NOT AVAILABLE YET, PLEASE CHECK BACK IN MAX
+                  3x24 HOURS
                 </div>
               )}
             </div>
