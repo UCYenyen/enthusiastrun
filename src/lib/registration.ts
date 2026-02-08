@@ -10,7 +10,10 @@ import {
   Voucher,
 } from "@/types/registration.md";
 
-export async function checkRegistrationCount(category: "CATEGORY_5K" | "CATEGORY_10K", type: "super_early_bird" | "early_bird" | "regular" | "redeem_voucher"): Promise<number> {
+export async function checkRegistrationCount(
+  category: "CATEGORY_5K" | "CATEGORY_10K",
+  type: "super_early_bird" | "early_bird" | "regular" | "redeem_voucher",
+): Promise<number> {
   try {
     const count = await prisma.registration.count({
       where: {
@@ -25,7 +28,7 @@ export async function checkRegistrationCount(category: "CATEGORY_5K" | "CATEGORY
 }
 
 export async function createRegistration(
-  data: RegistrationData & { voucherId?: string }
+  data: RegistrationData & { voucherId?: string },
 ): Promise<ActionResult<Registration>> {
   try {
     const user = await prisma.user.findUnique({
@@ -71,7 +74,9 @@ export async function createRegistration(
           jerseySize: data.jerseySize,
           paymentProofUrl: data.paymentProofUrl,
           paymentProofId: data.paymentProofId,
-          status: (data.type === "redeem_voucher" ? "confirmed" : "pending") as RegistrationStatus,
+          status: (data.type === "redeem_voucher"
+            ? "confirmed"
+            : "pending") as RegistrationStatus,
           type: data.type,
           updatedAt: new Date(),
           voucherId: data.voucherId || null,
@@ -83,7 +88,7 @@ export async function createRegistration(
       if (data.voucherId) {
         await tx.voucher.update({
           where: { id: data.voucherId },
-          data: { isUsed: true }
+          data: { isUsed: true },
         });
       }
 
@@ -100,23 +105,29 @@ export async function createRegistration(
 }
 
 export async function createBulkRegistration(
-  dataList: (RegistrationData & { voucherId?: string })[]
+  dataList: (RegistrationData & { voucherId?: string })[],
 ): Promise<ActionResult<Registration[]>> {
   try {
     const firstData = dataList[0];
-    if (firstData.chosenPackage === "ucstudent" && firstData.type !== "early_bird") {
-      return { success: false, error: "UC Student package only available for early bird registration" };
+    if (
+      firstData.chosenPackage === "ucstudent" &&
+      firstData.type !== "early_bird"
+    ) {
+      return {
+        success: false,
+        error: "UC Student package only available for early bird registration",
+      };
     }
 
     const registrations = await prisma.$transaction(async (tx) => {
       const qrCode = await tx.qRCode.create({
-        data: { qrCodeUrl: "" }
+        data: { qrCodeUrl: "" },
       });
 
       const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qrCode.id}`;
       await tx.qRCode.update({
         where: { id: qrCode.id },
-        data: { qrCodeUrl }
+        data: { qrCodeUrl },
       });
 
       const results = [];
@@ -164,28 +175,34 @@ export async function createBulkRegistration(
 
 export async function updateRegistrationStatus(
   id: string,
-  status: "pending" | "confirmed" | "cancelled"
+  status: "pending" | "confirmed" | "cancelled",
 ) {
   try {
     const target = await prisma.registration.findUnique({
       where: { id },
-      select: { qrCodeId: true }
+      select: { qrCodeId: true },
     });
 
-    if (!target || !target.qrCodeId) return { success: false, error: "Registration or QR Group not found" };
+    if (!target || !target.qrCodeId)
+      return { success: false, error: "Registration or QR Group not found" };
 
     await prisma.registration.updateMany({
       where: { qrCodeId: target.qrCodeId },
-      data: { 
+      data: {
         status,
-        paymentStatus: status === "confirmed" ? true : status === "cancelled" ? false : undefined
+        paymentStatus:
+          status === "confirmed"
+            ? true
+            : status === "cancelled"
+              ? false
+              : undefined,
       },
     });
 
     revalidatePath("/dashboard/admin");
-    return { 
-      success: true, 
-      message: `Successfully updated the entire registration group.` 
+    return {
+      success: true,
+      message: `Successfully updated the entire registration group.`,
     };
   } catch (error) {
     return { success: false, error: "Failed to perform update" };
@@ -218,20 +235,25 @@ export async function makeQRCode(registrationID: string) {
   }
 }
 
-export async function validateRegistrationQR(qrCodeId: string): Promise<ActionResult<Registration[]>> {
+export async function validateRegistrationQR(
+  qrCodeId: string,
+): Promise<ActionResult<Registration[]>> {
   try {
     const registrations = await prisma.registration.findMany({
       where: { qrCodeId: qrCodeId },
-      orderBy: { fullName: "asc" }
+      orderBy: { fullName: "asc" },
     });
-    if (registrations.length === 0) return { success: false, error: "Invalid QR" };
+    if (registrations.length === 0)
+      return { success: false, error: "Invalid QR" };
     return { success: true, data: registrations as Registration[] };
   } catch (error) {
     return { success: false, error: "Error" };
   }
 }
 
-export async function claimRacePack(registrationId: string): Promise<ActionResult<Registration>> {
+export async function claimRacePack(
+  registrationId: string,
+): Promise<ActionResult<Registration>> {
   try {
     const updated = await prisma.registration.update({
       where: { id: registrationId },
@@ -244,11 +266,13 @@ export async function claimRacePack(registrationId: string): Promise<ActionResul
   }
 }
 
-export async function getUserRegistration(userId: string): Promise<Registration | null> {
-  return await prisma.registration.findFirst({
+export async function getUserRegistration(
+  userId: string,
+): Promise<Registration | null> {
+  return (await prisma.registration.findFirst({
     where: { userId },
-    include: { qrCode: true }
-  }) as Registration | null;
+    include: { qrCode: true },
+  })) as Registration | null;
 }
 
 export async function isAcceptedRegistration(userId: string): Promise<boolean> {
@@ -261,23 +285,19 @@ export async function isAcceptedRegistration(userId: string): Promise<boolean> {
 export async function getAllRegistrations(): Promise<Registration[]> {
   const allData = await prisma.registration.findMany({
     include: { user: true },
-    orderBy: { createdAt: "desc" }
+    orderBy: { createdAt: "desc" },
   });
 
-  const seenQr = new Set();
-  return allData.filter(reg => {
-    if (!reg.qrCodeId) return true;
-    if (seenQr.has(reg.qrCodeId)) return false;
-    seenQr.add(reg.qrCodeId);
-    return true;
-  }) as Registration[];
+  return allData as Registration[];
 }
 
-export async function getGroupParticipants(qrCodeId: string): Promise<Registration[]> {
-  return await prisma.registration.findMany({
+export async function getGroupParticipants(
+  qrCodeId: string,
+): Promise<Registration[]> {
+  return (await prisma.registration.findMany({
     where: { qrCodeId: qrCodeId },
-    orderBy: { fullName: "asc" }
-  }) as Registration[];
+    orderBy: { fullName: "asc" },
+  })) as Registration[];
 }
 
 export async function makeVoucher(category: "CATEGORY_10K" | "CATEGORY_5K") {
