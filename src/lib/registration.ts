@@ -289,17 +289,6 @@ export async function getAllRegistrations(): Promise<Registration[]> {
     orderBy: { createdAt: "desc" },
   });
 
-  console.log("getAllRegistrations DB count:", allData.length);
-  console.log(
-    "Sample qrCodeIds:",
-    allData
-      .slice(0, 5)
-      .map((r) => ({ name: r.fullName, qrCodeId: r.qrCodeId })),
-  );
-  const uniqueQrCodes = new Set(allData.map((r) => r.qrCodeId).filter(Boolean));
-  console.log("Unique QR codes found:", uniqueQrCodes.size);
-  console.log("QR codes:", Array.from(uniqueQrCodes).slice(0, 5));
-
   return allData as Registration[];
 }
 

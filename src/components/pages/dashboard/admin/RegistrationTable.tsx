@@ -13,7 +13,6 @@ interface RegistrationTableProps {
 export default function RegistrationTable({
   registrations: initialRegistrations,
 }: RegistrationTableProps) {
-  console.log("RegistrationTable initial count:", initialRegistrations.length);
   const [registrations, setRegistrations] =
     useState<Registration[]>(initialRegistrations);
   const [selectedReg, setSelectedReg] = useState<Registration | null>(null);
@@ -72,12 +71,26 @@ export default function RegistrationTable({
     return matchStatus && matchCategory && matchSearch;
   });
 
-  const totalPages = Math.ceil(filteredRegistrations.length / ITEMS_PER_PAGE);
-  const paginatedRegistrations = filteredRegistrations.slice(
+  // Group registrations by qrCodeId for display (one row per group)
+  // But keep original array for stats (count all participants)
+  const groupedForDisplay = filteredRegistrations.reduce((acc, reg) => {
+    // Access qrCodeId from nested qrCode object, or use registration id as fallback
+    const groupKey = (reg as any).qrCodeId || reg.qrCode?.qrCodeId || reg.id;
+    if (!acc.has(groupKey)) {
+      acc.set(groupKey, reg); // Keep first registration as representative
+    }
+    return acc;
+  }, new Map<string, Registration>());
+
+  const displayRegistrations = Array.from(groupedForDisplay.values());
+
+  const totalPages = Math.ceil(displayRegistrations.length / ITEMS_PER_PAGE);
+  const paginatedRegistrations = displayRegistrations.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE,
   );
 
+  // Stats based on ALL participants, not grouped
   const stats = {
     total: registrations.length,
     pending: registrations.filter((r) => r.status === "pending").length,

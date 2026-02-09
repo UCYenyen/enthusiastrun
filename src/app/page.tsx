@@ -24,7 +24,7 @@ export default function Home() {
       <RecapVideo />
       <SponsorSlider src="co-sponsors.webp" />
       <Image
-        src="/home/recap-foto.webp"
+        src="/home/enthu-recap-docum.webp"
         draggable={false}
         alt="Footer Background"
         width={1920}
