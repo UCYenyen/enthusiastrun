@@ -44,7 +44,8 @@ const emptyParticipant: ParticipantData = {
   idCardPublicId: "",
 };
 
-const BUNDLING_TOTAL_PARTICIPANTS = 11;
+const BUNDLING_TOTAL_PARTICIPANTS = 4;
+const COMMUNITY_TOTAL_PARTICIPANTS = 11;
 const JERSEY_XXL_EXTRA = 10000;
 const JERSEY_XXXL_EXTRA = 15000;
 
@@ -74,19 +75,41 @@ export default function RegistrationForm({
   const is5K = category === "CATEGORY_5K";
   const prices =
     type === "super_early_bird"
-      ? { personal: is5K ? 149000 : 179000, uc: 0 }
+      ? {
+          personal: is5K ? 149000 : 179000,
+          uc: 0,
+          bundling: is5K ? 149000 : 179000,
+          community: is5K ? 149000 : 179000,
+        }
       : type === "early_bird"
-        ? { personal: is5K ? 185000 : 210000, uc: is5K ? 155000 : 185000 }
-        : { personal: is5K ? 220000 : 245000, uc: is5K ? 199000 : 199000 };
+        ? {
+            personal: is5K ? 185000 : 210000,
+            uc: is5K ? 155000 : 185000,
+            bundling: is5K ? 162500 : 187500,
+            community: is5K ? 156400 : 180900,
+          }
+        : {
+            personal: is5K ? 220000 : 245000,
+            uc: is5K ? 199000 : 199000,
+            bundling: is5K ? 162500 : 187500,
+            community: is5K ? 156400 : 180900,
+          };
 
   const PERSONAL_PRICE = prices.personal;
   const UC_STUDENT_PRICE = prices.uc;
-  const BUNDLING_PRICE = PERSONAL_PRICE * 10;
+  const BUNDLING_PRICE = prices.bundling * 4;
+  const COMMUNITY_PRICE = prices.community * 11;
 
   useEffect(() => {
     if (packageType === "bundling") {
       setParticipants(
         Array(BUNDLING_TOTAL_PARTICIPANTS)
+          .fill(null)
+          .map((_, i) => participants[i] || { ...emptyParticipant }),
+      );
+    } else if (packageType === "community") {
+      setParticipants(
+        Array(COMMUNITY_TOTAL_PARTICIPANTS)
           .fill(null)
           .map((_, i) => participants[i] || { ...emptyParticipant }),
       );
@@ -175,7 +198,7 @@ export default function RegistrationForm({
           Select Package
         </h2>
         <div
-          className={`grid gap-4 ${mahasiswaUCEnabled && type === "early_bird" ? "grid-cols-1 md:grid-cols-3" : "grid-cols-1 md:grid-cols-2"}`}
+          className={`grid gap-4 ${mahasiswaUCEnabled && type === "early_bird" ? "grid-cols-1 md:grid-cols-4" : "grid-cols-1 md:grid-cols-3"}`}
         >
           <button
             type="button"
@@ -193,9 +216,20 @@ export default function RegistrationForm({
             className={`p-6 rounded-xl border-4 ${packageType === "bundling" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
           >
             <h3 className="text-xl font-impact text-background">Bundling</h3>
-            <p className="text-gray-600 mt-2 text-sm">Buy 10 Get 1 Free!</p>
+            <p className="text-gray-600 mt-2 text-sm">4 Persons!</p>
             <p className="text-xl font-bold text-background mt-2">
               {formatCurrency(BUNDLING_PRICE)}
+            </p>
+          </button>
+          <button
+            type="button"
+            onClick={() => setPackageType("community")}
+            className={`p-6 rounded-xl border-4 ${packageType === "community" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
+          >
+            <h3 className="text-xl font-impact text-background">Community</h3>
+            <p className="text-gray-600 mt-2 text-sm">11 Persons!</p>
+            <p className="text-xl font-bold text-background mt-2">
+              {formatCurrency(COMMUNITY_PRICE)}
             </p>
           </button>
           {mahasiswaUCEnabled && type === "early_bird" && (

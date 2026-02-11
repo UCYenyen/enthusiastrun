@@ -3,7 +3,7 @@ export type RegistrationStatus = "pending" | "confirmed" | "cancelled";
 export type Gender = "Male" | "Female";
 export type BloodType = "A" | "B" | "AB" | "O";
 export type JerseySize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
-export type ChosenPackage = "personal" | "bundling" | "ucstudent";
+export type ChosenPackage = "personal" | "bundling" | "ucstudent" | "community";
 
 export interface RegistrationFormData {
   fullName: string;
