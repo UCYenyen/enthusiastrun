@@ -24,6 +24,7 @@ export interface ParticipantData {
   medicalCondition: string;
   idCardUrl: string;
   idCardPublicId: string;
+  committeeInviter: string;
 }
 
 const emptyParticipant: ParticipantData = {
@@ -41,6 +42,7 @@ const emptyParticipant: ParticipantData = {
   medicalCondition: "",
   idCardUrl: "",
   idCardPublicId: "",
+  committeeInviter: "",
 };
 
 const JERSEY_XXL_EXTRA = 10000;
@@ -58,7 +60,9 @@ export default function RedeemCodeForm() {
   const { data: session } = useSession();
   const router = useRouter();
   const [redeemCode, setRedeemCode] = useState("");
-  const [participants, setParticipants] = useState<ParticipantData[]>([{ ...emptyParticipant }]);
+  const [participants, setParticipants] = useState<ParticipantData[]>([
+    { ...emptyParticipant },
+  ]);
   const [paymentProofUrl, setPaymentProofUrl] = useState("");
   const [paymentProofId, setPaymentProofId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -88,7 +92,20 @@ export default function RedeemCodeForm() {
     }
     for (let i = 0; i < participants.length; i++) {
       const p = participants[i];
-      if (!p.fullName || !p.email || !p.phoneNumber || !p.dateOfBirth || !p.gender || !p.bloodType || !p.city || !p.address || !p.emergencyContact || !p.emergencyPhone || !p.jerseySize || !p.idCardUrl) {
+      if (
+        !p.fullName ||
+        !p.email ||
+        !p.phoneNumber ||
+        !p.dateOfBirth ||
+        !p.gender ||
+        !p.bloodType ||
+        !p.city ||
+        !p.address ||
+        !p.emergencyContact ||
+        !p.emergencyPhone ||
+        !p.jerseySize ||
+        !p.idCardUrl
+      ) {
         toast.error(`Mohon lengkapi semua data untuk Peserta ${i + 1}`);
         return false;
       }
@@ -144,6 +161,7 @@ export default function RedeemCodeForm() {
           idCardUrl: participant.idCardUrl,
           idCardPublicId: participant.idCardPublicId,
           type: "redeem_voucher",
+          committeeInviter: participant.committeeInviter || undefined,
           paymentProofUrl: paymentProofUrl,
           paymentProofId: `REDEEM VOUCHER ${redeemCode.trim()}`,
           voucherId: redeemCode.trim(),
@@ -174,7 +192,9 @@ export default function RedeemCodeForm() {
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto">
       <div className="bg-white p-6 shadow-lg">
-        <h2 className="text-2xl font-impact text-background mb-4">Voucher Code</h2>
+        <h2 className="text-2xl font-impact text-background mb-4">
+          Voucher Code
+        </h2>
         <input
           type="text"
           value={redeemCode}
@@ -201,15 +221,28 @@ export default function RedeemCodeForm() {
             <span className="text-green-600 font-bold font-impact">FREE</span>
           </div>
 
-          {participants.some(p => p.jerseySize === "XXL" || p.jerseySize === "XXXL") && (
+          {participants.some(
+            (p) => p.jerseySize === "XXL" || p.jerseySize === "XXXL",
+          ) && (
             <div className="space-y-1">
-              <p className="text-sm font-bold text-gray-500 mt-2">Additional Charges (Jersey):</p>
+              <p className="text-sm font-bold text-gray-500 mt-2">
+                Additional Charges (Jersey):
+              </p>
               {participants.map((p, idx) => {
                 if (p.jerseySize === "XXL" || p.jerseySize === "XXXL") {
-                  const extra = p.jerseySize === "XXL" ? JERSEY_XXL_EXTRA : JERSEY_XXXL_EXTRA;
+                  const extra =
+                    p.jerseySize === "XXL"
+                      ? JERSEY_XXL_EXTRA
+                      : JERSEY_XXXL_EXTRA;
                   return (
-                    <div key={idx} className="flex justify-between text-sm text-amber-600 pl-2">
-                      <span>Peserta {idx + 1} ({p.fullName || "Tanpa Nama"}) - Size {p.jerseySize}</span>
+                    <div
+                      key={idx}
+                      className="flex justify-between text-sm text-amber-600 pl-2"
+                    >
+                      <span>
+                        Peserta {idx + 1} ({p.fullName || "Tanpa Nama"}) - Size{" "}
+                        {p.jerseySize}
+                      </span>
                       <span>+{formatCurrency(extra)}</span>
                     </div>
                   );
@@ -222,7 +255,11 @@ export default function RedeemCodeForm() {
           <div className="border-t-2 border-gray-200 pt-3 mt-3">
             <div className="flex justify-between text-xl font-bold text-background">
               <span>Total Price</span>
-              <span className="text-[#4BCFFC]">{calculateTotal() === 0 ? "FREE" : formatCurrency(calculateTotal())}</span>
+              <span className="text-[#4BCFFC]">
+                {calculateTotal() === 0
+                  ? "FREE"
+                  : formatCurrency(calculateTotal())}
+              </span>
             </div>
           </div>
         </div>
@@ -231,17 +268,31 @@ export default function RedeemCodeForm() {
       {calculateTotal() > 0 && (
         <>
           <div className="bg-amber-50 border-4 border-amber-400 p-6">
-            <h2 className="text-2xl font-impact text-background mb-4">Payment Information</h2>
+            <h2 className="text-2xl font-impact text-background mb-4">
+              Payment Information
+            </h2>
             <div className="bg-white p-4 space-y-2 text-gray-700">
-              <p><span className="font-medium">Bank:</span> BCA</p>
-              <p><span className="font-medium">Account:</span> 0092872571</p>
-              <p><span className="font-medium">Name:</span> Kho Valencia Febe Amanda</p>
-              <p><span className="font-medium">Payment Description:</span> Run.Participant Name</p>
+              <p>
+                <span className="font-medium">Bank:</span> BCA
+              </p>
+              <p>
+                <span className="font-medium">Account:</span> 0092872571
+              </p>
+              <p>
+                <span className="font-medium">Name:</span> Kho Valencia Febe
+                Amanda
+              </p>
+              <p>
+                <span className="font-medium">Payment Description:</span>{" "}
+                Run.Participant Name
+              </p>
             </div>
           </div>
 
           <div className="bg-white p-6 shadow-lg">
-            <h2 className="text-2xl font-impact text-background mb-4">Upload Payment Proof</h2>
+            <h2 className="text-2xl font-impact text-background mb-4">
+              Upload Payment Proof
+            </h2>
             {!paymentProofUrl ? (
               <UploadWidget
                 folder="enthusiast-run/payment-proofs"
@@ -254,7 +305,14 @@ export default function RedeemCodeForm() {
               />
             ) : (
               <div className="p-4 bg-green-50 border-2 border-green-200 text-green-700">
-                Payment proof uploaded. <button type="button" onClick={() => setPaymentProofUrl("")} className="text-red-500 underline">Change</button>
+                Payment proof uploaded.{" "}
+                <button
+                  type="button"
+                  onClick={() => setPaymentProofUrl("")}
+                  className="text-red-500 underline"
+                >
+                  Change
+                </button>
               </div>
             )}
           </div>
@@ -263,15 +321,26 @@ export default function RedeemCodeForm() {
 
       <div className="bg-white p-6 shadow-lg rounded-b-xl">
         <label className="flex items-start gap-3 cursor-pointer">
-          <input type="checkbox" checked={agreedToTerms} onChange={(e) => setAgreedToTerms(e.target.checked)} className="mt-1 w-5 h-5" />
-          <span className="text-gray-600">I agree to the terms and conditions.</span>
+          <input
+            type="checkbox"
+            checked={agreedToTerms}
+            onChange={(e) => setAgreedToTerms(e.target.checked)}
+            className="mt-1 w-5 h-5"
+          />
+          <span className="text-gray-600">
+            I agree to the terms and conditions.
+          </span>
         </label>
         <button
           type="submit"
           disabled={isSubmitting}
           className={`w-full mt-6 py-4 rounded-xl font-impact text-xl text-white ${isSubmitting ? "bg-gray-400" : "bg-[#4BCFFC] hover:bg-[#3AA9D1]"}`}
         >
-          {isSubmitting ? "PROCESSING..." : calculateTotal() === 0 ? "REDEEM & REGISTER NOW" : `REDEEM & PAY - ${formatCurrency(calculateTotal())}`}
+          {isSubmitting
+            ? "PROCESSING..."
+            : calculateTotal() === 0
+              ? "REDEEM & REGISTER NOW"
+              : `REDEEM & PAY - ${formatCurrency(calculateTotal())}`}
         </button>
       </div>
     </form>

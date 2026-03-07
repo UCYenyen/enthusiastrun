@@ -205,6 +205,21 @@ export default function ParticipantForm({
                   required
                 />
               </div>
+              <div className="md:col-span-2">
+                <label className={labelClasses}>
+                  Committee Inviter{" "}
+                  <span className="text-gray-400">(Optional)</span>
+                </label>
+                <input
+                  type="text"
+                  value={data.committeeInviter || ""}
+                  onChange={(e) =>
+                    onChange({ committeeInviter: e.target.value })
+                  }
+                  placeholder="Committee Inviter (Optional)"
+                  className={inputClasses}
+                />
+              </div>
             </div>
           </div>
 

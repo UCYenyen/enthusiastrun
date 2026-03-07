@@ -56,6 +56,7 @@ model Registration {
   gender           String
   jerseySize       String
   chosenPackage    ChosenPackage        @default(personal)
+  committeeInviter String?
 
   qrCodeClaimed   Boolean   @default(false)
   qrCodeClaimedAt DateTime?
@@ -156,6 +157,7 @@ enum ChosenPackage {
   bundling
   ucstudent
   community
+  only_medal
 }
 
 enum Role {

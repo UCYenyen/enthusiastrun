@@ -82,6 +82,7 @@ export async function createRegistration(
           voucherId: data.voucherId || null,
           rekeningName: data.rekeningName || "-",
           chosenPackage: data.chosenPackage || "personal",
+          committeeInviter: data.committeeInviter || null,
         },
       });
 
@@ -159,6 +160,7 @@ export async function createBulkRegistration(
             qrCodeId: qrCode.id,
             rekeningName: data.rekeningName || "-",
             chosenPackage: data.chosenPackage || "personal",
+            committeeInviter: data.committeeInviter || null,
           },
         });
         results.push(reg);

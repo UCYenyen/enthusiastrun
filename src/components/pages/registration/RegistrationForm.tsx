@@ -25,6 +25,7 @@ export interface ParticipantData {
   medicalCondition: string;
   idCardUrl: string;
   idCardPublicId: string;
+  committeeInviter: string;
 }
 
 const emptyParticipant: ParticipantData = {
@@ -42,6 +43,7 @@ const emptyParticipant: ParticipantData = {
   medicalCondition: "",
   idCardUrl: "",
   idCardPublicId: "",
+  committeeInviter: "",
 };
 
 const BUNDLING_TOTAL_PARTICIPANTS = 4;
@@ -80,6 +82,7 @@ export default function RegistrationForm({
           uc: 0,
           bundling: is5K ? 149000 : 179000,
           community: is5K ? 149000 : 179000,
+          only_medal: 90000,
         }
       : type === "early_bird"
         ? {
@@ -87,18 +90,21 @@ export default function RegistrationForm({
             uc: is5K ? 155000 : 185000,
             bundling: is5K ? 162500 : 187500,
             community: is5K ? 156400 : 180900,
+            only_medal: 90000,
           }
         : {
             personal: is5K ? 220000 : 245000,
             uc: is5K ? 199000 : 199000,
             bundling: is5K ? 162500 : 187500,
             community: is5K ? 156400 : 180900,
+            only_medal: 90000,
           };
 
   const PERSONAL_PRICE = prices.personal;
   const UC_STUDENT_PRICE = prices.uc;
   const BUNDLING_PRICE = prices.bundling * 4;
   const COMMUNITY_PRICE = prices.community * 11;
+  const ONLY_MEDAL_PRICE = prices.only_medal;
 
   useEffect(() => {
     if (packageType === "bundling") {
@@ -131,7 +137,9 @@ export default function RegistrationForm({
         ? BUNDLING_PRICE
         : packageType === "ucstudent"
           ? UC_STUDENT_PRICE
-          : participantCount * PERSONAL_PRICE;
+          : packageType === "only_medal"
+            ? participantCount * ONLY_MEDAL_PRICE
+            : participantCount * PERSONAL_PRICE;
     const extra = participants.reduce(
       (acc, p) =>
         acc +
@@ -198,7 +206,7 @@ export default function RegistrationForm({
           Select Package
         </h2>
         <div
-          className={`grid gap-4 ${mahasiswaUCEnabled && type === "early_bird" ? "grid-cols-1 md:grid-cols-4" : "grid-cols-1 md:grid-cols-3"}`}
+          className={`grid gap-4 ${mahasiswaUCEnabled && type === "early_bird" ? "grid-cols-1 md:grid-cols-3 lg:grid-cols-5" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"}`}
         >
           <button
             type="button"
@@ -232,6 +240,16 @@ export default function RegistrationForm({
               {formatCurrency(COMMUNITY_PRICE)}
             </p>
           </button>
+          {/* <button
+            type="button"
+            onClick={() => setPackageType("only_medal")}
+            className={`p-6 rounded-xl border-4 ${packageType === "only_medal" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
+          >
+            <h3 className="text-xl font-impact text-background">Only Medal</h3>
+            <p className="text-xl font-bold text-background mt-2">
+              {formatCurrency(ONLY_MEDAL_PRICE)}/person
+            </p>
+          </button> */}
           {mahasiswaUCEnabled && type === "early_bird" && (
             <button
               type="button"
@@ -247,7 +265,7 @@ export default function RegistrationForm({
             </button>
           )}
         </div>
-        {packageType === "personal" && (
+        {(packageType === "personal" || packageType === "only_medal") && (
           <div className="mt-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Participant Count
