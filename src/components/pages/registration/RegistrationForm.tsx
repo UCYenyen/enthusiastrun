@@ -206,7 +206,7 @@ export default function RegistrationForm({
           Select Package
         </h2>
         <div
-          className={`grid gap-4 ${mahasiswaUCEnabled && type === "early_bird" ? "grid-cols-1 md:grid-cols-3 lg:grid-cols-5" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"}`}
+          className={`grid gap-4 ${mahasiswaUCEnabled && type === "early_bird" ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-4" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"}`}
         >
           <button
             type="button"
