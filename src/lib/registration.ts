@@ -237,6 +237,50 @@ export async function makeQRCode(registrationID: string) {
   }
 }
 
+export async function regenerateQRCode(
+  registrationId: string,
+): Promise<ActionResult<{ qrCodeUrl: string }>> {
+  try {
+    const registration = await prisma.registration.findUnique({
+      where: { id: registrationId },
+      select: { qrCodeId: true },
+    });
+
+    if (!registration || !registration.qrCodeId) {
+      return { success: false, error: "Registration or QR code not found" };
+    }
+
+    const oldQrCodeId = registration.qrCodeId;
+
+    const result = await prisma.$transaction(async (tx) => {
+      // Create a new QR code record
+      const newQRCode = await tx.qRCode.create({ data: { qrCodeUrl: "" } });
+      const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${newQRCode.id}&size=200x200`;
+
+      await tx.qRCode.update({
+        where: { id: newQRCode.id },
+        data: { qrCodeUrl },
+      });
+
+      // Re-link all registrations in the same group to the new QR code
+      await tx.registration.updateMany({
+        where: { qrCodeId: oldQrCodeId },
+        data: { qrCodeId: newQRCode.id },
+      });
+
+      // Delete the old QR code record
+      await tx.qRCode.delete({ where: { id: oldQrCodeId } });
+
+      return { qrCodeUrl };
+    });
+
+    revalidatePath("/dashboard");
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: "Failed to regenerate QR code" };
+  }
+}
+
 export async function validateRegistrationQR(
   qrCodeId: string,
 ): Promise<ActionResult<Registration[]>> {

@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import UserNotRegisteredToCompetition from "@/components/pages/dashboard/UserNotRegisteredToCompetition";
+import DashboardQRCode from "@/components/pages/dashboard/DashboardQRCode";
 import { getUserRegistration } from "@/lib/registration";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
@@ -92,16 +93,11 @@ export default async function page() {
               <h1 className="text-4xl w-[90%] text-center sm:w-full">
                 RACEPACK QR-CODE!
               </h1>
-              {isAccepted && (
-                <Image
-                  src={
-                    isRegistered.qrCode?.qrCodeUrl ||
-                    "/home/enthusiast-text-logo.webp"
-                  }
-                  unoptimized
-                  alt={`Racepack ${isRegistered.fullName} QR Code`}
-                  width={200}
-                  height={200}
+              {isAccepted && isRegistered.qrCode && (
+                <DashboardQRCode
+                  registrationId={isRegistered.id}
+                  qrCodeUrl={isRegistered.qrCode.qrCodeUrl}
+                  fullName={isRegistered.fullName}
                 />
               )}
               {isRegistered.qrCode && isAccepted ? (
