@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Voucher } from "@prisma/client";
+import { Voucher } from "@/types/registration.md";
 import { toast } from "sonner";
 import {
   Table,
