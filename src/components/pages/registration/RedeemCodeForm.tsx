@@ -53,7 +53,7 @@ interface RedeemCodeResponse {
   message?: string;
   discount?: number;
   maxParticipants?: number;
-  category?: "CATEGORY_5K" | "CATEGORY_10K";
+  category?: "CATEGORY_5K";
 }
 
 export default function RedeemCodeForm() {

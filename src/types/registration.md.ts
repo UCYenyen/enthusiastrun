@@ -1,4 +1,4 @@
-export type RegistrationCategory = "CATEGORY_5K" | "CATEGORY_10K";
+export type RegistrationCategory = "CATEGORY_5K";
 export type RegistrationStatus = "pending" | "confirmed" | "cancelled";
 export type Gender = "Male" | "Female";
 export type BloodType = "A" | "B" | "AB" | "O";
@@ -65,7 +65,7 @@ export interface RegistrationData {
 
 export interface Voucher {
   id: string;
-  category: RegistrationCategory;
+  category: string;
   isUsed: boolean;
 }
 

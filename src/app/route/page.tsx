@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Route Enthusiast Foam Run - enthusiastrun.com",
-  description: "Explore the official routes for Enthusiast Foam Run Vol. 2. Find detailed maps and information for the 5K, 10K, and Half Marathon courses to prepare for race day.",
+  description: "Explore the official routes for Enthusiast Foam Run Vol. 2. Find detailed maps and information for the 5K, and Half Marathon courses to prepare for race day.",
 };
 
 export default function page() {

@@ -21,7 +21,7 @@ export default function RegistrationTable({
     "all" | "pending" | "confirmed" | "cancelled"
   >("all");
   const [categoryFilter, setCategoryFilter] = useState<
-    "all" | "CATEGORY_5K" | "CATEGORY_10K"
+    "all" | "CATEGORY_5K"
   >("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
@@ -161,7 +161,7 @@ export default function RegistrationTable({
           value={categoryFilter}
           onChange={(e) => {
             setCategoryFilter(
-              e.target.value as "all" | "CATEGORY_5K" | "CATEGORY_10K",
+              e.target.value as "all" | "CATEGORY_5K",
             );
             setCurrentPage(1);
           }}
@@ -172,9 +172,6 @@ export default function RegistrationTable({
           </option>
           <option value="CATEGORY_5K" className="bg-background">
             5K Run
-          </option>
-          <option value="CATEGORY_10K" className="bg-background">
-            10K Run
           </option>
         </select>
       </div>
@@ -281,7 +278,7 @@ export default function RegistrationTable({
                       <span
                         className={`px-2 py-1 rounded-full text-xs font-medium ${reg.category === "CATEGORY_5K" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800"}`}
                       >
-                        {reg.category === "CATEGORY_5K" ? "5K" : "10K"}
+                        {reg.category === "CATEGORY_5K" ? "5K" : reg.category}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-xs text-background uppercase">

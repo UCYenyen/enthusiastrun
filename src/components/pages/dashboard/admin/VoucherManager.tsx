@@ -22,13 +22,13 @@ export default function VoucherManager({
   const [vouchers, setVouchers] = useState<Voucher[]>(initialVouchers);
   const [isCreating, setIsCreating] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<
-    "CATEGORY_5K" | "CATEGORY_10K"
+    "CATEGORY_5K"
   >("CATEGORY_5K");
   const [filterUsed, setFilterUsed] = useState<"all" | "used" | "unused">(
     "all"
   );
   const [filterCategory, setFilterCategory] = useState<
-    "all" | "CATEGORY_5K" | "CATEGORY_10K"
+    "all" | "CATEGORY_5K"
   >("all");
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -49,7 +49,7 @@ export default function VoucherManager({
         setVouchers((prev) => [data.voucher, ...prev]);
         toast.success(
           `Voucher ${
-            selectedCategory === "CATEGORY_5K" ? "5K" : "10K"
+            "5K"
           } berhasil dibuat!`
         );
       } else {
@@ -120,7 +120,6 @@ export default function VoucherManager({
     used: vouchers.filter((v) => v.isUsed).length,
     unused: vouchers.filter((v) => !v.isUsed).length,
     category5k: vouchers.filter((v) => v.category === "CATEGORY_5K").length,
-    category10k: vouchers.filter((v) => v.category === "CATEGORY_10K").length,
   };
 
   return (
@@ -132,13 +131,12 @@ export default function VoucherManager({
             value={selectedCategory}
             onChange={(e) =>
               setSelectedCategory(
-                e.target.value as "CATEGORY_5K" | "CATEGORY_10K"
+                e.target.value as "CATEGORY_5K"
               )
             }
             className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#4BCFFC] focus:outline-none text-background"
           >
             <option value="CATEGORY_5K">5K Run</option>
-            <option value="CATEGORY_10K">10K Run</option>
           </select>
           <div className="flex items-end">
             <button
@@ -182,7 +180,7 @@ export default function VoucherManager({
       </div>
 
       {/* Stats Section */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 w-full">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
         <div className="bg-white/20 border border-white/40 rounded-lg p-4 text-center">
           <p className="text-3xl font-impact text-white">{stats.total}</p>
           <p className="text-white/70 text-sm">Total</p>
@@ -200,12 +198,6 @@ export default function VoucherManager({
             {stats.category5k}
           </p>
           <p className="text-blue-300/70 text-sm">5K Run</p>
-        </div>
-        <div className="bg-purple-500/20 border border-purple-500 rounded-lg p-4 text-center">
-          <p className="text-3xl font-impact text-purple-300">
-            {stats.category10k}
-          </p>
-          <p className="text-purple-300/70 text-sm">10K Run</p>
         </div>
       </div>
 
@@ -232,7 +224,7 @@ export default function VoucherManager({
           value={filterCategory}
           onChange={(e) =>
             setFilterCategory(
-              e.target.value as "all" | "CATEGORY_5K" | "CATEGORY_10K"
+              e.target.value as "all" | "CATEGORY_5K"
             )
           }
           className="px-4 py-2 rounded-lg border-2 border-white/20 bg-white/10 text-white focus:outline-none focus:border-[#4BCFFC]"
@@ -242,9 +234,6 @@ export default function VoucherManager({
           </option>
           <option value="CATEGORY_5K" className="bg-background">
             5K Run
-          </option>
-          <option value="CATEGORY_10K" className="bg-background">
-            10K Run
           </option>
         </select>
         <p className="text-white/70 text-sm self-center ml-auto">
@@ -337,7 +326,7 @@ export default function VoucherManager({
                       >
                         {voucher.category === "CATEGORY_5K"
                           ? "5K Run"
-                          : "10K Run"}
+                          : voucher.category}
                       </span>
                     </TableCell>
                     <TableCell>

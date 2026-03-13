@@ -7,7 +7,7 @@ import prisma from "@/lib/prisma";
 export const metadata: Metadata = {
   title: "Normal Registration - Enthusiast Foam Run",
   description:
-    "Register for the Enthusiast Foam Run normal registration! Secure your spot in the CATEGORY_5K or CATEGORY_10K run. Sign up now to join the excitement of Enthusiast Foam Run.",
+    "Register for the Enthusiast Foam Run normal registration! Secure your spot in the CATEGORY_5K run. Sign up now to join the excitement of Enthusiast Foam Run.",
 };
 
 interface Slug {
@@ -19,7 +19,7 @@ interface Slug {
 export default async function NormalRegistrationPage({ params }: Slug) {
   const { slug } = await params;
 
-  if (slug !== "CATEGORY_10K" && slug !== "CATEGORY_5K") {
+  if (slug !== "CATEGORY_5K") {
     return redirect("/not-found");
   }
 
@@ -118,7 +118,7 @@ export default async function NormalRegistrationPage({ params }: Slug) {
 
         {/* Registration Form */}
         <div className="relative z-10 w-full pb-32">
-          <RegistrationForm category={slug as "CATEGORY_5K" | "CATEGORY_10K"} type="regular" mahasiswaUCEnabled={false} />
+          <RegistrationForm category={slug as "CATEGORY_5K"} type="regular" mahasiswaUCEnabled={false} />
         </div>
       </div>
     </div>

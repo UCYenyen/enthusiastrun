@@ -11,7 +11,7 @@ import {
 } from "@/types/registration.md";
 
 export async function checkRegistrationCount(
-  category: "CATEGORY_5K" | "CATEGORY_10K",
+  category: "CATEGORY_5K",
   type: "super_early_bird" | "early_bird" | "regular" | "redeem_voucher",
 ): Promise<number> {
   try {
@@ -347,7 +347,7 @@ export async function getGroupParticipants(
   })) as Registration[];
 }
 
-export async function makeVoucher(category: "CATEGORY_10K" | "CATEGORY_5K") {
+export async function makeVoucher(category: "CATEGORY_5K") {
   await prisma.voucher.create({
     data: {
       category: category,

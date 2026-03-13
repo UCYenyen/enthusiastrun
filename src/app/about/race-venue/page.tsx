@@ -91,7 +91,7 @@ export default function page() {
                   <span className="font-bold">Flag Off Time</span> :
                 </p>
                 <ul className="space-y-1">
-                  <li>• 05.30 (10KM)</li>
+                  {/* <li>• 05.30 (10KM)</li> */}
                   <li>• 05.45 (5KM)</li>
                 </ul>
               </div>

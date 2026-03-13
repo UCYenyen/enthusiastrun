@@ -109,7 +109,7 @@ export default function RegistrationDetailModal({
 
                   <div className="space-y-3">
                     <h4 className="text-[10px] font-black text-[#4BCFFC] uppercase border-b border-gray-100 pb-1">Event Details</h4>
-                    <DetailItem label="Category" value={p.category === "CATEGORY_5K" ? "5K RUN" : "10K RUN"} />
+                    <DetailItem label="Category" value={p.category === "CATEGORY_5K" ? "5K RUN" : p.category} />
                     <DetailItem label="Jersey Size" value={p.jerseySize} />
                     <DetailItem label="Blood Type" value={p.bloodType} />
                     <DetailItem label="Medical" value={p.medicalCondition} />

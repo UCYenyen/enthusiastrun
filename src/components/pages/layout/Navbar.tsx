@@ -145,14 +145,6 @@ export default function Navbar() {
               >
                 5K RUN
               </Link>
-              <Link
-                href="/register/CATEGORY_10K"
-                rel="registration10k"
-                className="text-white font-futura hover:text-[#4BCFFC]"
-                onClick={closeSheet}
-              >
-                10K RUN
-              </Link>
             </div>
             <span className="w-[90%] h-0.5 opacity-50 bg-white"></span>
             <div className="flex flex-col gap-2">
@@ -204,7 +196,6 @@ export default function Navbar() {
           label="REGISTRATION"
           items={[
             { item_label: "5K RUN", item_href: "/register/CATEGORY_5K" },
-            { item_label: "10K RUN", item_href: "/register/CATEGORY_10K" },
           ]}
         ></TextDropdownPanel>
         <Link href="/partnership" rel="partnership" className="text-white hover:underline">

@@ -108,7 +108,6 @@ export default function CalloutSection() {
           label="REGISTRATION"
           items={[
             { item_label: "5K RUN", item_href: "/register/CATEGORY_5K" },
-            { item_label: "10K RUN", item_href: "/register/CATEGORY_10K" },
           ]}
         ></TextDropdownPanelCallout>
         <h1 className="text-4xl w-[80%] sm:w-full">ARE YOU READY FOR ENTHUSIAST FOAM RUN?</h1>

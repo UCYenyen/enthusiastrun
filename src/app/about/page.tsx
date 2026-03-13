@@ -67,7 +67,7 @@ export default function page() {
           className="w-[80%] rounded-lg py-16 sm:p-8 shadow-lg relative z-2 bg-background border-4 border-white flex flex-col mt-[2.5%] items-center gap-8 font-impact"
         >
           <div className="w-full flex flex-col items-center p-4 sm:p-0 gap-12">
-            <FlagOffItem flagType="10K" flagOffTime="05:15" cutOffTime="02:00:00" />
+            {/* <FlagOffItem flagType="10K" flagOffTime="05:15" cutOffTime="02:00:00" /> */}
             <FlagOffItem flagType="5K" flagOffTime="05:45" cutOffTime="01:15:00" />
           </div>
         </div>

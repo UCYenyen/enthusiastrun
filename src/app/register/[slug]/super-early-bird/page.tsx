@@ -8,7 +8,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Super Early Bird Registration - Enthusiast Foam Run",
   description:
-    "Register for the Enthusiast Foam Run super early bird special! Secure your spot in the CATEGORY_5K or CATEGORY_10K run and enjoy exclusive benefits. Limited super early bird slots available, so sign up now to take advantage of this special offer.",
+    "Register for the Enthusiast Foam Run super early bird special! Secure your spot in the CATEGORY_5K run and enjoy exclusive benefits. Limited super early bird slots available, so sign up now to take advantage of this special offer.",
 };
 
 interface Slug {
@@ -20,7 +20,7 @@ interface Slug {
 export default async function SuperEarlyRegistrationPage({ params }: Slug) {
   const { slug } = await params;
 
-  if (slug !== "CATEGORY_10K" && slug !== "CATEGORY_5K") {
+  if (slug !== "CATEGORY_5K") {
     return redirect("/not-found");
   }
 
@@ -83,7 +83,7 @@ export default async function SuperEarlyRegistrationPage({ params }: Slug) {
 
         {/* Registration Form */}
         <div className="relative z-10 w-full pb-32">
-          <RegistrationForm category={slug as "CATEGORY_5K" | "CATEGORY_10K"} type="super_early_bird" mahasiswaUCEnabled={false} />
+          <RegistrationForm category={slug as "CATEGORY_5K"} type="super_early_bird" mahasiswaUCEnabled={false} />
         </div>
       </div>
     </div>

@@ -52,7 +52,7 @@ const JERSEY_XXL_EXTRA = 10000;
 const JERSEY_XXXL_EXTRA = 15000;
 
 interface RegistrationFormProps {
-  category: "CATEGORY_5K" | "CATEGORY_10K";
+  category: "CATEGORY_5K";
   type: "super_early_bird" | "early_bird" | "regular";
   mahasiswaUCEnabled?: boolean;
 }

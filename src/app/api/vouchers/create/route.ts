@@ -15,7 +15,7 @@ export async function POST(request: Request) {
 
     const { category } = await request.json();
 
-    if (!category || !["CATEGORY_5K", "CATEGORY_10K"].includes(category)) {
+    if (!category || !["CATEGORY_5K"].includes(category)) {
       return NextResponse.json(
         { success: false, message: "Kategori tidak valid" },
         { status: 400 }

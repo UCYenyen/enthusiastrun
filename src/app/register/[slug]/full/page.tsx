@@ -17,7 +17,7 @@ interface Slug {
 export default async function RegistrationFull({ params }: Slug) {
     const { slug } = await params;
 
-    if (slug !== "CATEGORY_5K" && slug !== "CATEGORY_10K") {
+    if (slug !== "CATEGORY_5K") {
         return redirect("/not-found");
     }
 

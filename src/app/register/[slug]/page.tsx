@@ -16,12 +16,12 @@ export default function RegistrationPage() {
 
   useEffect(() => {
     const fetchCounts = async () => {
-      if (!slug || (slug !== "CATEGORY_5K" && slug !== "CATEGORY_10K")) return;
+      if (!slug || slug !== "CATEGORY_5K") return;
       
       setIsLoading(true);
       
       try {
-        const category = slug === "CATEGORY_5K" ? "CATEGORY_5K" : "CATEGORY_10K";
+        const category = "CATEGORY_5K";
         
         // Fetch counts
         const superCount = await checkRegistrationCount(category, "super_early_bird");
@@ -39,7 +39,7 @@ export default function RegistrationPage() {
     fetchCounts();
   }, [slug]);
 
-  if (slug !== "CATEGORY_5K" && slug !== "CATEGORY_10K") {
+  if (slug !== "CATEGORY_5K") {
     return redirect("/not-found");
   }
 

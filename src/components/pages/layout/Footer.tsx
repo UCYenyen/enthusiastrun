@@ -44,12 +44,7 @@ export default function Footer() {
             >
               5K RUN
             </Link>
-            <Link
-              href="/register/CATEGORY_10K"
-              className="font-normal text-white mb-0 text-center lg:text-start"
-            >
-              10K RUN
-            </Link>
+
           </div>
           <div className="flex text-lg flex-col gap-4 items-center lg:items-start max-w-[400px]">
             <h2 className="text-2xl font-impact">Contact Us</h2>
