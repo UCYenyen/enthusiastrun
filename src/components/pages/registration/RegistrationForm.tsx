@@ -64,7 +64,7 @@ export default function RegistrationForm({
 }: RegistrationFormProps) {
   const { data: session } = useSession();
   const router = useRouter();
-  const [packageType, setPackageType] = useState<ChosenPackage>("personal");
+  const [packageType, setPackageType] = useState<ChosenPackage>("only_medal");
   const [participantCount, setParticipantCount] = useState(1);
   const [participants, setParticipants] = useState<ParticipantData[]>([
     { ...emptyParticipant },
@@ -164,8 +164,7 @@ export default function RegistrationForm({
       if (!participants[i].idCardUrl) {
         return toast.error(`Please upload ID card for participant ${i + 1}`);
       }
-    }
-
+      }
     setIsSubmitting(true);
     try {
       const dataList = participants.map((p) => ({
@@ -210,8 +209,9 @@ export default function RegistrationForm({
         >
           <button
             type="button"
+            disabled={true}
             onClick={() => setPackageType("personal")}
-            className={`p-6 rounded-xl border-4 ${packageType === "personal" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
+            className={`p-6 rounded-xl border-4 ${packageType === "personal" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "bg-gray-600/40 opacity-25 border-gray-200"}`}
           >
             <h3 className="text-xl font-impact text-background">Personal</h3>
             <p className="text-xl font-bold text-background mt-2">
@@ -221,7 +221,8 @@ export default function RegistrationForm({
           <button
             type="button"
             onClick={() => setPackageType("bundling")}
-            className={`p-6 rounded-xl border-4 ${packageType === "bundling" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
+            disabled={true}
+            className={`p-6 rounded-xl border-4 ${packageType === "bundling" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "bg-gray-600/40 opacity-25 border-gray-200"}`}
           >
             <h3 className="text-xl font-impact text-background">Bundling</h3>
             <p className="text-gray-600 mt-2 text-sm">4 Persons!</p>
@@ -232,7 +233,8 @@ export default function RegistrationForm({
           <button
             type="button"
             onClick={() => setPackageType("community")}
-            className={`p-6 rounded-xl border-4 ${packageType === "community" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
+            className={`p-6 rounded-xl border-4 ${packageType === "community" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "bg-gray-600/40 opacity-25 border-gray-200"}`}
+            disabled={true}
           >
             <h3 className="text-xl font-impact text-background">Community</h3>
             <p className="text-gray-600 mt-2 text-sm">11 Persons!</p>
@@ -240,7 +242,7 @@ export default function RegistrationForm({
               {formatCurrency(COMMUNITY_PRICE)}
             </p>
           </button>
-          {/* <button
+          <button
             type="button"
             onClick={() => setPackageType("only_medal")}
             className={`p-6 rounded-xl border-4 ${packageType === "only_medal" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
@@ -249,12 +251,13 @@ export default function RegistrationForm({
             <p className="text-xl font-bold text-background mt-2">
               {formatCurrency(ONLY_MEDAL_PRICE)}/person
             </p>
-          </button> */}
+          </button>
           {mahasiswaUCEnabled && type === "early_bird" && (
             <button
               type="button"
+              disabled={true}
               onClick={() => setPackageType("ucstudent")}
-              className={`p-6 rounded-xl border-4 ${packageType === "ucstudent" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
+              className={`p-6 rounded-xl border-4 ${packageType === "ucstudent" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "bg-gray-600/40 opacity-25 border-gray-200"}`}
             >
               <h3 className="text-xl font-impact text-background">
                 UC Student
