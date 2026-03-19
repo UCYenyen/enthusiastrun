@@ -82,7 +82,7 @@ export default function RegistrationForm({
           uc: 0,
           bundling: is5K ? 149000 : 179000,
           community: is5K ? 149000 : 179000,
-          only_medal: 90000,
+          only_medal: 95000,
         }
       : type === "early_bird"
         ? {
@@ -90,14 +90,14 @@ export default function RegistrationForm({
             uc: is5K ? 155000 : 185000,
             bundling: is5K ? 162500 : 187500,
             community: is5K ? 156400 : 180900,
-            only_medal: 90000,
+            only_medal: 95000,
           }
         : {
             personal: is5K ? 220000 : 245000,
             uc: is5K ? 199000 : 199000,
             bundling: is5K ? 162500 : 187500,
             community: is5K ? 156400 : 180900,
-            only_medal: 90000,
+            only_medal: 95000,
           };
 
   const PERSONAL_PRICE = prices.personal;
