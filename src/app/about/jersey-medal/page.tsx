@@ -53,6 +53,14 @@ export default function page() {
             The medal serves as a symbol of achievement for participants who successfully complete the colorful and exciting run.
           </h3>
           <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">The jersey is designed with lightweight and comfortable material, making it perfect for running while still looking fashionable.</h3>
+          <Image
+            src="/about/jersey-medal.webp"
+            draggable={false}
+            alt="Enthusiast Logo"
+            width={500}
+            height={500}
+            className="w-full h-auto"
+          />
         </div>
       </div>
     </div>
