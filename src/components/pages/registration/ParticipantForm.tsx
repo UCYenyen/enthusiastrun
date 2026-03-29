@@ -10,6 +10,7 @@ interface ParticipantFormProps {
   onChange: (data: Partial<ParticipantData>) => void;
   isBundling: boolean;
   isUcStudent?: boolean;
+  isOnlyMedal?: boolean;
 }
 
 const GENDER_OPTIONS = [
@@ -34,6 +35,7 @@ export default function ParticipantForm({
   onChange,
   isBundling,
   isUcStudent = false,
+  isOnlyMedal = false,
 }: ParticipantFormProps) {
   const [isExpanded, setIsExpanded] = React.useState(index === 0);
 
@@ -263,39 +265,44 @@ export default function ParticipantForm({
 
           <div>
             <h3 className="text-lg font-bold text-background mb-4 pb-2 border-b-2 border-gray-100">
-              Jersey & Medical Condition
+              {isOnlyMedal ? "Medical Condition" : "Jersey & Medical Condition"}
             </h3>
-            <Image
-              src="/registration/size_chart.jpg"
-              className="w-full h-auto"
-              alt="Size Chart"
-              width={500}
-              height={300}
-            />
+            {!isOnlyMedal && (
+              <Image
+                src="/registration/size_chart.jpg"
+                className="w-full h-auto"
+                alt="Size Chart"
+                width={500}
+                height={300}
+              />
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className={labelClasses}>
-                  Jersey Size <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={data.jerseySize}
-                  onChange={(e) => onChange({ jerseySize: e.target.value })}
-                  className={inputClasses}
-                  required
-                >
-                  <option value="">Select jersey size</option>
-                  {JERSEY_SIZE_OPTIONS.map((size) => (
-                    <option key={size.value} value={size.value}>
-                      {size.label}
-                    </option>
-                  ))}
-                </select>
-                {(data.jerseySize === "XXL" || data.jerseySize === "XXXL") && (
-                  <p className="text-sm text-amber-600 mt-1">
-                    * There is an additional charge for size {data.jerseySize}
-                  </p>
-                )}
-              </div>
+              {!isOnlyMedal && (
+                <div>
+                  <label className={labelClasses}>
+                    Jersey Size <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={data.jerseySize}
+                    onChange={(e) => onChange({ jerseySize: e.target.value })}
+                    className={inputClasses}
+                    required
+                  >
+                    <option value="">Select jersey size</option>
+                    {JERSEY_SIZE_OPTIONS.map((size) => (
+                      <option key={size.value} value={size.value}>
+                        {size.label}
+                      </option>
+                    ))}
+                  </select>
+                  {(data.jerseySize === "XXL" ||
+                    data.jerseySize === "XXXL") && (
+                    <p className="text-sm text-amber-600 mt-1">
+                      * There is an additional charge for size {data.jerseySize}
+                    </p>
+                  )}
+                </div>
+              )}
 
               <div className="md:col-span-2">
                 <label className={labelClasses}>

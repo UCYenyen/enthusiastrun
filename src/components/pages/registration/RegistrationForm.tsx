@@ -294,6 +294,7 @@ export default function RegistrationForm({
             index={i}
             data={p}
             isUcStudent={packageType === "ucstudent"}
+            isOnlyMedal={packageType === "only_medal"}
             onChange={(d) =>
               setParticipants((prev) => {
                 const upd = [...prev];
