@@ -2,7 +2,7 @@ export type RegistrationCategory = "CATEGORY_5K";
 export type RegistrationStatus = "pending" | "confirmed" | "cancelled";
 export type Gender = "Male" | "Female";
 export type BloodType = "A" | "B" | "AB" | "O";
-export type JerseySize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
+export type JerseySize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL" | "FOUR_XL" | "FIVE_XL" | "SIX_XL";
 export type ChosenPackage =
   | "personal"
   | "bundling"

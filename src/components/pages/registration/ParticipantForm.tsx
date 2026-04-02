@@ -27,7 +27,12 @@ const JERSEY_SIZE_OPTIONS = [
   { value: "XL", label: "XL", extra: 0 },
   { value: "XXL", label: "XXL (+Rp 10.000)", extra: 10000 },
   { value: "XXXL", label: "XXXL (+Rp 15.000)", extra: 15000 },
+  { value: "FOUR_XL", label: "4XL (+Rp 20.000)", extra: 20000 },
+  { value: "FIVE_XL", label: "5XL (+Rp 25.000)", extra: 25000 },
+  { value: "SIX_XL", label: "6XL (+Rp 30.000)", extra: 30000 },
 ];
+
+export { JERSEY_SIZE_OPTIONS };
 
 export default function ParticipantForm({
   index,
@@ -295,12 +300,17 @@ export default function ParticipantForm({
                       </option>
                     ))}
                   </select>
-                  {(data.jerseySize === "XXL" ||
-                    data.jerseySize === "XXXL") && (
-                    <p className="text-sm text-amber-600 mt-1">
-                      * There is an additional charge for size {data.jerseySize}
-                    </p>
-                  )}
+                  {(() => {
+                    const selected = JERSEY_SIZE_OPTIONS.find(s => s.value === data.jerseySize);
+                    if (selected && selected.extra > 0) {
+                      return (
+                        <p className="text-sm text-amber-600 mt-1">
+                          * There is an additional charge of Rp {selected.extra.toLocaleString('id-ID')} for size {selected.label.split(' ')[0]}
+                        </p>
+                      );
+                    }
+                    return null;
+                  })()}
                 </div>
               )}
 

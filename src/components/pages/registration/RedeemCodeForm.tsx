@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ParticipantForm from "./ParticipantForm";
+import { JERSEY_SIZE_OPTIONS } from "./ParticipantForm";
 import { UploadWidget } from "@/components/CloudinaryWidget";
 import { createRegistration } from "@/lib/registration";
 import { RegistrationCategory } from "@/types/registration.md";
@@ -45,8 +46,10 @@ const emptyParticipant: ParticipantData = {
   committeeInviter: "",
 };
 
-const JERSEY_XXL_EXTRA = 10000;
-const JERSEY_XXXL_EXTRA = 15000;
+const getJerseyExtra = (jerseySize: string) => {
+  const option = JERSEY_SIZE_OPTIONS.find((s) => s.value === jerseySize);
+  return option?.extra || 0;
+};
 
 interface RedeemCodeResponse {
   success: boolean;
@@ -70,9 +73,7 @@ export default function RedeemCodeForm() {
 
   const calculateTotal = () => {
     const jerseyExtras = participants.reduce((total, p) => {
-      if (p.jerseySize === "XXL") return total + JERSEY_XXL_EXTRA;
-      if (p.jerseySize === "XXXL") return total + JERSEY_XXXL_EXTRA;
-      return total;
+      return total + getJerseyExtra(p.jerseySize);
     }, 0);
     return jerseyExtras;
   };
@@ -222,18 +223,16 @@ export default function RedeemCodeForm() {
           </div>
 
           {participants.some(
-            (p) => p.jerseySize === "XXL" || p.jerseySize === "XXXL",
+            (p) => getJerseyExtra(p.jerseySize) > 0,
           ) && (
             <div className="space-y-1">
               <p className="text-sm font-bold text-gray-500 mt-2">
                 Additional Charges (Jersey):
               </p>
               {participants.map((p, idx) => {
-                if (p.jerseySize === "XXL" || p.jerseySize === "XXXL") {
-                  const extra =
-                    p.jerseySize === "XXL"
-                      ? JERSEY_XXL_EXTRA
-                      : JERSEY_XXXL_EXTRA;
+                const extra = getJerseyExtra(p.jerseySize);
+                if (extra > 0) {
+                  const sizeLabel = JERSEY_SIZE_OPTIONS.find(s => s.value === p.jerseySize)?.label.split(' ')[0] || p.jerseySize;
                   return (
                     <div
                       key={idx}
@@ -241,7 +240,7 @@ export default function RedeemCodeForm() {
                     >
                       <span>
                         Peserta {idx + 1} ({p.fullName || "Tanpa Nama"}) - Size{" "}
-                        {p.jerseySize}
+                        {sizeLabel}
                       </span>
                       <span>+{formatCurrency(extra)}</span>
                     </div>

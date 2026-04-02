@@ -9,6 +9,7 @@ import { UploadWidget } from "@/components/CloudinaryWidget";
 import { createBulkRegistration } from "@/lib/registration";
 import { RegistrationCategory, ChosenPackage } from "@/types/registration.md";
 import Image from "next/image";
+import { JERSEY_SIZE_OPTIONS } from "./ParticipantForm";
 
 export interface ParticipantData {
   fullName: string;
@@ -48,8 +49,6 @@ const emptyParticipant: ParticipantData = {
 
 const BUNDLING_TOTAL_PARTICIPANTS = 4;
 const COMMUNITY_TOTAL_PARTICIPANTS = 11;
-const JERSEY_XXL_EXTRA = 10000;
-const JERSEY_XXXL_EXTRA = 15000;
 
 interface RegistrationFormProps {
   category: "CATEGORY_5K";
@@ -119,9 +118,6 @@ export default function RegistrationForm({
           .fill(null)
           .map((_, i) => participants[i] || { ...emptyParticipant }),
       );
-    } else if (packageType === "ucstudent") {
-      setParticipantCount(1);
-      setParticipants([participants[0] || { ...emptyParticipant }]);
     } else {
       setParticipants(
         Array(participantCount)
@@ -131,27 +127,25 @@ export default function RegistrationForm({
     }
   }, [packageType, participantCount]);
 
-  const totalPrice = (() => {
-    let base =
-      packageType === "bundling"
-        ? BUNDLING_PRICE
-        : packageType === "ucstudent"
-          ? UC_STUDENT_PRICE
-          : packageType === "only_medal"
-            ? participantCount * ONLY_MEDAL_PRICE
-            : participantCount * PERSONAL_PRICE;
-    const extra = participants.reduce(
-      (acc, p) =>
-        acc +
-        (p.jerseySize === "XXL"
-          ? JERSEY_XXL_EXTRA
-          : p.jerseySize === "XXXL"
-            ? JERSEY_XXXL_EXTRA
-            : 0),
-      0,
-    );
-    return base + extra;
+  const getJerseyExtra = (jerseySize: string) => {
+    const option = JERSEY_SIZE_OPTIONS.find((s) => s.value === jerseySize);
+    return option?.extra || 0;
+  };
+
+  const basePrice = (() => {
+    if (packageType === "bundling") return BUNDLING_PRICE;
+    if (packageType === "community") return COMMUNITY_PRICE;
+    if (packageType === "ucstudent") return participantCount * UC_STUDENT_PRICE;
+    if (packageType === "only_medal") return participantCount * ONLY_MEDAL_PRICE;
+    return participantCount * PERSONAL_PRICE;
   })();
+
+  const jerseyExtrasTotal = participants.reduce(
+    (acc, p) => acc + getJerseyExtra(p.jerseySize),
+    0,
+  );
+
+  const totalPrice = basePrice + jerseyExtrasTotal;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -267,7 +261,7 @@ export default function RegistrationForm({
             </button>
           )}
         </div>
-        {(packageType === "personal" || packageType === "only_medal") && (
+        {(packageType === "personal" || packageType === "only_medal" || packageType === "ucstudent") && (
           <div className="mt-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Participant Count
@@ -349,9 +343,55 @@ export default function RegistrationForm({
 
       <div className="bg-white p-6 shadow-lg">
         <h2 className="text-2xl font-impact text-background mb-4">Summary</h2>
-        <div className="flex justify-between text-xl font-bold text-background">
-          <span>Total Price</span>
-          <span className="text-[#4BCFFC]">{formatCurrency(totalPrice)}</span>
+        <div className="space-y-3">
+          <div className="flex justify-between text-gray-600">
+            <span>
+              {packageType === "bundling"
+                ? `Bundling Package (${BUNDLING_TOTAL_PARTICIPANTS} persons)`
+                : packageType === "community"
+                  ? `Community Package (${COMMUNITY_TOTAL_PARTICIPANTS} persons)`
+                  : packageType === "ucstudent"
+                    ? `UC Student (${participantCount} person${participantCount > 1 ? "s" : ""})`
+                    : packageType === "only_medal"
+                      ? `Only Medal (${participantCount} person${participantCount > 1 ? "s" : ""})`
+                      : `Personal (${participantCount} person${participantCount > 1 ? "s" : ""})`}
+            </span>
+            <span className="font-bold">{formatCurrency(basePrice)}</span>
+          </div>
+
+          {jerseyExtrasTotal > 0 && (
+            <div className="space-y-1">
+              <p className="text-sm font-bold text-gray-500 mt-2">
+                Additional Charges (Jersey):
+              </p>
+              {participants.map((p, idx) => {
+                const extra = getJerseyExtra(p.jerseySize);
+                if (extra > 0) {
+                  const sizeLabel = JERSEY_SIZE_OPTIONS.find(s => s.value === p.jerseySize)?.label.split(' ')[0] || p.jerseySize;
+                  return (
+                    <div
+                      key={idx}
+                      className="flex justify-between text-sm text-amber-600 pl-2"
+                    >
+                      <span>
+                        Participant {idx + 1} ({p.fullName || "No Name"}) - Size{" "}
+                        {sizeLabel}
+                      </span>
+                      <span>+{formatCurrency(extra)}</span>
+                    </div>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          )}
+
+          <div className="border-t-2 border-gray-200 pt-3 mt-3">
+            <div className="flex justify-between text-xl font-bold text-background">
+              <span>Total Price</span>
+              <span className="text-[#4BCFFC]">{formatCurrency(totalPrice)}</span>
+            </div>
+          </div>
         </div>
       </div>
 
