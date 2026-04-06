@@ -121,15 +121,34 @@ export async function createBulkRegistration(
     }
 
     const registrations = await prisma.$transaction(async (tx) => {
-      const qrCode = await tx.qRCode.create({
-        data: { qrCodeUrl: "" },
+      // Check if the user already has a registration with a QR code
+      const existingRegistration = await tx.registration.findFirst({
+        where: {
+          userId: firstData.userId,
+          qrCodeId: { not: null },
+        },
+        select: { qrCodeId: true },
       });
 
-      const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qrCode.id}`;
-      await tx.qRCode.update({
-        where: { id: qrCode.id },
-        data: { qrCodeUrl },
-      });
+      let qrCodeId: string;
+
+      if (existingRegistration?.qrCodeId) {
+        // Reuse the existing QR code so all registrations share one QR
+        qrCodeId = existingRegistration.qrCodeId;
+      } else {
+        // Create a new QR code for first-time registrants
+        const qrCode = await tx.qRCode.create({
+          data: { qrCodeUrl: "" },
+        });
+
+        const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qrCode.id}`;
+        await tx.qRCode.update({
+          where: { id: qrCode.id },
+          data: { qrCodeUrl },
+        });
+
+        qrCodeId = qrCode.id;
+      }
 
       const results = [];
       for (const data of dataList) {
@@ -157,7 +176,7 @@ export async function createBulkRegistration(
             paymentProofId: data.paymentProofId,
             status: "pending",
             type: data.type,
-            qrCodeId: qrCode.id,
+            qrCodeId: qrCodeId,
             rekeningName: data.rekeningName || "-",
             chosenPackage: data.chosenPackage || "personal",
             committeeInviter: data.committeeInviter || null,
