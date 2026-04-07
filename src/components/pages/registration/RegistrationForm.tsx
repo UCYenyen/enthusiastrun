@@ -62,7 +62,7 @@ interface RegistrationFormProps {
 export default function RegistrationForm({
   category,
   type,
-  mahasiswaUCEnabled = false,
+  mahasiswaUCEnabled = true,
 }: RegistrationFormProps) {
   const { data: session } = useSession();
   const router = useRouter();
@@ -101,8 +101,8 @@ export default function RegistrationForm({
             community_package_40: 5000000,
           }
         : {
-            personal: is5K ? 220000 : 245000,
-            uc: is5K ? 199000 : 199000,
+            personal: is5K ? 199000 : 199000,
+            uc: is5K ? 185000 : 185000,
             bundling: is5K ? 162500 : 187500,
             community: is5K ? 156400 : 180900,
             only_medal: 95000,
@@ -302,7 +302,7 @@ export default function RegistrationForm({
               {formatCurrency(COMMUNITY_40_PRICE)}
             </p>
           </button>
-          {mahasiswaUCEnabled && type === "early_bird" && (
+          {mahasiswaUCEnabled && type !== "early_bird" && (
             <button
               type="button"
               // disabled={true}

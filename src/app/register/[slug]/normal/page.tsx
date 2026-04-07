@@ -118,7 +118,7 @@ export default async function NormalRegistrationPage({ params }: Slug) {
 
         {/* Registration Form */}
         <div className="relative z-10 w-full pb-32">
-          <RegistrationForm category={slug as "CATEGORY_5K"} type="regular" mahasiswaUCEnabled={false} />
+          <RegistrationForm category={slug as "CATEGORY_5K"} type="regular" mahasiswaUCEnabled={true} />
         </div>
       </div>
     </div>
