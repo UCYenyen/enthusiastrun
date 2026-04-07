@@ -275,7 +275,7 @@ export default function ParticipantForm({
             </h3>
             {!isOnlyMedal && (
               <Image
-                src="/registration/size_chart.jpg"
+                src="/registration/size-chart-new.webp"
                 className="w-full h-auto"
                 alt="Size Chart"
                 width={500}
