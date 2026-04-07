@@ -38,13 +38,13 @@ export default async function NormalRegistrationPage({ params }: Slug) {
       }
     })
 
-    if (registeredSuperEarlyBirdCount.length < 20) {
-      return redirect(`/register/${slug}/super-early-bird`);
-    }
+    // if (registeredSuperEarlyBirdCount.length < 20) {
+    //   return redirect(`/register/${slug}/super-early-bird`);
+    // }
 
-    if(earlyBirdCount.length < 480){
-      return redirect(`/register/${slug}/early-bird`);
-    }
+    // if(earlyBirdCount.length < 480){
+    //   return redirect(`/register/${slug}/early-bird`);
+    // }
   } else {
     const registeredSuperEarlyBirdCount = await prisma.registration.findMany({
       where: {

@@ -8,7 +8,10 @@ export type ChosenPackage =
   | "bundling"
   | "ucstudent"
   | "community"
-  | "only_medal";
+  | "only_medal"
+  | "community_package_20"
+  | "community_package_30"
+  | "community_package_40";
 
 export interface RegistrationFormData {
   fullName: string;

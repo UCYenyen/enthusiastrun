@@ -47,13 +47,13 @@ export default function RegistrationPage() {
   
   // Determine if each phase is active
 
-  const isSuperEarlyActive = superEarlyCount < (is5K ? 20 : 5);
-  const isEarlyBirdActive = !isSuperEarlyActive && earlyBirdCount < (is5K ? 480 : 280);
+  const isSuperEarlyActive = superEarlyCount < (is5K ? 0 : 0);
+  const isEarlyBirdActive = !isSuperEarlyActive && earlyBirdCount < (is5K ? 0 : 0); // aslinya 480 : 280
   const isRegularActive = !isSuperEarlyActive && !isEarlyBirdActive;
 
 
-  const isSuperEarlySoldOut = superEarlyCount >= (is5K ? 20 : 5)
-  const isEarlyBirdSoldOut = earlyBirdCount >= (is5K ? 480 : 280)
+  const isSuperEarlySoldOut = superEarlyCount >= (is5K ? 0 : 0)
+  const isEarlyBirdSoldOut = earlyBirdCount >= (is5K ? 0 : 0) // aslinya 480 : 280
   const isRegularSoldOut = false;
 
   return (

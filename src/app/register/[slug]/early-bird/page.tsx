@@ -32,7 +32,8 @@ export default async function EarlyRegistrationPage({ params }: Slug) {
       }
     })
 
-    if (registeredCount.length >= 480) {
+    //aslinya >= 480
+    if (registeredCount.length >= 0) {
       return redirect(`/register/${slug}/full`);
     }
   }else{

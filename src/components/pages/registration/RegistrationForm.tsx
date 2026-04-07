@@ -49,6 +49,9 @@ const emptyParticipant: ParticipantData = {
 
 const BUNDLING_TOTAL_PARTICIPANTS = 4;
 const COMMUNITY_TOTAL_PARTICIPANTS = 11;
+const COMMUNITY_20_TOTAL_PARTICIPANTS = 20;
+const COMMUNITY_30_TOTAL_PARTICIPANTS = 30;
+const COMMUNITY_40_TOTAL_PARTICIPANTS = 40;
 
 interface RegistrationFormProps {
   category: "CATEGORY_5K";
@@ -82,6 +85,9 @@ export default function RegistrationForm({
           bundling: is5K ? 149000 : 179000,
           community: is5K ? 149000 : 179000,
           only_medal: 95000,
+          community_package_20: 2950000,
+          community_package_30: 4150000,
+          community_package_40: 5000000,
         }
       : type === "early_bird"
         ? {
@@ -90,6 +96,9 @@ export default function RegistrationForm({
             bundling: is5K ? 162500 : 187500,
             community: is5K ? 156400 : 180900,
             only_medal: 95000,
+            community_package_20: 2950000,
+            community_package_30: 4150000,
+            community_package_40: 5000000,
           }
         : {
             personal: is5K ? 220000 : 245000,
@@ -97,6 +106,9 @@ export default function RegistrationForm({
             bundling: is5K ? 162500 : 187500,
             community: is5K ? 156400 : 180900,
             only_medal: 95000,
+            community_package_20: 2950000,
+            community_package_30: 4150000,
+            community_package_40: 5000000,
           };
 
   const PERSONAL_PRICE = prices.personal;
@@ -104,17 +116,26 @@ export default function RegistrationForm({
   const BUNDLING_PRICE = prices.bundling * 4;
   const COMMUNITY_PRICE = prices.community * 11;
   const ONLY_MEDAL_PRICE = prices.only_medal;
+  const COMMUNITY_20_PRICE = prices.community_package_20;
+  const COMMUNITY_30_PRICE = prices.community_package_30;
+  const COMMUNITY_40_PRICE = prices.community_package_40;
+
+  const getFixedParticipantCount = (pkg: ChosenPackage): number | null => {
+    switch (pkg) {
+      case "bundling": return BUNDLING_TOTAL_PARTICIPANTS;
+      case "community": return COMMUNITY_TOTAL_PARTICIPANTS;
+      case "community_package_20": return COMMUNITY_20_TOTAL_PARTICIPANTS;
+      case "community_package_30": return COMMUNITY_30_TOTAL_PARTICIPANTS;
+      case "community_package_40": return COMMUNITY_40_TOTAL_PARTICIPANTS;
+      default: return null;
+    }
+  };
 
   useEffect(() => {
-    if (packageType === "bundling") {
+    const fixedCount = getFixedParticipantCount(packageType);
+    if (fixedCount !== null) {
       setParticipants(
-        Array(BUNDLING_TOTAL_PARTICIPANTS)
-          .fill(null)
-          .map((_, i) => participants[i] || { ...emptyParticipant }),
-      );
-    } else if (packageType === "community") {
-      setParticipants(
-        Array(COMMUNITY_TOTAL_PARTICIPANTS)
+        Array(fixedCount)
           .fill(null)
           .map((_, i) => participants[i] || { ...emptyParticipant }),
       );
@@ -135,6 +156,9 @@ export default function RegistrationForm({
   const basePrice = (() => {
     if (packageType === "bundling") return BUNDLING_PRICE;
     if (packageType === "community") return COMMUNITY_PRICE;
+    if (packageType === "community_package_20") return COMMUNITY_20_PRICE;
+    if (packageType === "community_package_30") return COMMUNITY_30_PRICE;
+    if (packageType === "community_package_40") return COMMUNITY_40_PRICE;
     if (packageType === "ucstudent") return participantCount * UC_STUDENT_PRICE;
     if (packageType === "only_medal") return participantCount * ONLY_MEDAL_PRICE;
     return participantCount * PERSONAL_PRICE;
@@ -245,6 +269,39 @@ export default function RegistrationForm({
               {formatCurrency(ONLY_MEDAL_PRICE)}/person
             </p>
           </button>
+          <button
+            type="button"
+            onClick={() => setPackageType("community_package_20")}
+            className={`p-6 rounded-xl border-4 ${packageType === "community_package_20" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
+          >
+            <h3 className="text-xl font-impact text-background">Community 20</h3>
+            <p className="text-gray-600 mt-2 text-sm">20 Persons!</p>
+            <p className="text-xl font-bold text-background mt-2">
+              {formatCurrency(COMMUNITY_20_PRICE)}
+            </p>
+          </button>
+          <button
+            type="button"
+            onClick={() => setPackageType("community_package_30")}
+            className={`p-6 rounded-xl border-4 ${packageType === "community_package_30" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
+          >
+            <h3 className="text-xl font-impact text-background">Community 30</h3>
+            <p className="text-gray-600 mt-2 text-sm">30 Persons!</p>
+            <p className="text-xl font-bold text-background mt-2">
+              {formatCurrency(COMMUNITY_30_PRICE)}
+            </p>
+          </button>
+          <button
+            type="button"
+            onClick={() => setPackageType("community_package_40")}
+            className={`p-6 rounded-xl border-4 ${packageType === "community_package_40" ? "border-[#4BCFFC] bg-[#4BCFFC]/10" : "border-gray-200"}`}
+          >
+            <h3 className="text-xl font-impact text-background">Community 40</h3>
+            <p className="text-gray-600 mt-2 text-sm">40 Persons!</p>
+            <p className="text-xl font-bold text-background mt-2">
+              {formatCurrency(COMMUNITY_40_PRICE)}
+            </p>
+          </button>
           {mahasiswaUCEnabled && type === "early_bird" && (
             <button
               type="button"
@@ -350,11 +407,17 @@ export default function RegistrationForm({
                 ? `Bundling Package (${BUNDLING_TOTAL_PARTICIPANTS} persons)`
                 : packageType === "community"
                   ? `Community Package (${COMMUNITY_TOTAL_PARTICIPANTS} persons)`
-                  : packageType === "ucstudent"
-                    ? `UC Student (${participantCount} person${participantCount > 1 ? "s" : ""})`
-                    : packageType === "only_medal"
-                      ? `Only Medal (${participantCount} person${participantCount > 1 ? "s" : ""})`
-                      : `Personal (${participantCount} person${participantCount > 1 ? "s" : ""})`}
+                  : packageType === "community_package_20"
+                    ? `Community Package 20 (${COMMUNITY_20_TOTAL_PARTICIPANTS} persons)`
+                    : packageType === "community_package_30"
+                      ? `Community Package 30 (${COMMUNITY_30_TOTAL_PARTICIPANTS} persons)`
+                      : packageType === "community_package_40"
+                        ? `Community Package 40 (${COMMUNITY_40_TOTAL_PARTICIPANTS} persons)`
+                        : packageType === "ucstudent"
+                          ? `UC Student (${participantCount} person${participantCount > 1 ? "s" : ""})`
+                          : packageType === "only_medal"
+                            ? `Only Medal (${participantCount} person${participantCount > 1 ? "s" : ""})`
+                            : `Personal (${participantCount} person${participantCount > 1 ? "s" : ""})`}
             </span>
             <span className="font-bold">{formatCurrency(basePrice)}</span>
           </div>

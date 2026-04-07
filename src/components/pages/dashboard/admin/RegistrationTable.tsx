@@ -269,7 +269,7 @@ export default function RegistrationTable({
                     </td>
                     <td className="px-4 py-3">
                       <span
-                        className={`px-2 py-1 rounded-full text-[10px]  uppercase ${reg.chosenPackage === "bundling" ? "bg-orange-100 text-orange-700" : reg.chosenPackage === "ucstudent" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-700"}`}
+                        className={`px-2 py-1 rounded-full text-[10px]  uppercase ${reg.chosenPackage === "bundling" ? "bg-orange-100 text-orange-700" : reg.chosenPackage === "ucstudent" ? "bg-blue-100 text-blue-700" : reg.chosenPackage?.startsWith("community") ? "bg-purple-100 text-purple-700" : "bg-gray-100 text-gray-700"}`}
                       >
                         {reg.chosenPackage?.replace("_", " ") || "personal"}
                       </span>
