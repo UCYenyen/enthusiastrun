@@ -114,6 +114,21 @@ export default async function page() {
                   3x24 HOURS
                 </div>
               )}
+              <div className="flex gap-4">
+                <Link
+                  href="https://www.instagram.com/enthusiast.run/"
+                  target="_blank"
+                >
+                  Follow ig{" "}
+                  <span className="underline">@enthusiast.run</span>
+                </Link>
+                <Link
+                  href="https://www.instagram.com/enthusiast.ibm/"
+                  target="_blank"
+                >
+                  Follow ig <span className="underline">@enthusiast.ibm</span>
+                </Link>
+              </div>
             </div>
           )}
         </div>
