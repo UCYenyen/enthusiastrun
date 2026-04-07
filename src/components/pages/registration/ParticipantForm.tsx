@@ -21,6 +21,7 @@ const GENDER_OPTIONS = [
 const BLOOD_TYPE_OPTIONS = ["A", "B", "AB", "O"];
 
 const JERSEY_SIZE_OPTIONS = [
+  { value: "XS", label: "XS", extra: 0 },
   { value: "S", label: "S", extra: 0 },
   { value: "M", label: "M", extra: 0 },
   { value: "L", label: "L", extra: 0 },
