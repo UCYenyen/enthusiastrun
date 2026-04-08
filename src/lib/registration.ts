@@ -110,12 +110,6 @@ export async function createBulkRegistration(
 ): Promise<ActionResult<Registration[]>> {
   try {
     const firstData = dataList[0];
-    if (firstData.chosenPackage === "ucstudent") {
-      return {
-        success: false,
-        error: "UC Student package only available for early bird registration",
-      };
-    }
 
     const registrations = await prisma.$transaction(async (tx) => {
       // Check if the user already has a registration with a QR code
