@@ -12,7 +12,7 @@ export default function UserNotRegisteredToCompetition() {
         You are not registered for anything yet!
       </h3>
       <Link
-        href="/register/5k"
+        href="/register/CATEGORY_5K"
         className="bg-[#4BCFFC] border-2 border-white px-4 py-2 rounded-lg w-fit hover:bg-[#3AA9D1] text-white"
       >
         REGISTER NOW
