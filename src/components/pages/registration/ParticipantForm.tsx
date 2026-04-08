@@ -103,7 +103,6 @@ export default function ParticipantForm({
                   onChange={(e) => onChange({ fullName: e.target.value })}
                   placeholder="Enter full name as per ID card"
                   className={inputClasses}
-                  required
                 />
               </div>
 
@@ -117,7 +116,6 @@ export default function ParticipantForm({
                   onChange={(e) => onChange({ email: e.target.value })}
                   placeholder="email@example.com"
                   className={inputClasses}
-                  required
                 />
               </div>
 
@@ -131,7 +129,6 @@ export default function ParticipantForm({
                   onChange={(e) => onChange({ phoneNumber: e.target.value })}
                   placeholder="08xxxxxxxxxx"
                   className={inputClasses}
-                  required
                 />
               </div>
 
@@ -144,7 +141,6 @@ export default function ParticipantForm({
                   value={data.dateOfBirth}
                   onChange={(e) => onChange({ dateOfBirth: e.target.value })}
                   className={inputClasses}
-                  required
                 />
               </div>
 
@@ -156,7 +152,6 @@ export default function ParticipantForm({
                   value={data.gender}
                   onChange={(e) => onChange({ gender: e.target.value })}
                   className={inputClasses}
-                  required
                 >
                   <option value="">Gender</option>
                   {GENDER_OPTIONS.map((opt) => (
@@ -175,7 +170,6 @@ export default function ParticipantForm({
                   value={data.bloodType}
                   onChange={(e) => onChange({ bloodType: e.target.value })}
                   className={inputClasses}
-                  required
                 >
                   <option value="">Choose your blood type</option>
                   {BLOOD_TYPE_OPTIONS.map((type) => (
@@ -196,7 +190,6 @@ export default function ParticipantForm({
                   onChange={(e) => onChange({ city: e.target.value })}
                   placeholder="Enter city of residence"
                   className={inputClasses}
-                  required
                 />
               </div>
 
@@ -210,7 +203,6 @@ export default function ParticipantForm({
                   placeholder="Enter full address"
                   rows={3}
                   className={inputClasses}
-                  required
                 />
               </div>
               <div className="md:col-span-2">
@@ -248,7 +240,6 @@ export default function ParticipantForm({
                   }
                   placeholder="Name of emergency contact"
                   className={inputClasses}
-                  required
                 />
               </div>
 
@@ -263,7 +254,6 @@ export default function ParticipantForm({
                   onChange={(e) => onChange({ emergencyPhone: e.target.value })}
                   placeholder="08xxxxxxxxxx"
                   className={inputClasses}
-                  required
                 />
               </div>
             </div>
@@ -292,7 +282,6 @@ export default function ParticipantForm({
                     value={data.jerseySize}
                     onChange={(e) => onChange({ jerseySize: e.target.value })}
                     className={inputClasses}
-                    required
                   >
                     <option value="">Select jersey size</option>
                     {JERSEY_SIZE_OPTIONS.map((size) => (
@@ -382,22 +371,6 @@ export default function ParticipantForm({
                 }}
               />
             )}
-            <input
-              type="text"
-              value={data.idCardUrl}
-              onChange={() => {}}
-              required
-              className="opacity-0 absolute h-0 w-0 pointer-events-none"
-              tabIndex={-1}
-              onInvalid={(e) =>
-                (e.target as HTMLInputElement).setCustomValidity(
-                  "Please upload your ID card",
-                )
-              }
-              onInput={(e) =>
-                (e.target as HTMLInputElement).setCustomValidity("")
-              }
-            />
           </div>
         </div>
       )}

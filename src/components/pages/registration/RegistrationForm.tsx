@@ -177,12 +177,23 @@ export default function RegistrationForm({
     if (totalPrice > 0 && (!paymentProofUrl || !rekeningName))
       return toast.error("Upload payment proof");
 
-    // Check for missing ID cards
+    // Validate all participant fields
     for (let i = 0; i < participants.length; i++) {
-      if (!participants[i].idCardUrl) {
-        return toast.error(`Please upload ID card for participant ${i + 1}`);
-      }
-      }
+      const p = participants[i];
+      const label = `Participant ${i + 1}`;
+      if (!p.fullName.trim()) return toast.error(`Please enter full name for ${label}`);
+      if (!p.email.trim()) return toast.error(`Please enter email for ${label}`);
+      if (!p.phoneNumber.trim()) return toast.error(`Please enter phone number for ${label}`);
+      if (!p.dateOfBirth) return toast.error(`Please enter date of birth for ${label}`);
+      if (!p.gender) return toast.error(`Please select gender for ${label}`);
+      if (!p.bloodType) return toast.error(`Please select blood type for ${label}`);
+      if (!p.city.trim()) return toast.error(`Please enter city for ${label}`);
+      if (!p.address.trim()) return toast.error(`Please enter address for ${label}`);
+      if (!p.emergencyContact.trim()) return toast.error(`Please enter emergency contact name for ${label}`);
+      if (!p.emergencyPhone.trim()) return toast.error(`Please enter emergency contact number for ${label}`);
+      if (packageType !== "only_medal" && !p.jerseySize) return toast.error(`Please select jersey size for ${label}`);
+      if (!p.idCardUrl) return toast.error(`Please upload ID card for ${label}`);
+    }
     setIsSubmitting(true);
     try {
       const dataList = participants.map((p) => ({
@@ -389,7 +400,6 @@ export default function RegistrationForm({
           </h2>
           <input
             type="text"
-            required
             value={rekeningName}
             onChange={(e) => setRekeningName(e.target.value)}
             placeholder="Account holder name"
