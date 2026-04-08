@@ -263,6 +263,13 @@ export async function regenerateQRCode(
     const oldQrCodeId = registration.qrCodeId;
 
     const result = await prisma.$transaction(async (tx) => {
+      // ← TAMBAHKAN INI
+      const claimedCheck = await tx.registration.findFirst({
+        where: { qrCodeId: oldQrCodeId, qrCodeClaimed: true },
+      });
+      if (claimedCheck) {
+        throw new Error("Cannot regenerate - race pack already claimed");
+      }
       // Create a new QR code record
       const newQRCode = await tx.qRCode.create({ data: { qrCodeUrl: "" } });
       const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${newQRCode.id}&size=200x200`;
@@ -286,8 +293,8 @@ export async function regenerateQRCode(
 
     revalidatePath("/dashboard");
     return { success: true, data: result };
-  } catch (error) {
-    return { success: false, error: "Failed to regenerate QR code" };
+  } catch (error: any) {
+    return { success: false, error: error.message || "Failed to regenerate QR code" };
   }
 }
 
