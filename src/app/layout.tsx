@@ -8,6 +8,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import Footer from "@/components/pages/layout/Footer";
 import FloatingActionButton from "@/components/pages/layout/FloatingActionButton";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +42,7 @@ export default async function RootLayout({
           {children}
           <Footer />
           <FloatingActionButton />  
+          <Toaster richColors closeButton />
         </Provider>
       </body>
     </html>
