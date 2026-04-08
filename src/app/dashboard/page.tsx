@@ -85,7 +85,7 @@ export default async function page() {
                 WELCOME TO YOUR DASHBOARD!
               </h1>
               <h3 className="text-xl w-[80%] font-futura text-justify max-h-[250px] overflow-y-auto">
-                Thank you for registering for Enthusiast Run 2025! We're excited
+                Thank you for registering for Enthusiast Run 2026! We're excited
                 to have you on board for an unforgettable experience filled with
                 fun, fitness, and community spirit. Stay tuned for more updates
                 and get ready to run with enthusiasm!
