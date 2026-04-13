@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Registration } from "@/types/registration.md";
-import { getGroupParticipants } from "@/lib/registration";
+import { getTransactionGroup } from "@/lib/registration";
 import {
   Dialog,
   DialogContent,
@@ -31,16 +31,8 @@ export default function RegistrationDetailModal({
 
       setLoading(true);
       try {
-        let targetQrId = null;
-        
-        if ((registration as any).qrCodeId) {
-          targetQrId = (registration as any).qrCodeId;
-        } else if (registration.qrCode) {
-          targetQrId = (registration.qrCode as any).qrCodeId || (registration.qrCode as any).id;
-        }
-
-        if (targetQrId) {
-          const data = await getGroupParticipants(targetQrId);
+        if (registration.userId && registration.createdAt) {
+          const data = await getTransactionGroup(registration.userId, new Date(registration.createdAt));
           if (data && data.length > 0) {
             setParticipants(data);
           } else {
@@ -91,7 +83,9 @@ export default function RegistrationDetailModal({
             participants.map((p, idx) => (
               <div key={p.id} className="border-4 border-gray-100 rounded-2xl overflow-hidden">
                 <div className="bg-gray-100 px-4 py-2 flex justify-between items-center">
-                  <span className="font-impact text-background uppercase italic">Participant #{idx + 1}</span>
+                  <span className="font-impact text-background uppercase italic">
+                    Participant #{idx + 1} {p.chosenPackage ? `(${p.chosenPackage})` : ""}
+                  </span>
                   <span className={`px-3 py-0.5 rounded-full text-[10px] font-black uppercase ${p.status === 'confirmed' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white'}`}>
                     {p.status}
                   </span>

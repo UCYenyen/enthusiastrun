@@ -71,11 +71,11 @@ export default function RegistrationTable({
     return matchStatus && matchCategory && matchSearch;
   });
 
-  // Group registrations by qrCodeId for display (one row per group)
-  // But keep original array for stats (count all participants)
+  // Group registrations by userId and createdAt time bucket (1 min) instead of qrCodeId
   const groupedForDisplay = filteredRegistrations.reduce((acc, reg) => {
-    // Access qrCodeId from nested qrCode object, or use registration id as fallback
-    const groupKey = (reg as any).qrCodeId || reg.qrCode?.qrCodeId || reg.id;
+    const timeMs = new Date(reg.createdAt).getTime();
+    const timeBucket = Math.floor(timeMs / 60000);
+    const groupKey = `${reg.userId}-${timeBucket}`;
     if (!acc.has(groupKey)) {
       acc.set(groupKey, reg); // Keep first registration as representative
     }

@@ -192,14 +192,20 @@ export async function updateRegistrationStatus(
   try {
     const target = await prisma.registration.findUnique({
       where: { id },
-      select: { qrCodeId: true },
+      select: { userId: true, createdAt: true },
     });
 
-    if (!target || !target.qrCodeId)
-      return { success: false, error: "Registration or QR Group not found" };
+    if (!target)
+      return { success: false, error: "Registration not found" };
+
+    const timeWinStart = new Date(target.createdAt.getTime() - 60000);
+    const timeWinEnd = new Date(target.createdAt.getTime() + 60000);
 
     await prisma.registration.updateMany({
-      where: { qrCodeId: target.qrCodeId },
+      where: { 
+        userId: target.userId,
+        createdAt: { gte: timeWinStart, lte: timeWinEnd }
+      },
       data: {
         status,
         paymentStatus:
@@ -360,6 +366,22 @@ export async function getGroupParticipants(
 ): Promise<Registration[]> {
   return (await prisma.registration.findMany({
     where: { qrCodeId: qrCodeId },
+    orderBy: { fullName: "asc" },
+  })) as Registration[];
+}
+
+export async function getTransactionGroup(
+  userId: string,
+  createdAt: Date
+): Promise<Registration[]> {
+  const timeWinStart = new Date(createdAt.getTime() - 60000);
+  const timeWinEnd = new Date(createdAt.getTime() + 60000);
+
+  return (await prisma.registration.findMany({
+    where: { 
+      userId, 
+      createdAt: { gte: timeWinStart, lte: timeWinEnd } 
+    },
     orderBy: { fullName: "asc" },
   })) as Registration[];
 }
