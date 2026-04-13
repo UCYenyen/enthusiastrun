@@ -63,14 +63,14 @@ export default function QrCodeScanner() {
         <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="bg-white w-full max-w-lg rounded-2xl overflow-hidden shadow-2xl text-background">
             <div className="p-6 border-b">
-              <h2 className="text-2xl font-impact uppercase italic">
+              <h2 className="text-xl uppercase tracking-widest text-center text-gray-800">
                 {errorMsg ? "SCAN ERROR" : `PARTICIPANTS FOUND (${userList.length})`}
               </h2>
             </div>
 
             <div className="p-6">
               {errorMsg ? (
-                <div className="bg-red-50 text-red-600 p-4 rounded-lg font-bold text-center uppercase">{errorMsg}</div>
+                <div className="bg-red-50 text-red-600 p-4 rounded-lg text-center uppercase tracking-wider">{errorMsg}</div>
               ) : (
                 <div className="space-y-4">
                   <div className="max-h-48 overflow-y-auto space-y-2 mb-6">
@@ -80,9 +80,11 @@ export default function QrCodeScanner() {
                         onClick={() => setSelectedUser(u)}
                         className={`w-full p-3 rounded-lg border-2 text-left transition ${selectedUser?.id === u.id ? "border-[#4BCFFC] bg-[#4BCFFC]/5" : "border-gray-100"}`}
                       >
-                        <div className="flex justify-between items-center">
-                          <span className="font-bold uppercase text-sm">{u.fullName}</span>
-                          <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${u.qrCodeClaimed ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"}`}>
+                        <div className="flex justify-between items-center gap-2">
+                          <span className="uppercase text-sm">
+                            {u.fullName}{u.chosenPackage ? ` (${u.chosenPackage})` : ""}
+                          </span>
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full shrink-0 ${u.qrCodeClaimed ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"}`}>
                             {u.qrCodeClaimed ? "CLAIMED" : "READY"}
                           </span>
                         </div>
@@ -91,13 +93,26 @@ export default function QrCodeScanner() {
                   </div>
 
                   {selectedUser && (
-                    <div className="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl border-t-4 border-[#4BCFFC]">
-                      <div className="col-span-2"><p className="text-gray-500 uppercase text-[10px] font-bold">Category</p><p className="font-bold">{selectedUser.category}</p></div>
-                      <div><p className="text-gray-500 uppercase text-[10px] font-bold">Jersey</p><p className="font-bold">{selectedUser.jerseySize}</p></div>
-                      <div><p className="text-gray-500 uppercase text-[10px] font-bold">Blood</p><p className="font-bold">{selectedUser.bloodType}</p></div>
+                    <div className="grid grid-cols-2 gap-4 bg-gray-50 p-5 rounded-xl border border-gray-200 shadow-sm">
                       <div className="col-span-2">
-                        <p className="text-gray-500 uppercase text-[10px] font-bold">Claim Status</p>
-                        <p className={`font-bold ${selectedUser.qrCodeClaimed ? "text-red-500" : "text-green-500"}`}>
+                        <p className="text-gray-500 uppercase text-xs tracking-wider mb-1">Category</p>
+                        <p className="text-lg">{selectedUser.category}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500 uppercase text-xs tracking-wider mb-1">Jersey Size</p>
+                        <p className="text-lg">{selectedUser.jerseySize}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500 uppercase text-xs tracking-wider mb-1">Blood Type</p>
+                        <p className="text-lg">{selectedUser.bloodType}</p>
+                      </div>
+                      <div className="col-span-2">
+                        <p className="text-gray-500 uppercase text-xs tracking-wider mb-1">Chosen Package</p>
+                        <p className="text-lg">{selectedUser.chosenPackage ?? "-"}</p>
+                      </div>
+                      <div className="col-span-2 pt-2 border-t border-gray-200 mt-2">
+                        <p className="text-gray-500 uppercase text-xs tracking-wider mb-1">Claim Status</p>
+                        <p className={`text-lg ${selectedUser.qrCodeClaimed ? "text-red-500" : "text-green-600"}`}>
                           {selectedUser.qrCodeClaimed ? `CLAIMED at ${new Date(selectedUser.qrCodeClaimedAt!).toLocaleTimeString()}` : "READY TO CLAIM"}
                         </p>
                       </div>
@@ -108,9 +123,9 @@ export default function QrCodeScanner() {
             </div>
 
             <div className="flex border-t">
-              <button onClick={closeModal} className="flex-1 px-6 py-4 bg-gray-100 hover:bg-gray-200 transition font-bold">CLOSE</button>
+              <button onClick={closeModal} className="flex-1 px-6 py-4 bg-gray-100 hover:bg-gray-200 transition tracking-wider">CLOSE</button>
               {selectedUser && !selectedUser.qrCodeClaimed && (
-                <button onClick={() => handleClaim(selectedUser.id)} disabled={loading} className="flex-1 px-6 py-4 bg-green-600 hover:bg-green-700 text-white transition disabled:bg-gray-400 font-bold">
+                <button onClick={() => handleClaim(selectedUser.id)} disabled={loading} className="flex-1 px-6 py-4 bg-green-600 hover:bg-green-700 text-white transition disabled:bg-gray-400 tracking-wider">
                   {loading ? "CLAIMING..." : "CONFIRM CLAIM"}
                 </button>
               )}
