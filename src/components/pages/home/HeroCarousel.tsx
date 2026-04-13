@@ -19,7 +19,7 @@ export function HeroCarousel() {
 
   const images = [
     "/home/recap-foto.webp",
-    "/home/hero-image-2.webp",
+    "/about/jersey-medal.webp",
   ];
 
   const [api, setApi] = React.useState<CarouselApi>();
