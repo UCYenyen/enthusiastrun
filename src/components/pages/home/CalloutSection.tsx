@@ -111,7 +111,7 @@ export default function CalloutSection() {
           ]}
         ></TextDropdownPanelCallout>
         <h1 className="text-4xl w-[80%] sm:w-full">ARE YOU READY FOR ENTHUSIAST FOAM RUN?</h1>
-        <h3 className="text-xl text-[#9ED486]">3 MEI 2026</h3>
+        <h3 className="text-xl text-[#9ED486]">10 MEI 2026</h3>
       </div>
       <div ref={descRef} className="flex flex-col gap-1 items-center sm:items-start">
         <h3

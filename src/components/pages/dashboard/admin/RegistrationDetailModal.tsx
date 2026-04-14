@@ -107,6 +107,7 @@ export default function RegistrationDetailModal({
                     <DetailItem label="Jersey Size" value={p.jerseySize} />
                     <DetailItem label="Blood Type" value={p.bloodType} />
                     <DetailItem label="Medical" value={p.medicalCondition} />
+                    <DetailItem label="Committee Inviter" value={p.committeeInviter} />
                   </div>
 
                   <div className="space-y-3">
