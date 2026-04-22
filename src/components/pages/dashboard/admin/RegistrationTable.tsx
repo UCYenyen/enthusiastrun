@@ -28,6 +28,54 @@ export default function RegistrationTable({
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 8;
 
+  const handleExportToExcel = () => {
+    const headers = [
+      "No",
+      "Name",
+      "Email",
+      "Phone Number",
+      "Package",
+      "Category",
+      "Type",
+      "Status",
+      "Payment",
+      "Registration Date",
+    ];
+
+    const csvContent = [
+      headers.join(","),
+      ...filteredRegistrations.map((reg, idx) => {
+        return [
+          idx + 1,
+          `"${reg.fullName.replace(/"/g, '""')}"`,
+          `"${reg.email}"`,
+          `'${reg.phoneNumber}'`, // Using single quote so excel treats it as text
+          `"${reg.chosenPackage?.replace("_", " ") || "personal"}"`,
+          `"${reg.category === "CATEGORY_5K" ? "5K" : reg.category}"`,
+          `"${reg.type.replace(/_/g, " ")}"`,
+          `"${reg.status}"`,
+          `"${reg.paymentStatus ? "PAID" : "UNPAID"}"`,
+          `"${new Date(reg.createdAt).toLocaleString()}"`,
+        ].join(",");
+      }),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `registrations_export_${new Date().toISOString().split("T")[0]}.csv`
+    );
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast.success("Exported successfully!");
+  };
+
   const handleStatusUpdate = async (
     id: string,
     newStatus: "pending" | "confirmed" | "cancelled",
@@ -174,6 +222,12 @@ export default function RegistrationTable({
             5K Run
           </option>
         </select>
+        <button
+          onClick={handleExportToExcel}
+          className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition font-medium"
+        >
+          Export to Excel
+        </button>
       </div>
 
       <div className="flex justify-between items-center">
