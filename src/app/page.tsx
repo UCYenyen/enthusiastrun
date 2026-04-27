@@ -20,9 +20,9 @@ export default function Home() {
         <CalloutSection />
         <FlagOffSection />
       </section>
-      <SponsorSlider />
+      <SponsorSlider sponsors={["/sponsors/main/shaucha.webp"]} />
       <RecapVideo />
-      <SponsorSlider src="co-sponsors.webp" />
+      <SponsorSlider sponsors={["/sponsors/co/fruit-tea.webp", "/sponsors/co/moen-moen.webp", "/sponsors/co/nestle.webp", "/sponsors/co/teh-botol.webp"]} />
       <Image
         src="/home/enthu-recap-docum.webp"
         draggable={false}
