@@ -37,7 +37,7 @@ export default function SponsorSlider({ sponsors, isMain }: { sponsors: string[]
       ref={sectionRef}
       className="shadow-lg relative z-20 w-screen bg-background border-y-4 border-white flex flex-col items-center justify-center gap-8 font-futura min-h-64"
     >
-      <Image className="absolute -top-6 md:-top-12 w-1/2 md:w-1/3" src={isMain ? "/home/main-sponsors.svg" : "/home/co-sponsors.webp"} alt="logo" height={200} width={200}></Image>
+      <Image draggable={false} className="absolute -top-6 md:-top-16 w-1/2 md:w-1/3" src={isMain ? "/home/main-sponsors.svg" : "/home/co-sponsors.webp"} alt="logo" height={200} width={200}></Image>
       <div ref={logoLoopRef} className="w-full">
         <LogoLoop logos={techLogos} logoHeight={80} />
       </div>
