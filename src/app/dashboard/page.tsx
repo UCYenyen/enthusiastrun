@@ -109,10 +109,19 @@ export default async function page() {
                   JOIN GROUP WA
                 </Link>
               ) : (
-                <div className="bg-red-500 border-2 border-white px-6 py-2 rounded-lg w-fit text-white">
-                  RACEPACK QR CODE NOT AVAILABLE YET, PLEASE CHECK BACK IN MAX
-                  3x24 HOURS
-                </div>
+                <>
+                  <div className="bg-red-500 border-2 border-white px-6 py-2 rounded-lg w-fit text-white">
+                    RACEPACK QR CODE NOT AVAILABLE YET, PLEASE CHECK BACK IN MAX
+                    3x24 HOURS
+                  </div>
+                  <Link
+                    href="https://chat.whatsapp.com/EX8dy4DCsM0Eo1rQTVbmgd"
+                    target="_blank"
+                    className="bg-[#4BCFFC] border-2 hover:bg-[#3AA9D1] border-white px-6 py-2 rounded-lg w-fit text-white"
+                  >
+                    JOIN GROUP WA
+                  </Link>
+                </>
               )}
               <div className="flex gap-4">
                 <Link
