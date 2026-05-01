@@ -68,7 +68,7 @@ export default function page() {
         >
           <div className="w-full flex flex-col items-center p-4 sm:p-0 gap-12">
             {/* <FlagOffItem flagType="10K" flagOffTime="05:15" cutOffTime="02:00:00" /> */}
-            <FlagOffItem flagType="5K" flagOffTime="05:45" cutOffTime="01:15:00" />
+            <FlagOffItem flagType="5K" flagOffTime="05:45" cutOffTime="01:30:00" />
           </div>
         </div>
       </div>
