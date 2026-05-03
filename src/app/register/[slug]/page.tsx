@@ -6,9 +6,12 @@ import { useParams } from "next/dist/client/components/navigation";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { checkRegistrationCount } from "@/lib/registration";
+import { useSession } from "next-auth/react";
 
 export default function RegistrationPage() {
   const slug = useParams().slug as string;
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.role === "admin";
   
   const [superEarlyCount, setSuperEarlyCount] = useState<number>(0);
   const [earlyBirdCount, setEarlyBirdCount] = useState<number>(0);
@@ -54,7 +57,7 @@ export default function RegistrationPage() {
 
   const isSuperEarlySoldOut = superEarlyCount >= (is5K ? 0 : 0)
   const isEarlyBirdSoldOut = earlyBirdCount >= (is5K ? 0 : 0) // aslinya 480 : 280
-  const isRegularSoldOut = false;
+  const isRegularSoldOut = true;
 
   return (
     <div className="overflow-hidden">
@@ -130,8 +133,9 @@ export default function RegistrationPage() {
             title="Regular"
             price={is5K ? "249000" : "299000"}
             href={`/register/${slug}/normal`}
-             isActive={isRegularActive}
+            isActive={false}
             isSoldOut={isRegularSoldOut}
+            isAdminClickable={isAdmin}
           />
           
           <div className="flex flex-col font-futura w-full justify-center items-center gap-1">

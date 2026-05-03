@@ -10,13 +10,16 @@ export interface EarlyNotEarlyProps {
   maxCount?: number;
   isActive?: boolean;
   isSoldOut?: boolean;
+  /** When true, admin can still click the link even if sold out (overlay removed, href kept) */
+  isAdminClickable?: boolean;
 }
 export default function EarlyNotEarly(props: EarlyNotEarlyProps) {
+  const isClickable = props.isActive || props.isAdminClickable;
   return (
-    <Link href={`${props.isActive ? props.href : '#'}`} className="relative w-full flex justify-center items-center">
-      {props.isActive && !props.isSoldOut ? null : <div className='absolute z-10 w-full bg-black/5 h-full backdrop-blur-xs opacity-40'></div>}
+    <Link href={`${isClickable ? props.href : '#'}`} className="relative w-full flex justify-center items-center">
+      {isClickable && !props.isSoldOut ? null : !props.isAdminClickable ? <div className='absolute z-10 w-full bg-black/5 h-full backdrop-blur-xs opacity-40'></div> : null}
       {props.isSoldOut ? (
-        <div className='w-full z-20 absolute flex justify-center items-center'>
+        <div className='w-full z-20 absolute flex justify-center items-center pointer-events-none'>
           <span className='px-2 text-4xl rotate-z-6 rounded-lg border-red-700 border-4 text-red-700 font-regular font-impact'>SOLD OUT</span>
         </div>
       ) : null}
