@@ -7,7 +7,7 @@ import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function SponsorSlider({ sponsors, isMain }: { sponsors: string[], isMain : boolean }) {
+export default function SponsorSlider({ sponsors, type }: { sponsors: string[]; type: "MAIN" | "CO" | "THANKS TO" }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const logoLoopRef = useRef<HTMLDivElement>(null);
 
@@ -37,9 +37,9 @@ export default function SponsorSlider({ sponsors, isMain }: { sponsors: string[]
       ref={sectionRef}
       className="shadow-lg relative z-20 w-screen bg-background border-y-4 border-white flex flex-col items-center justify-center gap-8 font-futura min-h-64"
     >
-      <Image draggable={false} className="absolute -top-6 md:-top-16 w-1/2 md:w-1/3" src={isMain ? "/home/main-sponsors.svg" : "/home/co-sponsors.webp"} alt="logo" height={200} width={200}></Image>
+      <Image draggable={false} className="absolute -top-6 md:-top-14 w-1/2 md:w-1/4" src={type === "MAIN" ? "/home/main-sponsors.svg" : type === "THANKS TO" ? "/home/thanks-to.svg" : "/home/co-sponsors.webp"} alt="logo" height={180} width={180}></Image>
       <div ref={logoLoopRef} className="w-full">
-        <LogoLoop logos={techLogos} logoHeight={80} />
+        <LogoLoop logos={techLogos} logoHeight={type === "MAIN" ? 200 : 100} />
       </div>
     </div>
   );

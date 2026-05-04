@@ -20,9 +20,10 @@ export default function Home() {
         <CalloutSection />
         <FlagOffSection />
       </section>
-      <SponsorSlider sponsors={["/sponsors/main/shaucha.webp"]} isMain={true} />
+      <SponsorSlider sponsors={["/sponsors/main/shaucha.webp"]} type="MAIN" />
       <RecapVideo />
-      <SponsorSlider isMain={false} sponsors={["/sponsors/co/fruit-tea.webp", "/sponsors/co/moen-moen.webp", "/sponsors/co/nestle.webp", "/sponsors/co/teh-botol.webp"]} />
+      <SponsorSlider sponsors={["/sponsors/co/fruit-tea.webp", "/sponsors/co/moen-moen.webp", "/sponsors/co/nestle.webp", "/sponsors/co/teh-botol.webp", "sponsors/main/shaucha.webp", "/sponsors/airasia.webp", "sponsors/apparel.webp", "sponsors/athels.webp", "sponsors/ciputra-hospital.webp", "sponsors/helmings.webp", "sponsors/imperial-digital-printing.webp", "sponsors/indocafe.webp", "sponsors/pocari-sweat.webp", "sponsors/weston.webp"]} type="THANKS TO" />
+      <SponsorSlider type="CO" sponsors={["/sponsors/co/fruit-tea.webp", "/sponsors/co/moen-moen.webp", "/sponsors/co/nestle.webp", "/sponsors/co/teh-botol.webp"]} />
       <Image
         src="/home/enthu-recap-docum.webp"
         draggable={false}
