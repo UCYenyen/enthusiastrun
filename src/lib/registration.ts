@@ -201,11 +201,19 @@ export async function updateRegistrationStatus(
     const timeWinStart = new Date(target.createdAt.getTime() - 60000);
     const timeWinEnd = new Date(target.createdAt.getTime() + 60000);
 
-    await prisma.registration.updateMany({
-      where: { 
+    // Fetch the group first so we know which IDs were touched
+    const groupMembers = await prisma.registration.findMany({
+      where: {
         userId: target.userId,
-        createdAt: { gte: timeWinStart, lte: timeWinEnd }
+        createdAt: { gte: timeWinStart, lte: timeWinEnd },
       },
+      select: { id: true },
+    });
+
+    const updatedIds = groupMembers.map((r) => r.id);
+
+    await prisma.registration.updateMany({
+      where: { id: { in: updatedIds } },
       data: {
         status,
         paymentStatus:
@@ -220,6 +228,7 @@ export async function updateRegistrationStatus(
     revalidatePath("/dashboard/admin");
     return {
       success: true,
+      updatedIds,
       message: `Successfully updated the entire registration group.`,
     };
   } catch (error) {

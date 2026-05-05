@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Registration } from "@/types/registration.md";
 import { updateRegistrationStatus } from "@/lib/registration";
 import { toast } from "sonner";
@@ -13,6 +14,7 @@ interface RegistrationTableProps {
 export default function RegistrationTable({
   registrations: initialRegistrations,
 }: RegistrationTableProps) {
+  const router = useRouter();
   const [registrations, setRegistrations] =
     useState<Registration[]>(initialRegistrations);
   const [selectedReg, setSelectedReg] = useState<Registration | null>(null);
@@ -90,9 +92,11 @@ export default function RegistrationTable({
     const result = await updateRegistrationStatus(id, newStatus);
 
     if (result.success) {
+      // Optimistic update — immediate visual feedback
+      const updatedIds = new Set(result.updatedIds ?? [id]);
       setRegistrations((prev) =>
         prev.map((r) =>
-          r.id === id
+          updatedIds.has(r.id)
             ? {
                 ...r,
                 status: newStatus,
@@ -102,6 +106,8 @@ export default function RegistrationTable({
         ),
       );
       toast.success(result.message || "Status updated");
+      // Reconcile with DB truth so stats match the exported sheet
+      router.refresh();
     } else {
       toast.error(result.error || "Failed to update");
     }
